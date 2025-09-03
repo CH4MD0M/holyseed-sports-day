@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   },
   // PWA 준비
   reactStrictMode: true,
-  swcMinify: true,
+
   // 모바일 최적화
   compress: true,
   poweredByHeader: false,
