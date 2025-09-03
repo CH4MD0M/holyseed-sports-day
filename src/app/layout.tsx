@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { pretendard } from '@/lib/fonts';
 
 import './globals.css';
 
@@ -30,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={pretendard.variable}>
       <head>
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
