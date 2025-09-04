@@ -1,21 +1,27 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
 import { supabaseClient } from '@/utils/supabase/client';
 import Button from '@/components/ui/Button';
 
 const LogoutButton = () => {
   const router = useRouter();
+  const supabase = supabaseClient();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignOut = async () => {
-    const supabase = supabaseClient();
+    setIsLoading(true);
     await supabase.auth.signOut();
     router.replace('/login');
+
+    setIsLoading(false);
   };
 
   return (
-    <Button variant="primary" size="lg" fullWidth onClick={handleSignOut}>
-      로그아웃
+    <Button variant="primary" size="lg" fullWidth onClick={handleSignOut} loading={isLoading}>
+      {isLoading ? '로그아웃 중..' : '로그아웃'}
     </Button>
   );
 };
