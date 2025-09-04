@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Holyseed' }],
   creator: 'Holyseed',
   publisher: 'Holyseed',
+  manifest: './manifest.ts',
   formatDetection: {
     email: false,
     address: false,
