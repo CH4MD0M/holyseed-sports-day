@@ -4,7 +4,6 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Holyseed 청년 2,3부 연합 체육대회',
     short_name: 'Holyseed 체육대회',
-    description: '홀리시드 청년 2,3부 연합 체육대회 앱',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
