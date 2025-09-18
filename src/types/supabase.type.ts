@@ -14,34 +14,147 @@ export type Database = {
   }
   public: {
     Tables: {
+      lottery_events: {
+        Row: {
+          created_at: string | null
+          id: string
+          lottery_mode: string
+          prize_id: string | null
+          target_team: string | null
+          winner_count: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          lottery_mode: string
+          prize_id?: string | null
+          target_team?: string | null
+          winner_count: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          lottery_mode?: string
+          prize_id?: string | null
+          target_team?: string | null
+          winner_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lottery_events_prize_id_fkey"
+            columns: ["prize_id"]
+            isOneToOne: false
+            referencedRelation: "prizes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lottery_results: {
+        Row: {
+          id: string
+          lottery_event_id: string | null
+          winner_id: string | null
+          won_at: string | null
+        }
+        Insert: {
+          id?: string
+          lottery_event_id?: string | null
+          winner_id?: string | null
+          won_at?: string | null
+        }
+        Update: {
+          id?: string
+          lottery_event_id?: string | null
+          winner_id?: string | null
+          won_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lottery_results_lottery_event_id_fkey"
+            columns: ["lottery_event_id"]
+            isOneToOne: false
+            referencedRelation: "lottery_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lottery_results_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prizes: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          remaining_quantity: number
+          total_quantity: number
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          remaining_quantity: number
+          total_quantity?: number
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          remaining_quantity?: number
+          total_quantity?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
+          birth_year: number | null
+          checked_in: boolean | null
+          checked_in_at: string | null
           created_at: string
+          department: string | null
           id: string
           is_admin: boolean
-          lottery_number: number | null
+          is_early_bird: boolean | null
           name: string | null
-          role: string
           team: string | null
           updated_at: string
         }
         Insert: {
+          birth_year?: number | null
+          checked_in?: boolean | null
+          checked_in_at?: string | null
           created_at?: string
+          department?: string | null
           id: string
           is_admin?: boolean
-          lottery_number?: number | null
+          is_early_bird?: boolean | null
           name?: string | null
-          role?: string
           team?: string | null
           updated_at?: string
         }
         Update: {
+          birth_year?: number | null
+          checked_in?: boolean | null
+          checked_in_at?: string | null
           created_at?: string
+          department?: string | null
           id?: string
           is_admin?: boolean
-          lottery_number?: number | null
+          is_early_bird?: boolean | null
           name?: string | null
-          role?: string
           team?: string | null
           updated_at?: string
         }
@@ -52,7 +165,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      conduct_lottery: {
+        Args: {
+          p_lottery_mode?: string
+          p_prize_id: string
+          p_target_team?: string
+          p_winner_count: number
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
