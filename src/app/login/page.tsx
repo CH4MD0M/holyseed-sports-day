@@ -1,21 +1,19 @@
 'use client';
 
-import { useTransition, useEffect, useState } from 'react';
-import styles from './login.module.css';
 import Image from 'next/image';
+import { useState } from 'react';
+import styles from './login.module.css';
 
 import { supabaseClient } from '@/utils/supabase/client';
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const supabase = supabaseClient();
-
   const handleLoginBtnClick = async () => {
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'kakao',
         options: {
           redirectTo: location.origin + '/auth/callback',

@@ -8,12 +8,12 @@ import Button from '@/components/ui/Button';
 
 const LogoutButton = () => {
   const router = useRouter();
-  const supabase = supabaseClient();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignOut = async () => {
     setIsLoading(true);
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     router.replace('/login');
 
     setIsLoading(false);

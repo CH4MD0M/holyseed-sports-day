@@ -1,9 +1,7 @@
 import { createBrowserClient } from '@supabase/ssr';
-import { type Database } from '@/types/supabase.type';
+import { Database } from '@/types/supabase.type';
 
-export function supabaseClient() {
-  return createBrowserClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-}
+export const supabaseClient = createBrowserClient<Database>(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
