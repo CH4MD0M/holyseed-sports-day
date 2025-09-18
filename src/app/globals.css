@@ -1,3 +1,38 @@
+:root {
+  /* Primary Colors */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-gray-50: #f8f9fa;
+  --color-gray-100: #f1f3f4;
+  --color-gray-200: #e3e5e5;
+  --color-gray-300: #d1d3d4;
+  --color-gray-400: #9aa0a6;
+  --color-gray-500: #5f6368;
+  --color-gray-600: #3c4043;
+  --color-gray-700: #202124;
+  --color-gray-800: #171717;
+  --color-gray-900: #0d1117;
+
+  /* Brand Colors */
+  --color-blue: #0078ff;
+  --color-blue-light: #4da3ff;
+  --color-red: #ff6b6b;
+  --color-orange: #ff8c00;
+  --color-green: #52c41a;
+
+  /* System Colors */
+  --color-success: #52c41a;
+  --color-warning: #faad14;
+  --color-error: #f5222d;
+  --color-info: #1890ff;
+
+  /* Layout */
+  --container-padding: 16px;
+  --max-width-mobile: 100%;
+  --max-width-tablet: 768px;
+  --max-width-desktop: 1200px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -15,6 +50,20 @@ body {
   color: #212529;
   background-color: #ffffff;
   overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  min-width: 744px;
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.container main {
+  border: 1px solid #ebebeb;
+  min-height: calc(100vh - 52px);
 }
 
 @viewport {
@@ -58,62 +107,6 @@ img {
   vertical-align: middle;
 }
 
-:root {
-  /* Primary Colors */
-  --color-black: #000000;
-  --color-white: #ffffff;
-  --color-gray-50: #f8f9fa;
-  --color-gray-100: #f1f3f4;
-  --color-gray-200: #e3e5e5;
-  --color-gray-300: #d1d3d4;
-  --color-gray-400: #9aa0a6;
-  --color-gray-500: #5f6368;
-  --color-gray-600: #3c4043;
-  --color-gray-700: #202124;
-  --color-gray-800: #171717;
-  --color-gray-900: #0d1117;
-
-  /* Brand Colors */
-  --color-blue: #0078ff;
-  --color-blue-light: #4da3ff;
-  --color-red: #ff6b6b;
-  --color-orange: #ff8c00;
-  --color-green: #52c41a;
-
-  /* System Colors */
-  --color-success: #52c41a;
-  --color-warning: #faad14;
-  --color-error: #f5222d;
-  --color-info: #1890ff;
-
-  /* Layout - 모바일 우선 */
-  --container-padding: 16px;
-  --max-width-mobile: 100%;
-  --max-width-tablet: 768px;
-  --max-width-desktop: 1200px;
-}
-
-.container {
-  width: 100%;
-  min-height: 100vh;
-  padding: 0 var(--container-padding);
-  margin: 0 auto;
-  border: 1px solid #d8dde4;
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: var(--max-width-tablet);
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: var(--max-width-desktop);
-    padding: 0 var(--spacing-lg);
-  }
-}
-
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -123,12 +116,12 @@ img {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-gray-300);
+  background: #d1d3d4;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gray-400);
+  background: #9aa0a6;
 }
 
 /* 모바일에서 스크롤바 숨김 */
