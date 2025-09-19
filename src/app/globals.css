@@ -54,11 +54,11 @@ body {
 
 .container {
   width: 100%;
-  min-width: 744px;
   max-width: 1040px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .container main {
@@ -79,6 +79,7 @@ a {
 
 button {
   border: none;
+  outline: none;
   background: none;
   cursor: pointer;
   font-family: inherit;

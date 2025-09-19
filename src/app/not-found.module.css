@@ -1,0 +1,88 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #66eaaf 0%, #4ba26e 100%);
+  padding: 20px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.errorCode {
+  font-size: 120px;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 16px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.homeButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 36px;
+  background-color: white;
+  color: #33774b;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.homeButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  background-color: #f8f9ff;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .errorCode {
+    font-size: 80px;
+    margin-bottom: 16px;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .homeButton {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .errorCode {
+    font-size: 64px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+}

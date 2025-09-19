@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { pretendard } from '@/lib/fonts';
 
+import QueryProvider from './_components/QueryProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -42,7 +43,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="safe-area-top safe-area-bottom">
-        <div className="container">{children}</div>
+        <QueryProvider>
+          <div className="container">{children}</div>
+        </QueryProvider>
       </body>
     </html>
   );
