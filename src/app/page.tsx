@@ -1,34 +1,13 @@
-import { redirect } from 'next/navigation';
-
-import { supabaseServer } from '@/utils/supabase/server';
-
-import LogoutButton from '@/app/_components/logout-button';
 import MainHeader from '@/components/header/main-header';
 import styles from './page.module.css';
 
 export default async function Home() {
-  const supabase = await supabaseServer();
-
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
-
-  if (authError || !user) redirect('/login');
-
-  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-
   return (
     <>
       <MainHeader />
       <main className={styles.main}>
         <div className={styles.hero}>
           <h1 className={styles.title}>Holyseed 체육대회</h1>
-          <p className={styles.description}>{profile?.name}님, 안녕하세요!</p>
-        </div>
-
-        <div className={styles.actions}>
-          <LogoutButton />
         </div>
 
         <div className={styles.features}>
