@@ -1,0 +1,48 @@
+.nameSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.userName {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+}
+
+.adminBadge {
+  background-color: #fce7f3;
+  color: #be185d;
+  border: 1px solid #f9a8d4;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  gap: 8px;
+  color: #333;
+}
+
+.infoItem {
+  font-weight: 400;
+}
+
+.infoItem.pending {
+  color: #64748b;
+  font-weight: 300;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.separator {
+  color: #94a3b8;
+  font-weight: 300;
+}
