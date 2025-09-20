@@ -132,7 +132,8 @@
 
 /* 로그아웃 */
 .logOut {
-  padding: 20px 12px;
+  padding: 20px 24px;
+  margin-bottom: 40px;
   transition: all 0.2s ease;
   flex-shrink: 0;
   border-top: 1px solid #eee;
