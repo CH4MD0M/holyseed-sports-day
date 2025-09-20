@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { supabaseClient } from '@/utils/supabase/client';
 
-import PageHeader from '@/components/header/page-header';
+import PageLayout from '@/components/layout/page-layout';
 
 interface LotteryWinner {
   user_id: string;
@@ -66,10 +66,8 @@ const LotteryPage = () => {
   };
 
   return (
-    <>
-      <PageHeader title="추첨 진행" />
-
-      <main>
+    <PageLayout title="추첨 진행">
+      <div>
         {/* 추첨 테스트 버튼들 */}
         <div
           style={{
@@ -149,8 +147,8 @@ const LotteryPage = () => {
             </p>
           </div>
         )}
-      </main>
-    </>
+      </div>
+    </PageLayout>
   );
 };
 

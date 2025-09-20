@@ -1,11 +1,10 @@
-import MainHeader from '@/components/header/main-header';
+import MainLayout from '@/components/layout/main-layout';
 import styles from './page.module.css';
 
 export default async function Home() {
   return (
-    <>
-      <MainHeader />
-      <main className={styles.main}>
+    <MainLayout>
+      <div className={styles.content}>
         <div className={styles.hero}>
           <h1 className={styles.title}>Holyseed 체육대회</h1>
         </div>
@@ -27,7 +26,7 @@ export default async function Home() {
             <p className={styles.featureDesc}>간편하게 출석 체크를 할 수 있어요</p>
           </div>
         </div>
-      </main>
-    </>
+      </div>
+    </MainLayout>
   );
 }
