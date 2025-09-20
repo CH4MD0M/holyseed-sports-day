@@ -32,7 +32,7 @@ const LoginPage = () => {
   };
 
   return (
-    <>
+    <main className={styles.loginMain}>
       <div className={styles.logoWrapper}>
         <Image width={300} height={300} src="/logo.png" alt="logo" />
         <h2>청년 2, 3부 연합 체육대회</h2>
@@ -50,7 +50,7 @@ const LoginPage = () => {
           </>
         )}
       </button>
-    </>
+    </main>
   );
 };
 
