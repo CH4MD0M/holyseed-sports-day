@@ -16,3 +16,101 @@
   min-height: calc(100vh - 52px);
   padding: 12px 16px;
 }
+
+/* Main layout header (네비게이션 헤더) */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  background-color: #165e30;
+  min-height: 52px;
+  width: 100%;
+}
+
+.main-header .leftSection {
+  display: flex;
+  align-items: center;
+}
+
+.main-header .rightSection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.main-header .iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: #337348;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+.main-header .iconButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.main-header .iconButton:active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Page header (페이지별 헤더) */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  min-height: 52px;
+}
+
+.page-header .leftSection {
+  display: flex;
+  align-items: center;
+}
+
+.page-header .title {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.page-header .rightSection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.page-header .iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #374151;
+  transition: background-color 0.2s ease;
+}
+
+.page-header .iconButton:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.page-header .iconButton:active {
+  background-color: #e5e7eb;
+}
