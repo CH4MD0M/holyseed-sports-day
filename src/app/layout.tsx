@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
-import { pretendard } from '@/lib/fonts';
 
+import { pretendard } from '@/lib/fonts';
+import { ModalRenderer } from '@/components/modal/modal-renderer';
 import QueryProvider from './_components/QueryProvider';
 import './globals.css';
 
@@ -46,6 +47,8 @@ export default function RootLayout({
         <QueryProvider>
           <div className="container">{children}</div>
         </QueryProvider>
+
+        <ModalRenderer />
       </body>
     </html>
   );
