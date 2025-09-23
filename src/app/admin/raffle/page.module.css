@@ -1,0 +1,297 @@
+.container {
+  min-height: 100vh;
+  background-color: #f3f3ed;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #f3f3ed;
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  position: relative;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #1f2937;
+  margin: 0;
+}
+
+.description {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.67;
+  color: #4b5563;
+  margin: 0;
+}
+
+.addButton {
+  position: fixed;
+  bottom: 24px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 12px;
+  background-color: #63ad7d;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.addButton:hover {
+  background-color: #52956b;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.statsCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #F9FAFB;
+  border-radius: 8px;
+  padding: 16px;
+  gap: 30px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.statNumber {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.5;
+  color: #1f2937;
+  text-align: center;
+}
+
+.statNumber.used {
+  color: #ef4444;
+}
+
+.statNumber.remaining {
+  color: #16a34a;
+}
+
+.statLabel {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #6b7280;
+  text-align: left;
+}
+
+.divider {
+  width: 1px;
+  height: 48px;
+  background-color: #d1d5db;
+}
+
+.itemList {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  padding: 12px 0 13px;
+  border-bottom: 1px solid #e5e7eb;
+  gap: 66px;
+  position: relative;
+}
+
+.itemRow:last-child {
+  border-bottom: none;
+  padding-bottom: 12px;
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.itemImage {
+  width: 80px;
+  height: 80px;
+  background-color: #e5e7eb;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.itemName {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1f2937;
+  margin: 0;
+}
+
+.quantityInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantityLabel {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #6b7280;
+}
+
+.quantityContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.progressBackground {
+  width: 80px;
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background-color: #3b82f6;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.quantityText {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.menuButton {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.menuButton:hover {
+  background-color: #e5e7eb;
+}
+
+.dropdown {
+  position: absolute;
+  top: 28px;
+  right: 0;
+  width: 80px;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  width: 100%;
+  background: none;
+  border: none;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #374151;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdownItem:hover {
+  background-color: #f9fafb;
+}
+
+.dropdownItem.delete {
+  color: #dc2626;
+}
+
+.dropdownItem.delete:hover {
+  background-color: #fef2f2;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 375px) {
+  .header {
+    padding: 12px;
+  }
+
+  .content {
+    padding: 12px;
+  }
+
+  .statsCard {
+    gap: 20px;
+  }
+
+  .itemRow {
+    gap: 40px;
+  }
+}

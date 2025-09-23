@@ -25,7 +25,7 @@ export const MENU_ITEMS: MenuItem[] = [
 
 export const ADMIN_MENU_ITEMS: MenuItem[] = [
   { label: '체크인 관리', href: '/admin/checkin', icon: UserCheck },
-  { label: '추첨 상품 관리', href: '/admin/prizes', icon: Gift },
+  { label: '추첨 상품 관리', href: '/admin/raffle', icon: Gift },
   { label: '추첨 진행', href: '/admin/lottery', icon: PlayCircle },
   { label: '추첨 이력 관리', href: '/admin/lottery-history', icon: History },
 ];
