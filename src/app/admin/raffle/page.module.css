@@ -285,6 +285,54 @@
   background-color: #fef2f2;
 }
 
+.actionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 0;
+}
+
+.drawButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background-color: #63ad7d;
+  color: #ffffff;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.drawButton:hover {
+  background-color: #52956b;
+}
+
+.historyButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #f3f4f6;
+  color: #374151;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.historyButton:hover {
+  background-color: #e5e7eb;
+}
+
 /* 모바일 최적화 */
 @media (max-width: 375px) {
   .header {
