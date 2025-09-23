@@ -11,6 +11,24 @@ const nextConfig: NextConfig = {
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [375, 414, 768, 1024, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.samsung.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.namu.wiki',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.biz-con.co.kr',
+      },
+      {
+        protocol: 'https',
+        hostname: 'mblogthumb-phinf.pstatic.net',
+      },
+    ],
   },
   // PWA 준비
   reactStrictMode: true,

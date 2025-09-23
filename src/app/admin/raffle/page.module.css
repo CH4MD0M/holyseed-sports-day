@@ -152,6 +152,14 @@
   background-color: #e5e7eb;
   border-radius: 6px;
   flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.itemImageImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .itemInfo {
