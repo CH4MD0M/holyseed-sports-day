@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Plus, MoreHorizontal, Edit2, Trash2 } from 'lucide-react';
+import Link from 'next/link';
 import cn from 'classnames';
 
 import MainHeader from '@/components/header/main-header';
@@ -49,10 +50,6 @@ export default function RafflePage() {
   const usedItems = SAMPLE_RAFFLE_ITEMS.reduce((sum, item) => sum + item.usedQuantity, 0);
   const remainingItems = totalItems - usedItems;
 
-  const handleAddProduct = () => {
-    // TODO: 상품 추가 페이지로 이동
-    console.log('상품 추가');
-  };
 
   const handleMenuToggle = (itemId: string) => {
     setActiveMenuId(activeMenuId === itemId ? null : itemId);
@@ -82,10 +79,10 @@ export default function RafflePage() {
               추첨 진행 내역과 당첨자 정보를 확인하고 관리합니다
             </p>
           </div>
-          <button className={s.addButton} onClick={handleAddProduct}>
+          <Link href="/admin/raffle/add" className={s.addButton}>
             <Plus size={14} />
             상품 추가
-          </button>
+          </Link>
         </div>
 
         <div className={s.content}>
