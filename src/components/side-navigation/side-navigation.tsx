@@ -91,10 +91,12 @@ const SideNavigation = ({ isOpen, onClose }: SideNavigationProps) => {
             ) : user ? (
               <>
                 <div className={styles.header}>
+                  <div className={styles.closeBtnWrapper}>
+                    <button className={styles.closeButton} onClick={onClose} aria-label="메뉴 닫기">
+                      <X size={24} />
+                    </button>
+                  </div>
                   <UserInfo user={user} />
-                  <button className={styles.closeButton} onClick={onClose} aria-label="메뉴 닫기">
-                    <X size={24} />
-                  </button>
                 </div>
 
                 <div className={styles.content}>

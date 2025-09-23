@@ -1,3 +1,10 @@
+.userInfoWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
 .nameSection {
   display: flex;
   align-items: center;
@@ -12,15 +19,25 @@
   color: #333;
 }
 
-.adminBadge {
-  background-color: #fce7f3;
-  color: #be185d;
-  border: 1px solid #f9a8d4;
+.badge {
   font-size: 12px;
   font-weight: 500;
   padding: 4px 8px;
   border-radius: 12px;
   white-space: nowrap;
+  border: 1px solid;
+}
+
+.adminBadge {
+  background-color: #fce7f3;
+  color: #be185d;
+  border-color: #f9a8d4;
+}
+
+.developerBadge {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border-color: #7dd3fc;
 }
 
 .userInfo {
