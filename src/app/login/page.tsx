@@ -34,7 +34,7 @@ const LoginPage = () => {
   return (
     <main className={styles.loginMain}>
       <div className={styles.logoWrapper}>
-        <Image width={300} height={300} src="/logo.png" alt="logo" />
+        <Image width={400} height={400} src="/logo.svg" alt="logo" />
         <h2>청년 2, 3부 연합 체육대회</h2>
       </div>
       <button className={styles.kakaoBtn} disabled={isLoading} onClick={handleLoginBtnClick}>
