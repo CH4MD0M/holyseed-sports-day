@@ -20,12 +20,12 @@ export const MENU_ITEMS: MenuItem[] = [
   { label: '홈', href: '/', icon: Home },
   { label: '일정 안내', href: '/schedule', icon: Calendar },
   { label: '체크인', href: '/checkin', icon: CheckCircle },
-  { label: '추첨 결과', href: '/lottery-results', icon: Trophy },
+  { label: '추첨 결과', href: '/draw-results', icon: Trophy },
 ];
 
 export const ADMIN_MENU_ITEMS: MenuItem[] = [
   { label: '체크인 관리', href: '/admin/checkin', icon: UserCheck },
-  { label: '추첨 상품 관리', href: '/admin/raffle', icon: Gift },
-  { label: '추첨 진행', href: '/admin/lottery', icon: PlayCircle },
-  { label: '추첨 이력 관리', href: '/admin/lottery-history', icon: History },
+  { label: '추첨 상품 관리', href: '/admin/prizes', icon: Gift },
+  { label: '추첨 진행', href: '/admin/draw', icon: PlayCircle },
+  { label: '추첨 이력', href: '/admin/draw-history', icon: History },
 ];

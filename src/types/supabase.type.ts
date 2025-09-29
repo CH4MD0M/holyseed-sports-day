@@ -124,11 +124,12 @@ export type Database = {
           checked_in: boolean | null
           checked_in_at: string | null
           created_at: string
-          department: string | null
+          department: Database["public"]["Enums"]["department_type"] | null
           id: string
           is_admin: boolean
           is_early_bird: boolean | null
           name: string | null
+          role: Database["public"]["Enums"]["user_role"]
           team: string | null
           updated_at: string
         }
@@ -137,11 +138,12 @@ export type Database = {
           checked_in?: boolean | null
           checked_in_at?: string | null
           created_at?: string
-          department?: string | null
+          department?: Database["public"]["Enums"]["department_type"] | null
           id: string
           is_admin?: boolean
           is_early_bird?: boolean | null
           name?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
           team?: string | null
           updated_at?: string
         }
@@ -150,11 +152,12 @@ export type Database = {
           checked_in?: boolean | null
           checked_in_at?: string | null
           created_at?: string
-          department?: string | null
+          department?: Database["public"]["Enums"]["department_type"] | null
           id?: string
           is_admin?: boolean
           is_early_bird?: boolean | null
           name?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
           team?: string | null
           updated_at?: string
         }
@@ -176,7 +179,8 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      department_type: "청년2부" | "청년3부"
+      user_role: "user" | "admin" | "developer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -303,6 +307,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      department_type: ["청년2부", "청년3부"],
+      user_role: ["user", "admin", "developer"],
+    },
   },
 } as const

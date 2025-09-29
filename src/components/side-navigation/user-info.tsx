@@ -1,9 +1,7 @@
 'use client';
 
-import { Fragment } from 'react';
 import { motion } from 'framer-motion';
 import { Tables } from '@/types/supabase.type';
-
 import styles from './user-info.module.css';
 
 type UserInfo = Tables<'profiles'>;
@@ -14,7 +12,7 @@ interface UserInfoProps {
 
 const UserInfo = ({ user }: UserInfoProps) => {
   return (
-    <>
+    <div className={styles.userInfoWrapper}>
       <motion.div
         className={styles.nameSection}
         initial={{ opacity: 0, y: -10 }}
@@ -24,7 +22,13 @@ const UserInfo = ({ user }: UserInfoProps) => {
         <h2 className={styles.userName}>
           {user.birth_year?.toString().slice(2)} {user.name}
         </h2>
-        {user.is_admin && <span className={styles.adminBadge}>진행팀</span>}
+        {user.role === 'developer' ? (
+          <span className={`${styles.badge} ${styles.developerBadge}`}>developer</span>
+        ) : user.is_admin ? (
+          <span className={`${styles.badge} ${styles.adminBadge}`}>TF팀</span>
+        ) : (
+          ''
+        )}
       </motion.div>
       <motion.div
         className={styles.userInfo}
@@ -40,7 +44,7 @@ const UserInfo = ({ user }: UserInfoProps) => {
           {user.department || '부서 미입력'}
         </span>
       </motion.div>
-    </>
+    </div>
   );
 };
 
