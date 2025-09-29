@@ -274,8 +274,8 @@ export const SAMPLE_PARTICIPANTS: Participant[] = [
 
 // 팀별 참가자 통계
 export const getTeamStats = () => {
-  const teamA = SAMPLE_PARTICIPANTS.filter(p => p.team === '팀A');
-  const teamB = SAMPLE_PARTICIPANTS.filter(p => p.team === '팀B');
+  const teamA = SAMPLE_PARTICIPANTS.filter((p) => p.team === '팀A');
+  const teamB = SAMPLE_PARTICIPANTS.filter((p) => p.team === '팀B');
 
   return {
     teamA: teamA.length,
@@ -286,19 +286,16 @@ export const getTeamStats = () => {
 
 // 얼리버드 참가자 필터링
 export const getEarlyBirdParticipants = () => {
-  return SAMPLE_PARTICIPANTS.filter(p => p.isEarlyBird);
+  return SAMPLE_PARTICIPANTS.filter((p) => p.isEarlyBird);
 };
 
 // 팀별 참가자 필터링
 export const getParticipantsByTeam = (team: Team) => {
-  return SAMPLE_PARTICIPANTS.filter(p => p.team === team);
+  return SAMPLE_PARTICIPANTS.filter((p) => p.team === team);
 };
 
 // 추첨 대상자 필터링 (추첨 모드에 따라)
-export const getDrawTargets = (
-  mode: '전체' | '얼리버드' | '팀별',
-  selectedTeam?: Team
-) => {
+export const getDrawTargets = (mode: '전체' | '얼리버드' | '팀별', selectedTeam?: Team) => {
   let targets = SAMPLE_PARTICIPANTS;
 
   if (mode === '얼리버드') {
@@ -311,9 +308,7 @@ export const getDrawTargets = (
 };
 
 // 랜덤 추첨 함수 (시뮬레이션)
-export const drawRandomWinner = (
-  participants: Participant[]
-): Participant | null => {
+export const drawRandomWinner = (participants: Participant[]): Participant | null => {
   if (participants.length === 0) return null;
 
   const randomIndex = Math.floor(Math.random() * participants.length);

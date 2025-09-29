@@ -1,26 +1,52 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { Camera, X } from 'lucide-react';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import AdminHeader from '../_components/admin-header';
+import { getRaffleItemById, type RaffleItem } from '@/lib/mock/sample-raffle-items';
+
+import PageLayout from '@/components/layout/page-layout';
 import s from './page.module.css';
 
-export default function AddRafflePage() {
+export default function EditRafflePage() {
+  const params = useParams();
+  const router = useRouter();
+  const id = params.id as string;
+
+  const [item, setItem] = useState<RaffleItem | null>(null);
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDeleteHovered, setIsDeleteHovered] = useState(false);
 
+  useEffect(() => {
+    const foundItem = getRaffleItemById(id);
+    if (!foundItem) {
+      alert('존재하지 않는 상품입니다.');
+      router.push('/admin/raffle');
+      return;
+    }
+
+    setItem(foundItem);
+    setProductName(foundItem.name);
+    setQuantity(foundItem.totalQuantity.toString());
+
+    // 기존 이미지가 있으면 미리보기로 설정
+    if (foundItem.image) {
+      setImagePreview(foundItem.image);
+    }
+  }, [id, router]);
+
   const isFormValid = productName.trim() !== '' && quantity.trim() !== '' && Number(quantity) > 0;
+  const remainingQuantity = item ? Number(quantity) - item.usedQuantity : 0;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // 파일 형식 검증
       const allowedTypes = ['image/jpeg', 'image/png'];
       if (!allowedTypes.includes(file.type)) {
         alert('JPG, PNG 형식의 이미지만 업로드 가능합니다.');
@@ -29,7 +55,6 @@ export default function AddRafflePage() {
 
       setSelectedImage(file);
 
-      // 이미지 미리보기 생성
       const reader = new FileReader();
       reader.onload = (event) => {
         setImagePreview(event.target?.result as string);
@@ -48,25 +73,49 @@ export default function AddRafflePage() {
     setSelectedImage(null);
     setImagePreview(null);
     setIsDeleteHovered(false);
-    // 파일 input 초기화
     const input = document.getElementById('image-input') as HTMLInputElement;
     if (input) input.value = '';
   };
 
-  const handleSubmit = () => {
-    // TODO: 상품 등록 API 호출
-    console.log('상품 등록:', { productName, quantity, selectedImage });
-    // TODO: 등록 완료 후 목록 페이지로 이동
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuantity(value);
+
+    if (item && Number(value) < item.usedQuantity) {
+      alert(`수량은 사용된 수량(${item.usedQuantity}개)보다 작을 수 없습니다.`);
+    }
   };
 
-  return (
-    <div className={s.container}>
-      <AdminHeader title="상품 등록" />
+  const handleSubmit = () => {
+    if (!item) return;
 
-      <main className={s.main}>
+    if (Number(quantity) < item.usedQuantity) {
+      alert(`수량은 사용된 수량(${item.usedQuantity}개)보다 작을 수 없습니다.`);
+      return;
+    }
+
+    // TODO: 상품 수정 API 호출
+    console.log('상품 수정:', {
+      id: item.id,
+      productName,
+      quantity: Number(quantity),
+      selectedImage,
+    });
+
+    // TODO: 수정 완료 후 실제 데이터 업데이트
+    router.push('/admin/raffle');
+  };
+
+  if (!item) {
+    return null;
+  }
+
+  return (
+    <PageLayout title="상품 수정">
+      <div className={s.container}>
         <div className={s.formContainer}>
           <div className={s.fieldGroup}>
-            <label className={s.label}>상품 사진 (1장)</label>
+            <label className={s.label}>상품 사진</label>
             <div className={s.imageContainer}>
               {!imagePreview ? (
                 <div className={s.imageUpload} onClick={handleImageClick}>
@@ -119,14 +168,34 @@ export default function AddRafflePage() {
           </div>
 
           <div className={s.fieldGroup}>
+            <label className={s.label}>사용 현황</label>
+            <div className={s.usageBox}>
+              <div className={s.usageItem}>
+                <span className={s.usageLabel}>총 수량</span>
+                <span className={cn(s.usageValue, s.total)}>{item.totalQuantity}개</span>
+              </div>
+              <div className={s.usageItem}>
+                <span className={s.usageLabel}>사용된 수량</span>
+                <span className={cn(s.usageValue, s.used)}>{item.usedQuantity}개</span>
+              </div>
+              <div className={s.usageItem}>
+                <span className={s.usageLabel}>남은 수량</span>
+                <span className={cn(s.usageValue, s.remaining)}>
+                  {Math.max(0, remainingQuantity)}개
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className={s.fieldGroup}>
             <label className={s.label}>수량</label>
             <input
               type="number"
               placeholder="수량을 입력하세요"
               value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={handleQuantityChange}
               className={s.input}
-              min="1"
+              min={item.usedQuantity}
             />
           </div>
         </div>
@@ -139,9 +208,9 @@ export default function AddRafflePage() {
             [s.disabled]: !isFormValid,
           })}
         >
-          상품 등록
+          수정 완료
         </button>
-      </main>
-    </div>
+      </div>
+    </PageLayout>
   );
 }

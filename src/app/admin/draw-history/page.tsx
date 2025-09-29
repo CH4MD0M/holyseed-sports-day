@@ -1,22 +1,23 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
-import Image from 'next/image';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import cn from 'classnames';
 
-import MainHeader from '@/components/header/main-header';
+import { getRaffleItemById } from '@/lib/mock/sample-raffle-items';
 import {
   SAMPLE_RAFFLE_HISTORY,
   DEPARTMENT_CONFIGS,
   type RaffleHistory,
-  type Department
-} from '../_data/sample-raffle-history';
-import { getRaffleItemById } from '../_data/sample-raffle-items';
+  type Department,
+} from '@/lib/mock/sample-raffle-history';
+
 import s from './page.module.css';
+import MainLayout from '@/components/layout/main-layout';
 
 // dayjs 설정
 dayjs.extend(relativeTime);
@@ -49,12 +50,12 @@ export default function RaffleHistoryPage() {
 
     // 부서 필터링
     if (activeFilter !== 'all') {
-      result = result.filter(history => history.department === activeFilter);
+      result = result.filter((history) => history.department === activeFilter);
     }
 
     // 검색어 필터링 (검색어가 있으면 항상 적용)
     if (searchTerm.trim()) {
-      result = result.filter(history => {
+      result = result.filter((history) => {
         const product = getRaffleItemById(history.productId);
         return (
           history.winnerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -83,16 +84,12 @@ export default function RaffleHistoryPage() {
   };
 
   return (
-    <div className={s.container}>
-      <MainHeader />
-
+    <MainLayout>
       <main className={s.main}>
         {/* 헤더 섹션 */}
         <div className={s.headerSection}>
           <h1 className={s.title}>추첨 이력</h1>
-          <p className={s.description}>
-            추첨 진행 내역과 당첨자 정보를 확인하고 관리합니다
-          </p>
+          <p className={s.description}>추첨 진행 내역과 당첨자 정보를 확인하고 관리합니다</p>
         </div>
 
         {/* 필터 및 검색 섹션 */}
@@ -171,9 +168,7 @@ export default function RaffleHistoryPage() {
                       <span className={s.groupInfo}>{history.group}</span>
                     </div>
                     <div className={s.timeInfo}>
-                      <span className={s.relativeTime}>
-                        {getRelativeTime(history.raffleTime)}
-                      </span>
+                      <span className={s.relativeTime}>{getRelativeTime(history.raffleTime)}</span>
                     </div>
                   </div>
 
@@ -193,9 +188,7 @@ export default function RaffleHistoryPage() {
                       )}
                     </div>
                     <div className={s.productInfo}>
-                      <span className={s.productName}>
-                        {product?.name || '알 수 없는 상품'}
-                      </span>
+                      <span className={s.productName}>{product?.name || '알 수 없는 상품'}</span>
                     </div>
                   </div>
                 </div>
@@ -210,6 +203,6 @@ export default function RaffleHistoryPage() {
           )}
         </div>
       </main>
-    </div>
+    </MainLayout>
   );
 }

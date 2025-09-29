@@ -1,9 +1,8 @@
 'use client';
 
-
-import { type RaffleWinner } from '../../_data/sample-participants';
-import { type RaffleItem } from '../../_data/sample-raffle-items';
-import { DEPARTMENT_CONFIGS } from '../../_data/sample-raffle-history';
+import { type RaffleWinner } from '../../../../lib/mock/sample-participants';
+import { type RaffleItem } from '../../../../lib/mock/sample-raffle-items';
+import { DEPARTMENT_CONFIGS } from '../../../../lib/mock/sample-raffle-history';
 import s from './raffle-result.module.css';
 
 interface RaffleResultProps {
@@ -61,9 +60,7 @@ export default function RaffleResult({
         {/* 당첨 상품 */}
         {selectedProduct && (
           <div className={s.productInfo}>
-            <span className={s.productEmoji}>
-              {getProductEmoji(selectedProduct.name)}
-            </span>
+            <span className={s.productEmoji}>{getProductEmoji(selectedProduct.name)}</span>
             <span className={s.productName}>{selectedProduct.name}</span>
           </div>
         )}

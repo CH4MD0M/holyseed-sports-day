@@ -1,53 +1,42 @@
 .container {
-  min-height: 100vh;
-  background-color: #f3f3ed;
-}
-
-.main {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  background-color: #f3f3ed;
+  gap: 32px;
   flex: 1;
+  padding: 32px 8px;
+  background-color: #f3f3ed;
 }
 
 .header {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  justify-content: space-between;
+  align-items: center;
   padding: 16px;
-  position: relative;
 }
 
 .headerContent {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .title {
   font-weight: 700;
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: 20px;
   color: #1f2937;
   margin: 0;
 }
 
 .description {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.67;
+  font-size: 14px;
   color: #4b5563;
   margin: 0;
 }
 
 .addButton {
-  position: fixed;
-  bottom: 24px;
-  right: 16px;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   padding: 10px 12px;
   background-color: #63ad7d;
   color: white;
@@ -55,9 +44,10 @@
   border-radius: 50px;
   font-weight: 600;
   font-size: 14px;
-  line-height: 1.4;
   cursor: pointer;
-  z-index: 10;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
 }
 
 .addButton:hover {
@@ -69,7 +59,6 @@
   flex-direction: column;
   gap: 20px;
   padding: 16px;
-  overflow-x: auto;
   overflow-y: auto;
 }
 
@@ -77,7 +66,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #F9FAFB;
+  background-color: #f9fafb;
   border-radius: 8px;
   padding: 16px;
   gap: 30px;
@@ -93,25 +82,20 @@
 .statNumber {
   font-weight: 700;
   font-size: 24px;
-  line-height: 1.5;
   color: #1f2937;
-  text-align: center;
 }
 
-.statNumber.used {
+.used {
   color: #ef4444;
 }
 
-.statNumber.remaining {
+.remaining {
   color: #16a34a;
 }
 
 .statLabel {
-  font-weight: 400;
   font-size: 12px;
-  line-height: 1.5;
   color: #6b7280;
-  text-align: left;
 }
 
 .divider {
@@ -123,20 +107,21 @@
 .itemList {
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
 .itemRow {
   display: flex;
   align-items: center;
-  padding: 12px 0 13px;
+  justify-content: space-between;
+  padding: 16px 0;
+  padding-top: 0;
   border-bottom: 1px solid #e5e7eb;
-  gap: 66px;
-  position: relative;
+  gap: 12px;
 }
 
 .itemRow:last-child {
   border-bottom: none;
-  padding-bottom: 12px;
 }
 
 .itemContent {
@@ -144,6 +129,7 @@
   align-items: center;
   gap: 12px;
   flex: 1;
+  min-width: 0;
 }
 
 .itemImage {
@@ -153,7 +139,6 @@
   border-radius: 6px;
   flex-shrink: 0;
   overflow: hidden;
-  position: relative;
 }
 
 .itemImageImg {
@@ -167,12 +152,12 @@
   flex-direction: column;
   gap: 8px;
   flex: 1;
+  min-width: 0;
 }
 
 .itemName {
   font-weight: 600;
   font-size: 16px;
-  line-height: 1.5;
   color: #1f2937;
   margin: 0;
 }
@@ -186,7 +171,6 @@
 .quantityLabel {
   font-weight: 600;
   font-size: 12px;
-  line-height: 1.5;
   color: #6b7280;
 }
 
@@ -194,7 +178,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  position: relative;
 }
 
 .progressBackground {
@@ -202,7 +185,6 @@
   height: 8px;
   background-color: #e5e7eb;
   border-radius: 4px;
-  position: relative;
   overflow: hidden;
 }
 
@@ -216,28 +198,27 @@
 .quantityText {
   font-weight: 500;
   font-size: 12px;
-  line-height: 1.5;
   color: #6b7280;
   white-space: nowrap;
 }
 
 .itemActions {
-  display: flex;
-  align-items: center;
   position: relative;
+  flex-shrink: 0;
 }
 
 .menuButton {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
   background: none;
   border: none;
-  border-radius: 12px;
+  border-radius: 6px;
   cursor: pointer;
   color: #6b7280;
+  transition: background-color 0.2s ease;
 }
 
 .menuButton:hover {
@@ -246,13 +227,13 @@
 
 .dropdown {
   position: absolute;
-  top: 28px;
+  top: 36px;
   right: 0;
-  width: 80px;
+  min-width: 80px;
   background-color: white;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
-  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   z-index: 10;
 }
@@ -260,94 +241,27 @@
 .dropdownItem {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   padding: 8px 12px;
   width: 100%;
   background: none;
   border: none;
-  font-weight: 400;
   font-size: 12px;
-  line-height: 1.5;
   color: #374151;
   cursor: pointer;
   text-align: left;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
 }
 
 .dropdownItem:hover {
   background-color: #f9fafb;
 }
 
-.dropdownItem.delete {
+.delete {
   color: #dc2626;
 }
 
-.dropdownItem.delete:hover {
+.delete:hover {
   background-color: #fef2f2;
-}
-
-.actionSection {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 20px 0;
-}
-
-.drawButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 16px 32px;
-  background-color: #63ad7d;
-  color: #ffffff;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 1.5;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
-}
-
-.drawButton:hover {
-  background-color: #52956b;
-}
-
-.historyButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background-color: #f3f4f6;
-  color: #374151;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.5;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-}
-
-.historyButton:hover {
-  background-color: #e5e7eb;
-}
-
-/* 모바일 최적화 */
-@media (max-width: 375px) {
-  .header {
-    padding: 12px;
-  }
-
-  .content {
-    padding: 12px;
-  }
-
-  .statsCard {
-    gap: 20px;
-  }
-
-  .itemRow {
-    gap: 40px;
-  }
 }

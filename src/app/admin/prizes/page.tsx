@@ -1,16 +1,18 @@
 'use client';
 
-import { useState } from 'react';
-import { Plus, MoreHorizontal, Edit2, Trash2 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
+import { Plus, EllipsisVertical, Edit2, Trash2 } from 'lucide-react';
 import cn from 'classnames';
 
-import MainHeader from '@/components/header/main-header';
-import { SAMPLE_RAFFLE_ITEMS } from './_data/sample-raffle-items';
+import { SAMPLE_RAFFLE_ITEMS } from '@/lib/mock/sample-raffle-items';
+import MainLayout from '@/components/layout/main-layout';
 import s from './page.module.css';
 
 export default function RafflePage() {
+  const path = usePathname();
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
   const totalItems = SAMPLE_RAFFLE_ITEMS.reduce((sum, item) => sum + item.totalQuantity, 0);
@@ -28,16 +30,14 @@ export default function RafflePage() {
   };
 
   return (
-    <div className={s.container}>
-      <MainHeader />
-
-      <main className={s.main}>
+    <MainLayout>
+      <div className={s.container}>
         <div className={s.header}>
           <div className={s.headerContent}>
             <h1 className={s.title}>추첨 이력</h1>
             <p className={s.description}>추첨 진행 내역과 당첨자 정보를 확인하고 관리합니다</p>
           </div>
-          <Link href="/admin/raffle/add" className={s.addButton}>
+          <Link href={`${path}/add`} className={s.addButton}>
             <Plus size={14} />
             상품 추가
           </Link>
@@ -101,23 +101,23 @@ export default function RafflePage() {
                   </div>
                   <div className={s.itemActions}>
                     <button className={s.menuButton} onClick={() => handleMenuToggle(item.id)}>
-                      <MoreHorizontal size={12} />
+                      <EllipsisVertical size={20} />
                     </button>
                     {activeMenuId === item.id && (
                       <div className={s.dropdown}>
                         <Link
-                          href={`/admin/raffle/edit/${item.id}`}
+                          href={`${path}/edit/${item.id}`}
                           className={s.dropdownItem}
                           onClick={() => setActiveMenuId(null)}
                         >
-                          <Edit2 size={12} />
+                          <Edit2 size={20} />
                           수정
                         </Link>
                         <button
                           className={cn(s.dropdownItem, s.delete)}
                           onClick={() => handleDelete(item.id)}
                         >
-                          <Trash2 size={12} />
+                          <Trash2 size={20} />
                           삭제
                         </button>
                       </div>
@@ -128,7 +128,7 @@ export default function RafflePage() {
             })}
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </MainLayout>
   );
 }

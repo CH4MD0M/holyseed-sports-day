@@ -4,18 +4,19 @@ import { useState } from 'react';
 import { Gift } from 'lucide-react';
 import cn from 'classnames';
 
-import MainHeader from '@/components/header/main-header';
-import { SAMPLE_RAFFLE_ITEMS, type RaffleItem } from '../_data/sample-raffle-items';
+import { SAMPLE_RAFFLE_ITEMS, type RaffleItem } from '@/lib/mock/sample-raffle-items';
 import {
   getTeamStats,
   getDrawTargets,
   drawRandomWinner,
   type Team,
-  type RaffleWinner
-} from '../_data/sample-participants';
+  type RaffleWinner,
+} from '@/lib/mock/sample-participants';
+
 import ProductSelectionModal from './_components/product-selection-modal';
 import RaffleResult from './_components/raffle-result';
 import s from './page.module.css';
+import MainLayout from '@/components/layout/main-layout';
 
 type RaffleMode = '전체' | '얼리버드' | '팀별';
 type RaffleStatus = '준비' | '진행중' | '완료';
@@ -35,8 +36,7 @@ export default function DrawPage() {
   const teamStats = getTeamStats();
 
   // 추첨 가능 여부 체크
-  const isDrawEnabled = selectedProduct && drawCount > 0 &&
-    (raffleMode !== '팀별' || selectedTeam);
+  const isDrawEnabled = selectedProduct && drawCount > 0 && (raffleMode !== '팀별' || selectedTeam);
 
   // 상품 선택 핸들러
   const handleProductSelect = (product: RaffleItem) => {
@@ -44,7 +44,7 @@ export default function DrawPage() {
     setIsProductModalOpen(false);
 
     // 상품 재고에 따라 뽑을 인원 수 제한
-    if (drawCount > (product.totalQuantity - product.usedQuantity)) {
+    if (drawCount > product.totalQuantity - product.usedQuantity) {
       setDrawCount(Math.max(1, product.totalQuantity - product.usedQuantity));
     }
   };
@@ -52,7 +52,9 @@ export default function DrawPage() {
   // 뽑을 인원 수 변경 핸들러
   const handleDrawCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value) || 1;
-    const maxCount = selectedProduct ? (selectedProduct.totalQuantity - selectedProduct.usedQuantity) : 1;
+    const maxCount = selectedProduct
+      ? selectedProduct.totalQuantity - selectedProduct.usedQuantity
+      : 1;
     setDrawCount(Math.min(Math.max(1, value), maxCount));
   };
 
@@ -107,9 +109,7 @@ export default function DrawPage() {
   };
 
   return (
-    <div className={s.container}>
-      <MainHeader />
-
+    <MainLayout>
       <main className={s.main}>
         <div className={s.contentWrapper}>
           {/* 헤더 섹션 */}
@@ -119,27 +119,27 @@ export default function DrawPage() {
           </div>
 
           <div className={s.content}>
-          {/* 팀 현황 */}
-          <div className={s.teamStatusCard}>
-            <h2 className={s.cardTitle}>팀 현황</h2>
-            <div className={s.teamStats}>
-              <div className={s.teamStatItem}>
-                <div className={cn(s.statNumber, s.teamA)}>{teamStats.teamA}</div>
-                <div className={s.statLabel}>팀A</div>
-              </div>
-              <div className={cn(s.teamStatItem, s.teamB)}>
-                <div className={cn(s.statNumber, s.teamB)}>{teamStats.teamB}</div>
-                <div className={s.statLabel}>팀B</div>
-              </div>
-              <div className={s.teamStatItem}>
-                <div className={s.statNumber}>{teamStats.total}</div>
-                <div className={s.statLabel}>총 체크인</div>
+            {/* 팀 현황 */}
+            <div className={s.teamStatusCard}>
+              <h2 className={s.cardTitle}>팀 현황</h2>
+              <div className={s.teamStats}>
+                <div className={s.teamStatItem}>
+                  <div className={cn(s.statNumber, s.teamA)}>{teamStats.teamA}</div>
+                  <div className={s.statLabel}>팀A</div>
+                </div>
+                <div className={cn(s.teamStatItem, s.teamB)}>
+                  <div className={cn(s.statNumber, s.teamB)}>{teamStats.teamB}</div>
+                  <div className={s.statLabel}>팀B</div>
+                </div>
+                <div className={s.teamStatItem}>
+                  <div className={s.statNumber}>{teamStats.total}</div>
+                  <div className={s.statLabel}>총 체크인</div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* 추첨 설정 */}
-          <div className={s.settingsCard}>
+            {/* 추첨 설정 */}
+            <div className={s.settingsCard}>
               <h2 className={s.cardTitle}>추첨 설정</h2>
 
               <div className={s.settingsContainer}>
@@ -232,7 +232,11 @@ export default function DrawPage() {
                     <input
                       type="number"
                       min="1"
-                      max={selectedProduct ? (selectedProduct.totalQuantity - selectedProduct.usedQuantity) : 1}
+                      max={
+                        selectedProduct
+                          ? selectedProduct.totalQuantity - selectedProduct.usedQuantity
+                          : 1
+                      }
                       value={drawCount}
                       onChange={handleDrawCountChange}
                       className={s.drawCountInput}
@@ -247,24 +251,21 @@ export default function DrawPage() {
               </div>
             </div>
 
-          {/* 추첨 결과 */}
-          {raffleStatus === '완료' && raffleResult && (
-            <RaffleResult
-              result={raffleResult}
-              selectedProduct={selectedProduct}
-              onRedraw={handleRedraw}
-              onConfirm={handleConfirm}
-            />
-          )}
+            {/* 추첨 결과 */}
+            {raffleStatus === '완료' && raffleResult && (
+              <RaffleResult
+                result={raffleResult}
+                selectedProduct={selectedProduct}
+                onRedraw={handleRedraw}
+                onConfirm={handleConfirm}
+              />
+            )}
           </div>
         </div>
 
         {/* 추첨 시작 버튼 */}
         <div className={s.bottomButtonContainer}>
-          <button
-            onClick={handleDraw}
-            className={cn(s.drawButton, s.enabled)}
-          >
+          <button onClick={handleDraw} className={cn(s.drawButton, s.enabled)}>
             추첨 시작
           </button>
         </div>
@@ -278,6 +279,6 @@ export default function DrawPage() {
           onClose={() => setIsProductModalOpen(false)}
         />
       )}
-    </div>
+    </MainLayout>
   );
 }

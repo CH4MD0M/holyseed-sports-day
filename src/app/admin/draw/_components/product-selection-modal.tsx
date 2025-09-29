@@ -2,7 +2,7 @@
 
 import { X } from 'lucide-react';
 
-import { type RaffleItem } from '../../_data/sample-raffle-items';
+import { type RaffleItem } from '../../../../lib/mock/sample-raffle-items';
 import s from './product-selection-modal.module.css';
 
 interface ProductSelectionModalProps {
@@ -17,7 +17,7 @@ export default function ProductSelectionModal({
   onClose,
 }: ProductSelectionModalProps) {
   // 사용 가능한 상품만 필터링 (남은 수량이 있는 것만)
-  const availableItems = items.filter(item => item.totalQuantity - item.usedQuantity > 0);
+  const availableItems = items.filter((item) => item.totalQuantity - item.usedQuantity > 0);
 
   const getProductEmoji = (productName: string) => {
     if (productName.includes('에어팟') || productName.includes('AirPods')) return '🎧';
@@ -50,11 +50,7 @@ export default function ProductSelectionModal({
                 const remainingCount = item.totalQuantity - item.usedQuantity;
 
                 return (
-                  <button
-                    key={item.id}
-                    onClick={() => onSelect(item)}
-                    className={s.itemButton}
-                  >
+                  <button key={item.id} onClick={() => onSelect(item)} className={s.itemButton}>
                     <div className={s.itemContent}>
                       <div className={s.itemIcon}>
                         <span className={s.emoji}>{getProductEmoji(item.name)}</span>
