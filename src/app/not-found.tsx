@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, ArrowLeft } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import styles from './not-found.module.css';

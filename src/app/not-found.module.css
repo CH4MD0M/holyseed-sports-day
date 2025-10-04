@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #66eaaf 0%, #4ba26e 100%);
+  background: white;
   padding: 20px;
 }
 
@@ -19,8 +19,10 @@
 .errorCode {
   font-size: 120px;
   font-weight: 900;
-  color: white;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #66eaaf 0%, #4ba26e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   line-height: 1;
   margin-bottom: 20px;
 }
@@ -28,9 +30,8 @@
 .title {
   font-size: 32px;
   font-weight: 700;
-  color: white;
+  color: #333;
   margin: 0 0 16px 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .homeButton {
@@ -38,20 +39,20 @@
   align-items: center;
   gap: 8px;
   padding: 16px 36px;
-  background-color: white;
-  color: #33774b;
+  background-color: #4ba26e;
+  color: white;
   text-decoration: none;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(75, 162, 110, 0.3);
 }
 
 .homeButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  background-color: #f8f9ff;
+  box-shadow: 0 6px 20px rgba(75, 162, 110, 0.4);
+  background-color: #3d8a5c;
 }
 
 /* 반응형 */
