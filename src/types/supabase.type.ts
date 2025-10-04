@@ -49,6 +49,35 @@ export type Database = {
           },
         ]
       }
+      lottery_live_status: {
+        Row: {
+          current_event_id: string | null
+          id: string
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          current_event_id?: string | null
+          id?: string
+          status: string
+          updated_at?: string | null
+        }
+        Update: {
+          current_event_id?: string | null
+          id?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lottery_live_status_current_event_id_fkey"
+            columns: ["current_event_id"]
+            isOneToOne: false
+            referencedRelation: "lottery_events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lottery_results: {
         Row: {
           id: string
@@ -128,6 +157,7 @@ export type Database = {
           id: string
           is_admin: boolean
           is_early_bird: boolean | null
+          lottery_number: number | null
           name: string | null
           role: Database["public"]["Enums"]["user_role"]
           team: string | null
@@ -142,6 +172,7 @@ export type Database = {
           id: string
           is_admin?: boolean
           is_early_bird?: boolean | null
+          lottery_number?: number | null
           name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           team?: string | null
@@ -156,6 +187,7 @@ export type Database = {
           id?: string
           is_admin?: boolean
           is_early_bird?: boolean | null
+          lottery_number?: number | null
           name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           team?: string | null
