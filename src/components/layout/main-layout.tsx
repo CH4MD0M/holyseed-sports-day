@@ -30,8 +30,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
     };
   }, []);
 
-  console.log(isScrolled);
-
   const onMenuClick = () => {
     setIsSideNavOpen((prevState) => !prevState);
   };
@@ -44,7 +42,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
     <div className={styles['page-layout']}>
       <header className={`${styles['main-header']} ${isScrolled ? styles['scrolled'] : ''}`}>
         <div className={styles.leftSection}>
-          <Image src="/logo.svg" alt="Logo" width={50} height={50} aria-label="로고" />
+          <Image src="/logo.svg" alt="Logo" width={40} height={40} aria-label="로고" />
         </div>
 
         <div className={styles.rightSection}>
