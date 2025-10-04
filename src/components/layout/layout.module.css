@@ -28,7 +28,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px;
+  padding: 4px 12px;
   width: 100%;
   backdrop-filter: blur(10px);
   transition: box-shadow 0.3s ease;
@@ -55,7 +55,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 4px;
   background-color: #76c490;
   border: none;
   border-radius: 6px;
@@ -102,7 +102,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 4px;
   background: none;
   border: none;
   border-radius: 6px;
