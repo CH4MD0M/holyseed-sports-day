@@ -82,7 +82,7 @@ export default function ProfileSetupPage() {
               이름
             </label>
             <span className={styles.alertMessage}>
-              <strong>{'"성+이름"'}</strong> 형태로 입력해주셔야 돼요!
+              <strong>{'"성 + 이름"'}</strong> 형태로 입력해주셔야 돼요! 예) 홍길동
             </span>
             <Controller
               name="name"
