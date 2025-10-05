@@ -2,6 +2,9 @@ export const queryKeys = {
   user: {
     all: ['user'] as const,
     current: () => [...queryKeys.user.all, 'current'] as const,
-    // profile: (id: string) => [...queryKeys.user.all, 'profile', id] as const,
+  },
+  checkIn: {
+    all: ['checkIn'] as const,
+    status: () => [...queryKeys.checkIn.all, 'status'] as const,
   },
 } as const;
