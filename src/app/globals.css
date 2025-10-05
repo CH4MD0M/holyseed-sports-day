@@ -59,7 +59,8 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  min-height: 100vh;
+  height: 100vh; /* fallback */
+  height: 100dvh;
 }
 
 @viewport {
