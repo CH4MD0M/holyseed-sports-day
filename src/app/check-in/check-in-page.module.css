@@ -1,0 +1,240 @@
+/* check-in-page.module.css */
+.container {
+  flex: 1;
+  padding: 32px 12px;
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  flex: 1;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 15px;
+}
+
+.input {
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.inputError {
+  border-color: #ef4444;
+}
+
+.inputError:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.errorMessage {
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ===== 체크인 결과 화면 ===== */
+.resultContainer {
+  text-align: center;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.iconWrapper {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 50%;
+  box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+}
+
+.successIcon {
+  width: 48px;
+  height: 48px;
+  color: white;
+  stroke-width: 2.5;
+}
+
+.resultTitle {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.resultName {
+  font-size: 22px;
+  color: #1f2937;
+  font-weight: 600;
+  margin: 0;
+}
+
+.lotteryCard {
+  width: 100%;
+  max-width: 240px;
+  background: white;
+  border-radius: 20px;
+  padding: 32px 24px;
+  box-shadow: 0 0px 30px rgba(16, 185, 129, 0.15);
+  border: 2px solid #10b981;
+}
+
+.lotteryLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.trophyIcon {
+  width: 20px;
+  height: 20px;
+  color: #10b981;
+}
+
+.lotteryNumber {
+  font-size: 64px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  text-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+}
+
+.earlyBirdBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.sparkleIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.submitButton {
+  margin-top: auto;
+  padding: 16px;
+  background-color: #10b981;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+}
+
+.submitButton:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* 반응형 */
+@media (max-width: 640px) {
+  .container {
+    padding: 24px 16px;
+  }
+
+  .resultContainer {
+    padding: 32px 16px;
+    gap: 32px;
+  }
+
+  .iconWrapper {
+    width: 64px;
+    height: 64px;
+  }
+
+  .successIcon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .resultTitle {
+    font-size: 24px;
+  }
+
+  .resultName {
+    font-size: 20px;
+  }
+
+  .lotteryLabel {
+    font-size: 13px;
+  }
+
+  .lotteryNumber {
+    font-size: 56px;
+  }
+
+  .earlyBirdBadge {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+  }
+}
