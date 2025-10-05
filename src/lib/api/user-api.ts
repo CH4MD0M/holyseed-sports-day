@@ -1,8 +1,10 @@
 import { supabaseClient } from '@/utils/supabase/client';
-import { Tables } from '@/types/supabase.type';
 
+import { Tables } from '@/types/supabase.type';
 export type Profile = Tables<'profiles'>;
 import { type UserProfileSchemaType } from '../schemas/user-profile';
+
+import { getCurrentUser } from './auth-check-api';
 
 export async function getCurrentUserProfile(): Promise<{
   data: Profile | null;
@@ -10,13 +12,10 @@ export async function getCurrentUserProfile(): Promise<{
 }> {
   try {
     // 현재 인증된 사용자 확인
-    const {
-      data: { user },
-      error: authError,
-    } = await supabaseClient.auth.getUser();
+    const { user, error: authError } = await getCurrentUser();
 
     if (authError) {
-      return { data: null, error: `인증 오류: ${authError.message}` };
+      return { data: null, error: `인증 오류: ${authError}` };
     }
 
     if (!user) {
@@ -48,15 +47,12 @@ export async function getCurrentUserProfile(): Promise<{
 export async function updateProfile(profileData: UserProfileSchemaType) {
   try {
     // 현재 로그인된 사용자 정보 가져오기
-    const {
-      data: { user },
-      error: authError,
-    } = await supabaseClient.auth.getUser();
+    const { user, error: authError } = await getCurrentUser();
 
     if (authError || !user) {
       return {
         success: false,
-        error: '로그인이 필요합니다.',
+        error: authError,
       };
     }
 
