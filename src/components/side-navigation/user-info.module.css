@@ -1,8 +1,29 @@
 .userInfoWrapper {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 12px 20px;
+  padding: 32px 16px;
+  background-color: #e2f0e4;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.userInfoWrapper:hover {
+  background-color: #d4e7d7;
+}
+
+.userInfoWrapper:hover .editIcon {
+  transform: translateX(2px);
+}
+
+.infoContainer {
+  display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px;
+  flex: 1;
 }
 
 .nameSection {
@@ -17,6 +38,11 @@
   font-size: 28px;
   font-weight: 600;
   color: #333;
+}
+
+.editIcon {
+  color: #404a59;
+  transition: all 0.2s ease;
 }
 
 .badge {
