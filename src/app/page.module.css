@@ -1,8 +1,6 @@
 .content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
+  background-color: #fff;
+  flex: 1;
 }
 
 .hero {
@@ -11,9 +9,8 @@
 }
 
 .title {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 700;
-  color: #000000;
   margin-bottom: 16px;
   line-height: 1.25;
 }
@@ -82,7 +79,7 @@
   }
 
   .title {
-    font-size: 3rem;
+    font-size: 40px;
   }
 
   .description {
