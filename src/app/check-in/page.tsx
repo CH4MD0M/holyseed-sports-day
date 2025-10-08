@@ -3,6 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
+import { HashLoader } from 'react-spinners';
 import { CheckCircle2, Sparkles, Trophy } from 'lucide-react';
 
 import { checkinSchema, type CheckinSchemaType } from '@/lib/schemas/check-in';
@@ -41,7 +42,7 @@ const CheckInPage = () => {
       <MainLayout>
         <div className={styles.container}>
           <div className={styles.loadingContainer}>
-            <p>로딩 중...</p>
+            <HashLoader color="#059669" size={50} speedMultiplier={0.8} />
           </div>
         </div>
       </MainLayout>
