@@ -80,8 +80,7 @@ const SideNavigation = ({ isOpen, onClose }: SideNavigationProps) => {
           >
             {isLoading ? (
               <div className={styles.loadingContainer}>
-                <ClipLoader color="#3b82f6" size={30} speedMultiplier={0.8} />
-                <p>사용자 정보를 불러오는 중입니다...</p>
+                <ClipLoader color="#059669" size={50} speedMultiplier={0.8} />
               </div>
             ) : error ? (
               <div className={styles.errorContainer}>
