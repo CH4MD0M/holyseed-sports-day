@@ -8,7 +8,7 @@ import styles from './live-draw.module.css';
 
 const LiveDrawPage = () => {
   return (
-    <MainLayout>
+    <MainLayout title="실시간 추첨">
       <div className={styles.container}>
         <motion.div
           className={styles.content}
@@ -25,7 +25,7 @@ const LiveDrawPage = () => {
             <Calendar className={styles.icon} size={56} />
           </motion.div>
 
-          <h1 className={styles.title}>실시간 추첨</h1>
+          <h1 className={styles.title}>잠깐!</h1>
 
           <p className={styles.description}>체육대회 당일날 확인하실 수 있습니다</p>
 

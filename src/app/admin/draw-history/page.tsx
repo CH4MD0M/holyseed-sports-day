@@ -84,14 +84,8 @@ export default function RaffleHistoryPage() {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title="추첨 이력">
       <main className={s.main}>
-        {/* 헤더 섹션 */}
-        <div className={s.headerSection}>
-          <h1 className={s.title}>추첨 이력</h1>
-          <p className={s.description}>추첨 진행 내역과 당첨자 정보를 확인하고 관리합니다</p>
-        </div>
-
         {/* 필터 및 검색 섹션 */}
         <div className={s.filterSection}>
           {/* 부서 필터 버튼들 */}

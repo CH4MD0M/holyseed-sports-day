@@ -109,7 +109,7 @@ export default function DrawPage() {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title="추첨 진행">
       <main className={s.main}>
         <div className={s.contentWrapper}>
           {/* 헤더 섹션 */}

@@ -51,7 +51,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title="프로필">
       <AnimatePresence>
         <div className={styles.container}>
           {isLoading ? (

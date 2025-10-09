@@ -39,7 +39,7 @@ const CheckInPage = () => {
 
   if (isLoading) {
     return (
-      <MainLayout>
+      <MainLayout title="체크인">
         <div className={styles.container}>
           <div className={styles.loadingContainer}>
             <HashLoader color="#059669" size={50} speedMultiplier={0.8} />
@@ -51,7 +51,7 @@ const CheckInPage = () => {
 
   if (checkInStatus?.isCheckedIn) {
     return (
-      <MainLayout>
+      <MainLayout title="체크인">
         <div className={styles.container}>
           <motion.div
             className={styles.resultContainer}
@@ -132,7 +132,7 @@ const CheckInPage = () => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout title="체크인">
       <div className={styles.container}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <motion.div
