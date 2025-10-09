@@ -134,25 +134,6 @@ img {
   }
 }
 
-/* 모바일 Safe Area 처리 */
-@supports (padding: max(0px)) {
-  .safe-area-top {
-    padding-top: max(var(--spacing-md), env(safe-area-inset-top));
-  }
-
-  .safe-area-bottom {
-    padding-bottom: max(var(--spacing-md), env(safe-area-inset-bottom));
-  }
-
-  .safe-area-left {
-    padding-left: max(var(--container-padding), env(safe-area-inset-left));
-  }
-
-  .safe-area-right {
-    padding-right: max(var(--container-padding), env(safe-area-inset-right));
-  }
-}
-
 .Toastify__toast {
   font-size: 16px;
   padding: 20px !important;

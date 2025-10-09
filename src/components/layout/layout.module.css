@@ -1,3 +1,4 @@
+/* Layout Structure */
 .page-layout {
   display: flex;
   flex-direction: column;
@@ -8,7 +9,7 @@
 .page-layout header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 101;
   width: 100%;
 }
 
@@ -17,27 +18,43 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
-  min-height: calc(100dvh - 48px);
-  padding-bottom: calc(64px + env(safe-area-inset-bottom)); /* 하단 네비 공간 확보 */
+  min-height: calc(100dvh - 48px - 78px);
+  padding-bottom: calc(64px + env(safe-area-inset-bottom) + 20px); /* 하단 네비 높이만큼 여백 */
 }
 
 .page-main > * {
   width: 100%;
+  padding-bottom: calc(64px + env(safe-area-inset-bottom) + 20px);
 }
 
-/* Main layout header (네비게이션 헤더) */
+/* Page Content (네비 없는 페이지) */
+.page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.page-content > * {
+  width: 100%;
+}
+
+/* Main Header (Navigation Header) */
 .main-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 4px 12px;
+  justify-content: center;
+  padding: 12px 0;
   width: 100%;
   backdrop-filter: blur(10px);
   transition: box-shadow 0.3s ease;
-  background-color: #ffffff;
 }
 
-/* 스크롤 시*/
+.main-header .title {
+  font-size: 24px;
+  font-family: 'SchoolSafetyWave';
+}
+
 .main-header.scrolled {
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(15px);
@@ -71,7 +88,7 @@
   background-color: #3f7852;
 }
 
-/* Page header (페이지별 헤더) */
+/* Page Header */
 .page-header {
   display: flex;
   align-items: center;
@@ -123,7 +140,7 @@
   background-color: #e5e7eb;
 }
 
-/* 하단 네비게이션 */
+/* Bottom Navigation */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -132,12 +149,12 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  min-height: 64px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
   background-color: #ffffff;
   border-top: 1px solid #e5e7eb;
-  min-height: 64px;
-  z-index: 100;
-  padding-bottom: env(safe-area-inset-bottom);
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 101;
 }
 
 .nav-item {
@@ -146,12 +163,12 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
+  min-width: 64px;
+  padding: 8px 12px;
   color: #747574;
   text-decoration: none;
-  padding: 8px 12px;
-  min-width: 64px;
-  transition: all 0.2s ease;
   border-radius: 6px;
+  transition: all 0.2s ease;
   position: relative;
 }
 
