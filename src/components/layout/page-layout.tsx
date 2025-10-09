@@ -38,7 +38,7 @@ export default function PageLayout({
 
         <div className={styles.rightSection}>{/* 필요시 추가 버튼 */}</div>
       </header>
-      <main className={styles['page-main']}>{children}</main>
+      <main className={styles['page-content']}>{children}</main>
     </div>
   );
 }

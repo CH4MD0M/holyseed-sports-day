@@ -2,12 +2,13 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+
 import { Home, Calendar, Trophy, User } from 'lucide-react';
 import styles from './layout.module.css';
 import { useEffect, useState } from 'react';
 
 interface MainLayoutProps {
+  title?: string;
   children: React.ReactNode;
 }
 
@@ -18,7 +19,7 @@ const NAV_ITEMS = [
   { label: '프로필', href: '/profile', icon: User },
 ];
 
-export default function MainLayout({ children }: MainLayoutProps) {
+export default function MainLayout({ title, children }: MainLayoutProps) {
   const pathname = usePathname();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,9 +40,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className={styles['page-layout']}>
       <header className={`${styles['main-header']} ${isScrolled ? styles['scrolled'] : ''}`}>
-        <div className={styles.leftSection}>
-          <Image src="/logo.svg" alt="Logo" width={40} height={40} aria-label="로고" />
-        </div>
+        <h2 className={styles.title}>{title || '홀리씨드 운동회'}</h2>
       </header>
 
       <main className={styles['page-main']}>{children}</main>
