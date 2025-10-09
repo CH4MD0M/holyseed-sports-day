@@ -1,0 +1,37 @@
+.statsCard {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #f2f4f2;
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 24px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.statNumber {
+  font-weight: 700;
+  font-size: 24px;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.used {
+  color: #ef4444;
+}
+
+.remaining {
+  color: #16a34a;
+}
+
+.statLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+}
