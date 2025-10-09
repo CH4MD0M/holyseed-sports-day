@@ -36,20 +36,19 @@ export async function updateSession(request: NextRequest) {
   const isAuthRoute = authRoutes.includes(pathname);
   const isProfileSetup = pathname === profileSetupRoute;
 
+  // 한 번만 getUser 호출
   const {
     data: { user },
     error,
   } = await supabase.auth.getUser();
 
-  const session = await supabase.auth.getUser();
-
   // 로그인이 필요한 페이지인데 로그인되지 않은 경우
-  if (isProtectedRoute && session.error) {
+  if (isProtectedRoute && error) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
   // 로그인 페이지인데 이미 로그인된 경우
-  if (isAuthRoute && !session.error) {
+  if (isAuthRoute && !error) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
