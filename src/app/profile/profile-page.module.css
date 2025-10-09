@@ -1,32 +1,11 @@
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
-}
-
-.sideNav {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh; /* fallback */
+.container {
+  height: 100vh;
   height: 100dvh;
-  width: 400px;
-  max-width: 80%;
-  /* background-color: #f5f5f6; */
   background-color: #fff;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  z-index: 1001;
-  overflow: hidden;
 }
 
-/* 헤더 섹션 */
 .header {
   display: flex;
   flex-direction: column;
@@ -34,33 +13,6 @@
   flex-shrink: 0;
 }
 
-.closeBtnWrapper {
-  padding: 0 12px;
-  min-height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.closeButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  background: none;
-  color: #666;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.closeButton:hover {
-  background-color: #e9ecef;
-  color: #333;
-}
-
-/* 컨텐츠 영역 */
 .content {
   flex: 1;
   display: flex;
@@ -69,7 +21,7 @@
   overflow: hidden;
 }
 
-.listWrapper {
+.menuWrapper {
   flex: 1;
   padding: 8px 20px;
   display: flex;
@@ -77,6 +29,22 @@
   gap: 20px;
   overflow-y: auto;
   min-height: 0;
+}
+
+.menuSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 12px;
+  border-radius: 8px;
+  background-color: #f2f4f2;
+}
+
+.menuTitle {
+  color: #165e30;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
 }
 
 .menuList {
@@ -99,12 +67,11 @@
   border-radius: 6px;
   transition: all 0.2s ease;
 
-  &:focus {
-    background-color: #cee9d2;
-  }
-
+  &:hover,
+  &:focus,
   &:active {
     background-color: #cee9d2;
+    outline: none;
   }
 }
 
@@ -113,51 +80,39 @@
   color: white;
 }
 
-.adminWrapper {
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid #d1c9c9;
-  padding: 20px 0;
-  gap: 8px;
-}
-
-.adminWrapper h3 {
-  color: #165e30;
-  font-size: 16px;
-  margin: 0;
-}
-
-/* 로그아웃 */
-.logOut {
-  padding: 20px 24px;
-  transition: all 0.2s ease;
+.logoutSection {
+  padding: 16px 20px;
   flex-shrink: 0;
-  border-top: 1px solid #eee;
 }
 
-.logOut:hover {
-  background-color: #dff1e2;
-}
-
-.logOut:hover button {
-  color: #165e30;
-}
-
-.logOut button {
+.logoutButton {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
+  width: 100%;
+  padding: 14px 20px;
   color: #747574;
   font-size: 16px;
   font-weight: 600;
-  transition: all 0.2s ease;
-  background: none;
-  border: none;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
   cursor: pointer;
-  width: 100%;
+  transition: all 0.25s ease;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #dff1e2;
+    color: #165e30;
+  }
 }
 
-/* 로딩 스피너 */
+.logoutButton:active {
+  transform: scale(0.98);
+}
+
 .loadingContainer {
   display: flex;
   flex-direction: column;
@@ -189,7 +144,7 @@
 }
 
 @media (max-width: 768px) {
-  .sideNav {
+  .container {
     width: 100%;
     max-width: 100%;
   }
