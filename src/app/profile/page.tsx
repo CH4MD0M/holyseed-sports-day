@@ -28,7 +28,7 @@ interface MenuItem {
   icon: LucideIcon;
 }
 
-export const MENU_ITEMS: MenuItem[] = [
+const MENU_ITEMS: MenuItem[] = [
   { label: '체크인', href: '/check-in', icon: CheckCircle },
   { label: '추첨 결과', href: '/draw-result', icon: Trophy },
 ];
