@@ -1,17 +1,18 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
 import { LogOut, X } from 'lucide-react';
 
-import { useGetCurrentUser } from '@/hooks/api/useUser';
+import { useGetUserProfile } from '@/hooks/api/use-user-profile';
 import { supabaseClient } from '@/utils/supabase/client';
 
 import { MENU_ITEMS, ADMIN_MENU_ITEMS } from './menu.constants';
 import styles from './side-navigation.module.css';
 import UserInfo from './user-info';
+import Link from 'next/link';
 
 interface SideNavigationProps {
   isOpen: boolean;
@@ -22,7 +23,7 @@ const SideNavigation = ({ isOpen, onClose }: SideNavigationProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { data: user, isLoading, error } = useGetCurrentUser();
+  const { data: user, isLoading, error } = useGetUserProfile();
 
   const handleSignOut = async () => {
     await supabaseClient.auth.signOut();
@@ -114,13 +115,13 @@ const SideNavigation = ({ isOpen, onClose }: SideNavigationProps) => {
                               duration: 0.25,
                             }}
                           >
-                            <a
+                            <Link
                               href={item.href}
                               className={`${styles.menuItem} ${isActive ? styles.active : ''}`}
                             >
                               <Icon size={20} />
                               {item.label}
-                            </a>
+                            </Link>
                           </motion.li>
                         );
                       })}
@@ -148,13 +149,13 @@ const SideNavigation = ({ isOpen, onClose }: SideNavigationProps) => {
                                   duration: 0.25,
                                 }}
                               >
-                                <a
+                                <Link
                                   href={item.href}
                                   className={`${styles.menuItem} ${isActive ? styles.active : ''}`}
                                 >
                                   <Icon size={20} />
                                   {item.label}
-                                </a>
+                                </Link>
                               </motion.li>
                             );
                           })}
