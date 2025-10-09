@@ -11,22 +11,9 @@ export async function getCurrentUserProfile(): Promise<{
   error: string | null;
 }> {
   try {
-    // 현재 인증된 사용자 확인
-    const { user, error: authError } = await getCurrentUser();
-
-    if (authError) {
-      return { data: null, error: `인증 오류: ${authError}` };
-    }
-
-    if (!user) {
-      return { data: null, error: '로그인이 필요합니다.' };
-    }
-
-    // 사용자 프로필 조회
     const { data: profile, error: profileError } = await supabaseClient
       .from('profiles')
       .select('*')
-      .eq('id', user.id)
       .single();
 
     if (profileError) {
