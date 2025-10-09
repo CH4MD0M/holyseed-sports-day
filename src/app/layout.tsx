@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from 'next';
 
 import { pretendard } from '@/lib/fonts';
 import { ModalRenderer } from '@/components/modal/modal-renderer';
-import QueryProvider from './_components/QueryProvider';
+import ToastProvider from '@/components/provider/toast-provider';
+import QueryProvider from '@/components/provider/query-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -45,7 +46,9 @@ export default function RootLayout({
       </head>
       <body className="safe-area-top safe-area-bottom">
         <QueryProvider>
-          <div className="container">{children}</div>
+          <ToastProvider>
+            <div className="container">{children}</div>
+          </ToastProvider>
         </QueryProvider>
 
         <ModalRenderer />
