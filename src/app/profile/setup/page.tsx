@@ -1,24 +1,25 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
 
 import { STEPS, type Step } from './_types/step';
 import { DEPARTMENTS } from '@/lib/constants/department';
 import { userProfileSchema, type UserProfileSchemaType } from '@/lib/schemas/user-profile';
 
-import { updateProfile } from '@/lib/api/user-api';
+import { useUpdateProfile } from '@/hooks/api/use-user-profile';
 import { useProfileStep } from './_hooks/use-profile-step';
 
 import PageLayout from '@/components/layout/page-layout';
-import styles from './profile-form.module.css';
+import styles from '../_style/profile-form.module.css';
 
 export default function ProfileSetupPage() {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { mutateAsync, isPending } = useUpdateProfile();
 
   const {
     control,
@@ -45,12 +46,14 @@ export default function ProfileSetupPage() {
   };
 
   const onSubmit = async (data: UserProfileSchemaType) => {
-    setIsSubmitting(true);
+    const result = await mutateAsync(data);
+    if (result.success) {
+      toast.success('프로필이 성공적으로 작성되었어요!');
 
-    try {
-      const result = await updateProfile(data);
-      if (result.success) router.replace('/');
-    } catch (error) {}
+      router.replace('/');
+    } else {
+      toast.error(result.error || '프로필 작성에 실패했어요 :(');
+    }
   };
 
   const fieldVariants = {
@@ -178,12 +181,12 @@ export default function ProfileSetupPage() {
               form="submit-form"
               type="submit"
               className={styles.submitButton}
-              disabled={!isValid || isSubmitting}
+              disabled={isPending || !isValid}
               variants={fieldVariants}
               initial="hidden"
               animate="visible"
             >
-              {isSubmitting ? '저장 중...' : '제출하기'}
+              {isPending ? '저장 중' : '프로필 작성 완료'}
             </motion.button>
           )}
         </AnimatePresence>
