@@ -1,8 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const protectedRoutes = ['/', '/admin'];
-const authRoutes = ['/login'];
+const publicRoutes = ['/login', '/auth/callback'];
 const profileSetupRoute = '/profile/setup';
 
 export async function updateSession(request: NextRequest) {
@@ -32,28 +31,26 @@ export async function updateSession(request: NextRequest) {
   );
 
   const pathname = request.nextUrl.pathname;
-  const isProtectedRoute = protectedRoutes.includes(pathname);
-  const isAuthRoute = authRoutes.includes(pathname);
+  const isPublicRoute = publicRoutes.includes(pathname);
   const isProfileSetup = pathname === profileSetupRoute;
 
-  // 한 번만 getUser 호출
   const {
     data: { user },
     error,
   } = await supabase.auth.getUser();
 
-  // 로그인이 필요한 페이지인데 로그인되지 않은 경우
-  if (isProtectedRoute && error) {
-    return NextResponse.redirect(new URL('/login', request.url));
+  // 로그인되지 않은 경우
+  if (error || !user) {
+    // public 경로가 아니면 로그인 페이지로 리다이렉트
+    if (!isPublicRoute) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+    return supabaseResponse;
   }
 
-  // 로그인 페이지인데 이미 로그인된 경우
-  if (isAuthRoute && !error) {
-    return NextResponse.redirect(new URL('/', request.url));
-  }
-
-  // 로그인된 사용자 처리
-  if (user && !error) {
+  // 로그인된 사용자가 login 페이지 접근 시
+  if (pathname === '/login') {
+    // 프로필 체크 후 적절한 곳으로 리다이렉트
     try {
       const { data: profile } = await supabase
         .from('profiles')
@@ -63,20 +60,44 @@ export async function updateSession(request: NextRequest) {
 
       const isProfileComplete = profile?.department && profile?.birth_year;
 
-      // 프로필이 완성되지 않았는데 setup 페이지가 아닌 경우 -> setup으로 리다이렉트
-      if (!isProfileComplete && !isProfileSetup) {
+      if (!isProfileComplete) {
         return NextResponse.redirect(new URL(profileSetupRoute, request.url));
-      }
-
-      // 프로필이 이미 완성되었는데 setup 페이지에 접근하는 경우 -> 홈으로 리다이렉트
-      if (isProfileComplete && isProfileSetup) {
-        return NextResponse.redirect(new URL('/', request.url));
       }
     } catch (error) {
-      // 프로필 조회 실패 시 setup이 아니라면 setup으로 이동
-      if (!isProfileSetup) {
-        return NextResponse.redirect(new URL(profileSetupRoute, request.url));
-      }
+      return NextResponse.redirect(new URL(profileSetupRoute, request.url));
+    }
+
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // /auth/callback은 그냥 통과
+  if (pathname === '/auth/callback') {
+    return supabaseResponse;
+  }
+
+  // 로그인된 사용자의 프로필 체크
+  try {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('department, birth_year')
+      .eq('id', user.id)
+      .single();
+
+    const isProfileComplete = profile?.department && profile?.birth_year;
+
+    // 프로필 미완성 -> setup으로 리다이렉트
+    if (!isProfileComplete && !isProfileSetup) {
+      return NextResponse.redirect(new URL(profileSetupRoute, request.url));
+    }
+
+    // 프로필 완성됨 -> setup 접근 시 홈으로
+    if (isProfileComplete && isProfileSetup) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+  } catch (error) {
+    // 프로필 조회 실패 시 setup으로
+    if (!isProfileSetup) {
+      return NextResponse.redirect(new URL(profileSetupRoute, request.url));
     }
   }
 
