@@ -23,7 +23,7 @@ const CheckInPage = () => {
     setError,
   } = useForm<CheckinSchemaType>({
     resolver: zodResolver(checkinSchema),
-    mode: 'onChange',
+    mode: 'onSubmit',
   });
 
   const onSubmit = async () => {
