@@ -19,6 +19,29 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    url: 'https://holyseed.app',
+    title: '홀리씨드 체육대회',
+    description: '계산교회 청년 2,3부 체육대회 앱',
+    siteName: '홀리씨드 체육대회',
+    images: [
+      {
+        url: '/cover-image.png',
+        width: 1200,
+        height: 630,
+        alt: '홀리씨드 체육대회',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '홀리씨드 체육대회',
+    description: '계산교회 청년 2,3부 체육대회 앱',
+    images: ['/cover-image.png'],
+    creator: '@holyseed',
+  },
 };
 
 export const viewport: Viewport = {
