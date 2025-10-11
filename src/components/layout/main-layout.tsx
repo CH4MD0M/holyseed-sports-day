@@ -40,7 +40,7 @@ export default function MainLayout({ title, children }: MainLayoutProps) {
   return (
     <div className={styles['page-layout']}>
       <header className={`${styles['main-header']} ${isScrolled ? styles['scrolled'] : ''}`}>
-        <h2 className={styles.title}>{title || '홀리씨드 운동회'}</h2>
+        <h2 className={styles.title}>{title || '홀리씨드 체육대회'}</h2>
       </header>
 
       <main className={styles['page-main']}>{children}</main>
