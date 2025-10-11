@@ -15,7 +15,7 @@ interface MainLayoutProps {
 const NAV_ITEMS = [
   { label: '홈', href: '/', icon: Home },
   { label: '일정 안내', href: '/schedule', icon: Calendar },
-  { label: '추첨', href: '/live-draw', icon: Trophy },
+  { label: '추첨', href: '/draw/live', icon: Trophy },
   { label: '프로필', href: '/profile', icon: User },
 ];
 
