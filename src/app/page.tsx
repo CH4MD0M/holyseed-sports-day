@@ -4,10 +4,11 @@ import styles from './page.module.css';
 export default async function Home() {
   return (
     <MainLayout>
-      <div className={styles.content}>
-        <div className={styles.hero}>
-          <h1 className={styles.title}>HolySeed 체육대회</h1>
-        </div>
+      <div className={styles.videoContainer}>
+        <video className={styles.video} autoPlay muted playsInline preload="auto">
+          <source src="/main-video.mp4" type="video/mp4" />
+          비디오를 재생할 수 없습니다.
+        </video>
       </div>
     </MainLayout>
   );
