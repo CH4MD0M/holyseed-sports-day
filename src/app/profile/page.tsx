@@ -47,7 +47,7 @@ const ProfilePage = () => {
 
   const handleSignOut = async () => {
     await supabaseClient.auth.signOut();
-    router.replace('/login');
+    router.replace('/');
   };
 
   return (

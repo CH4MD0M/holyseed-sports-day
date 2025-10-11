@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const protectedRoutes = ['/', '/admin'];
+const protectedRoutes = ['/profile', '/admin'];
 const authRoutes = ['/login'];
 const profileSetupRoute = '/profile/setup';
 
