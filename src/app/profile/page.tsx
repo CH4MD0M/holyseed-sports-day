@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
 
@@ -40,14 +40,13 @@ const ADMIN_MENU_ITEMS: MenuItem[] = [
 ];
 
 const ProfilePage = () => {
-  const router = useRouter();
   const pathname = usePathname();
 
   const { data: user, isLoading, error } = useGetUserProfile();
 
   const handleSignOut = async () => {
     await supabaseClient.auth.signOut();
-    router.replace('/');
+    window.location.href = '/';
   };
 
   return (
