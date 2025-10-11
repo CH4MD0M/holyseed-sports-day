@@ -41,7 +41,7 @@ const ProfileEditPage = () => {
     if (result.success) {
       toast.success('프로필이 성공적으로 수정되었어요!');
 
-      router.replace('/');
+      router.replace('/profile');
     } else {
       toast.error(result.error || '프로필 수정에 실패했어요 :(');
     }
