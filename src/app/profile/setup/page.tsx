@@ -50,7 +50,7 @@ export default function ProfileSetupPage() {
     if (result.success) {
       toast.success('프로필이 성공적으로 작성되었어요!');
 
-      router.replace('/');
+      router.replace('/profile');
     } else {
       toast.error(result.error || '프로필 작성에 실패했어요 :(');
     }
