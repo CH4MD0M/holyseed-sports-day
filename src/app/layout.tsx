@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Holyseed' }],
   creator: 'Holyseed',
   publisher: 'Holyseed',
-
+  manifest: './manifest.webmanifest',
   formatDetection: {
     email: false,
     address: false,
@@ -35,9 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={pretendard.variable}>
       <head>
-        <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
