@@ -7,9 +7,9 @@ import QueryProvider from '@/components/provider/query-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: '홀리시드 스포츠데이',
-  description: '실시간 게임 진행 및 점수 확인 서비스',
-  keywords: ['스포츠데이', '게임', '점수', '실시간'],
+  title: '홀리씨드 체육대회',
+  description: '계산교회 청년 2,3부 체육대회 앱',
+  keywords: ['체육대회', '추첨', '실시간'],
   authors: [{ name: 'Holyseed' }],
   creator: 'Holyseed',
   publisher: 'Holyseed',

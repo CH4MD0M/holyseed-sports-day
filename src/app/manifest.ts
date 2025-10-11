@@ -6,6 +6,9 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: 'ko',
     name: 'Holy seed 체육대회',
     short_name: 'Holyseed',
+    start_url: '/',
+    background_color: '#ffffff',
+    theme_color: '#2563eb',
     icons: [
       {
         src: '/icon-192x192.png',
