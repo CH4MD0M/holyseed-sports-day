@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'Holyseed',
     start_url: '/',
     background_color: '#ffffff',
-    theme_color: '#2563eb',
+    theme_color: '#ffffff',
     icons: [
       {
         src: '/icon-192x192.png',
