@@ -227,8 +227,27 @@
   gap: 8px;
 }
 
-.productEmoji {
-  font-size: 20px;
+.productImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.productImage {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.productImagePlaceholder {
+  width: 32px;
+  height: 32px;
+  background-color: #f3f4f6;
+  border-radius: 6px;
 }
 
 .productName {

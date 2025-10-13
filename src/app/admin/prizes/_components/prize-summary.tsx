@@ -3,12 +3,21 @@
 import cn from 'classnames';
 import styles from './prize-summary.module.css';
 
-import { SAMPLE_RAFFLE_ITEMS } from '@/lib/mock/sample-raffle-items';
+import type { Prize } from '@/utils/api/prizes';
 
-const PrizeSummary = () => {
-  const totalItems = SAMPLE_RAFFLE_ITEMS.reduce((sum, item) => sum + item.totalQuantity, 0);
-  const usedItems = SAMPLE_RAFFLE_ITEMS.reduce((sum, item) => sum + item.usedQuantity, 0);
-  const remainingItems = totalItems - usedItems;
+interface PrizeSummaryProps {
+  prizes: Prize[];
+}
+
+const PrizeSummary = ({ prizes }: PrizeSummaryProps) => {
+  // 총 상품 수량 계산
+  const totalItems = prizes.reduce((sum, prize) => sum + prize.total_quantity, 0);
+
+  // 남은 수량 계산
+  const remainingItems = prizes.reduce((sum, prize) => sum + prize.remaining_quantity, 0);
+
+  // 사용된 수량 = 총 수량 - 남은 수량
+  const usedItems = totalItems - remainingItems;
 
   return (
     <div className={styles.statsCard}>

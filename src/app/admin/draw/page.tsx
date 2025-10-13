@@ -1,84 +1,132 @@
 'use client';
 
-import { useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { Gift } from 'lucide-react';
 import cn from 'classnames';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
-import { SAMPLE_RAFFLE_ITEMS, type RaffleItem } from '@/lib/mock/sample-raffle-items';
+import { getPrizes, type Prize } from '@/utils/api/prizes';
 import {
+  conductLottery,
+  type ConductLotteryResult,
   getTeamStats,
-  getDrawTargets,
-  drawRandomWinner,
-  type Team,
-  type RaffleWinner,
-} from '@/lib/mock/sample-participants';
+  type LotteryMode,
+  type TeamStats,
+} from '@/utils/api/lottery';
 
 import ProductSelectionModal from './_components/product-selection-modal';
-import RaffleResult from './_components/raffle-result';
 import s from './page.module.css';
 import MainLayout from '@/components/layout/main-layout';
 
 type RaffleMode = '전체' | '얼리버드' | '팀별';
 type RaffleStatus = '준비' | '진행중' | '완료';
+type Team = '팀A' | '팀B';
 
 export default function DrawPage() {
+  const router = useRouter();
+
+  // 데이터 상태
+  const [prizes, setPrizes] = useState<Prize[]>([]);
+  const [teamStats, setTeamStats] = useState<TeamStats | null>(null);
+
   // 추첨 설정 상태
   const [raffleMode, setRaffleMode] = useState<RaffleMode>('전체');
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<RaffleItem | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Prize | null>(null);
   const [drawCount, setDrawCount] = useState<number>(1);
 
   // UI 상태
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [raffleStatus, setRaffleStatus] = useState<RaffleStatus>('준비');
-  const [raffleResult, setRaffleResult] = useState<RaffleWinner | null>(null);
+  const [raffleResult, setRaffleResult] = useState<ConductLotteryResult | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const teamStats = getTeamStats();
+  // 데이터 로드
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [prizesData, teamStatsData] = await Promise.all([
+          getPrizes(),
+          getTeamStats(),
+        ]);
+        setPrizes(prizesData);
+        setTeamStats(teamStatsData);
+      } catch (error) {
+        console.error('데이터 로드 실패:', error);
+        toast.error('데이터를 불러오는데 실패했습니다.');
+      }
+    };
+    loadData();
+  }, []);
 
   // 추첨 가능 여부 체크
-  const isDrawEnabled = selectedProduct && drawCount > 0 && (raffleMode !== '팀별' || selectedTeam);
+  const isDrawEnabled =
+    selectedProduct &&
+    drawCount > 0 &&
+    (raffleMode !== '팀별' || selectedTeam) &&
+    !isSubmitting;
 
   // 상품 선택 핸들러
-  const handleProductSelect = (product: RaffleItem) => {
+  const handleProductSelect = (product: Prize) => {
     setSelectedProduct(product);
     setIsProductModalOpen(false);
 
     // 상품 재고에 따라 뽑을 인원 수 제한
-    if (drawCount > product.totalQuantity - product.usedQuantity) {
-      setDrawCount(Math.max(1, product.totalQuantity - product.usedQuantity));
+    if (drawCount > product.remaining_quantity) {
+      setDrawCount(Math.max(1, product.remaining_quantity));
     }
   };
 
   // 뽑을 인원 수 변경 핸들러
-  const handleDrawCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDrawCountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value) || 1;
-    const maxCount = selectedProduct
-      ? selectedProduct.totalQuantity - selectedProduct.usedQuantity
-      : 1;
+    const maxCount = selectedProduct ? selectedProduct.remaining_quantity : 1;
     setDrawCount(Math.min(Math.max(1, value), maxCount));
   };
 
   // 추첨 실행
-  const handleDraw = () => {
-    if (!isDrawEnabled) return;
+  const handleDraw = async () => {
+    if (!isDrawEnabled || !selectedProduct) return;
 
-    setRaffleStatus('진행중');
+    try {
+      setIsSubmitting(true);
+      setRaffleStatus('진행중');
 
-    const targets = getDrawTargets(raffleMode, selectedTeam || undefined);
-    const winner = drawRandomWinner(targets);
+      // 추첨 모드 변환
+      let lotteryMode: LotteryMode = 'all';
+      if (raffleMode === '얼리버드') {
+        lotteryMode = 'early_bird';
+      } else if (raffleMode === '팀별') {
+        lotteryMode = 'team_specific';
+      }
 
-    if (winner) {
-      const result: RaffleWinner = {
-        participant: winner,
-        productId: selectedProduct!.id,
-        raffleTime: new Date(),
-      };
+      // 추첨 실행
+      const result = await conductLottery(
+        selectedProduct.id,
+        drawCount,
+        lotteryMode,
+        selectedTeam || undefined,
+      );
+
       setRaffleResult(result);
       setRaffleStatus('완료');
-    } else {
-      // 추첨 대상자가 없는 경우
-      alert('추첨 대상자가 없습니다.');
+      toast.success('추첨이 완료되었습니다!');
+
+      // 데이터 새로고침
+      const [prizesData, teamStatsData] = await Promise.all([
+        getPrizes(),
+        getTeamStats(),
+      ]);
+      setPrizes(prizesData);
+      setTeamStats(teamStatsData);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : '추첨 실행에 실패했습니다.';
+      toast.error(errorMessage);
       setRaffleStatus('준비');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -90,22 +138,16 @@ export default function DrawPage() {
 
   // 확정하기
   const handleConfirm = () => {
-    // TODO: 실제 추첨 결과 저장 로직
-    console.log('추첨 결과 확정:', raffleResult);
-
-    // 상품 사용 수량 업데이트 (시뮬레이션)
-    if (selectedProduct) {
-      // TODO: 실제 데이터 업데이트 로직
-      console.log('상품 사용 수량 업데이트:', selectedProduct.id);
-    }
-
     // 상태 초기화
     setRaffleResult(null);
     setRaffleStatus('준비');
     setSelectedProduct(null);
     setDrawCount(1);
 
-    alert('추첨이 완료되었습니다!');
+    toast.success('추첨 결과가 확정되었습니다!');
+
+    // 히스토리 페이지로 이동
+    router.push('/admin/draw-history');
   };
 
   return (
@@ -124,15 +166,15 @@ export default function DrawPage() {
               <h2 className={s.cardTitle}>팀 현황</h2>
               <div className={s.teamStats}>
                 <div className={s.teamStatItem}>
-                  <div className={cn(s.statNumber, s.teamA)}>{teamStats.teamA}</div>
+                  <div className={cn(s.statNumber, s.teamA)}>{teamStats?.teamA || 0}</div>
                   <div className={s.statLabel}>팀A</div>
                 </div>
                 <div className={cn(s.teamStatItem, s.teamB)}>
-                  <div className={cn(s.statNumber, s.teamB)}>{teamStats.teamB}</div>
+                  <div className={cn(s.statNumber, s.teamB)}>{teamStats?.teamB || 0}</div>
                   <div className={s.statLabel}>팀B</div>
                 </div>
                 <div className={s.teamStatItem}>
-                  <div className={s.statNumber}>{teamStats.total}</div>
+                  <div className={s.statNumber}>{teamStats?.total || 0}</div>
                   <div className={s.statLabel}>총 체크인</div>
                 </div>
               </div>
@@ -210,11 +252,21 @@ export default function DrawPage() {
                   >
                     {selectedProduct ? (
                       <div className={s.selectedProductInfo}>
-                        <span className={s.productEmoji}>🎧</span>
+                        <div className={s.productImageContainer}>
+                          {selectedProduct.image_url ? (
+                            <Image
+                              src={selectedProduct.image_url}
+                              alt={selectedProduct.name}
+                              width={32}
+                              height={32}
+                              className={s.productImage}
+                            />
+                          ) : (
+                            <div className={s.productImagePlaceholder} />
+                          )}
+                        </div>
                         <span className={s.productName}>{selectedProduct.name}</span>
-                        <span className={s.productCount}>
-                          ({selectedProduct.totalQuantity - selectedProduct.usedQuantity}개)
-                        </span>
+                        <span className={s.productCount}>({selectedProduct.remaining_quantity}개)</span>
                       </div>
                     ) : (
                       <div className={s.productSelectPlaceholder}>
@@ -232,19 +284,13 @@ export default function DrawPage() {
                     <input
                       type="number"
                       min="1"
-                      max={
-                        selectedProduct
-                          ? selectedProduct.totalQuantity - selectedProduct.usedQuantity
-                          : 1
-                      }
+                      max={selectedProduct ? selectedProduct.remaining_quantity : 1}
                       value={drawCount}
                       onChange={handleDrawCountChange}
                       className={s.drawCountInput}
                     />
                     {selectedProduct && (
-                      <span className={s.maxCount}>
-                        / {selectedProduct.totalQuantity - selectedProduct.usedQuantity}개
-                      </span>
+                      <span className={s.maxCount}>/ {selectedProduct.remaining_quantity}개</span>
                     )}
                   </div>
                 </div>
@@ -252,21 +298,70 @@ export default function DrawPage() {
             </div>
 
             {/* 추첨 결과 */}
-            {raffleStatus === '완료' && raffleResult && (
-              <RaffleResult
-                result={raffleResult}
-                selectedProduct={selectedProduct}
-                onRedraw={handleRedraw}
-                onConfirm={handleConfirm}
-              />
+            {raffleStatus === '완료' && raffleResult && selectedProduct && (
+              <div className={s.container}>
+                <div className={s.header}>
+                  <h2 className={s.title}>🎉 추첨 결과</h2>
+                </div>
+
+                {/* 당첨자 목록 */}
+                <div className={s.winnerCard}>
+                  {raffleResult.winners.map((winner, index) => (
+                    <div key={winner.user_id} className={s.winnerInfo}>
+                      <div className={s.winnerName}>
+                        {index + 1}. {winner.name}
+                      </div>
+                      <div className={s.winnerDetails}>
+                        <span>{winner.team || '미지정'}</span>
+                        <span>·</span>
+                        <span>{winner.department || '미지정'}</span>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* 당첨 상품 */}
+                  <div className={s.productInfo}>
+                    <div className={s.productImageContainer}>
+                      {selectedProduct.image_url ? (
+                        <Image
+                          src={selectedProduct.image_url}
+                          alt={selectedProduct.name}
+                          width={32}
+                          height={32}
+                          className={s.productImage}
+                        />
+                      ) : (
+                        <div className={s.productImagePlaceholder} />
+                      )}
+                    </div>
+                    <span className={s.productName}>{selectedProduct.name}</span>
+                  </div>
+                </div>
+
+                {/* 액션 버튼 */}
+                <div className={s.actionButtons}>
+                  <button onClick={handleRedraw} className={s.redrawButton}>
+                    다시뽑기
+                  </button>
+                  <button onClick={handleConfirm} className={s.confirmButton}>
+                    확정하기
+                  </button>
+                </div>
+              </div>
             )}
           </div>
         </div>
 
         {/* 추첨 시작 버튼 */}
         <div className={s.bottomButtonContainer}>
-          <button onClick={handleDraw} className={cn(s.drawButton, s.enabled)}>
-            추첨 시작
+          <button
+            onClick={handleDraw}
+            disabled={!isDrawEnabled || isSubmitting}
+            className={cn(s.drawButton, {
+              [s.enabled]: isDrawEnabled && !isSubmitting,
+            })}
+          >
+            {isSubmitting ? '추첨 중...' : '추첨 시작'}
           </button>
         </div>
       </main>
@@ -274,7 +369,7 @@ export default function DrawPage() {
       {/* 상품 선택 모달 */}
       {isProductModalOpen && (
         <ProductSelectionModal
-          items={SAMPLE_RAFFLE_ITEMS}
+          items={prizes}
           onSelect={handleProductSelect}
           onClose={() => setIsProductModalOpen(false)}
         />

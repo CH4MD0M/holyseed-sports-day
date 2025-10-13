@@ -1,8 +1,8 @@
 'use client';
 
-import { type RaffleWinner } from '../../../../lib/mock/sample-participants';
-import { type RaffleItem } from '../../../../lib/mock/sample-raffle-items';
-import { DEPARTMENT_CONFIGS } from '../../../../lib/mock/sample-raffle-history';
+import { type RaffleWinner } from '@/lib/mock/sample-participants';
+import { type RaffleItem } from '@/lib/mock/sample-raffle-items';
+import { DEPARTMENT_CONFIGS } from '@/lib/mock/sample-raffle-history';
 import s from './raffle-result.module.css';
 
 interface RaffleResultProps {
@@ -12,12 +12,13 @@ interface RaffleResultProps {
   onConfirm: () => void;
 }
 
+
 export default function RaffleResult({
-  result,
-  selectedProduct,
-  onRedraw,
-  onConfirm,
-}: RaffleResultProps) {
+                                       result,
+                                       selectedProduct,
+                                       onRedraw,
+                                       onConfirm,
+                                     }: RaffleResultProps) {
   const { participant } = result;
   const departmentConfig = DEPARTMENT_CONFIGS[participant.department];
 
