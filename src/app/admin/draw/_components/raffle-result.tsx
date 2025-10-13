@@ -1,67 +1,60 @@
 'use client';
 
-import { type RaffleWinner } from '@/lib/mock/sample-participants';
-import { type RaffleItem } from '@/lib/mock/sample-raffle-items';
-import { DEPARTMENT_CONFIGS } from '@/lib/mock/sample-raffle-history';
+import Image from 'next/image';
+import { type ConductLotteryResult } from '@/utils/api/lottery';
+import { type Prize } from '@/utils/api/prizes';
 import s from './raffle-result.module.css';
 
 interface RaffleResultProps {
-  result: RaffleWinner;
-  selectedProduct: RaffleItem | null;
+  result: ConductLotteryResult;
+  selectedProduct: Prize | null;
   onRedraw: () => void;
   onConfirm: () => void;
 }
 
-
 export default function RaffleResult({
-                                       result,
-                                       selectedProduct,
-                                       onRedraw,
-                                       onConfirm,
-                                     }: RaffleResultProps) {
-  const { participant } = result;
-  const departmentConfig = DEPARTMENT_CONFIGS[participant.department];
-
-  const getProductEmoji = (productName?: string) => {
-    if (!productName) return '🎁';
-    if (productName.includes('에어팟') || productName.includes('AirPods')) return '🎧';
-    if (productName.includes('스타벅스') || productName.includes('커피')) return '☕';
-    if (productName.includes('치킨') || productName.includes('쿠폰')) return '🍗';
-    if (productName.includes('갤럭시') || productName.includes('탭')) return '📱';
-    return '🎁';
-  };
-
+  result,
+  selectedProduct,
+  onRedraw,
+  onConfirm,
+}: RaffleResultProps) {
   return (
     <div className={s.container}>
       <div className={s.header}>
         <h2 className={s.title}>🎉 추첨 결과</h2>
       </div>
 
-      {/* 당첨자 정보 */}
+      {/* 당첨자 목록 */}
       <div className={s.winnerCard}>
-        <div className={s.winnerInfo}>
-          <div className={s.winnerName}>{participant.name}</div>
-          <div className={s.winnerDetails}>
-            <span>{participant.group}</span>
-            <span>·</span>
-            <span
-              className={s.departmentTag}
-              style={{
-                backgroundColor: departmentConfig.colors.background,
-                color: departmentConfig.colors.text,
-              }}
-            >
-              {participant.department}
-            </span>
-            <span>·</span>
-            <span>{participant.team}</span>
+        {result.winners.map((winner, index) => (
+          <div key={winner.user_id} className={s.winnerInfo}>
+            <div className={s.winnerName}>
+              {index + 1}. {winner.name}
+            </div>
+            <div className={s.winnerDetails}>
+              <span>{winner.team || '미지정'}</span>
+              <span>·</span>
+              <span>{winner.department || '미지정'}</span>
+            </div>
           </div>
-        </div>
+        ))}
 
         {/* 당첨 상품 */}
         {selectedProduct && (
           <div className={s.productInfo}>
-            <span className={s.productEmoji}>{getProductEmoji(selectedProduct.name)}</span>
+            <div className={s.productImageContainer}>
+              {selectedProduct.image_url ? (
+                <Image
+                  src={selectedProduct.image_url}
+                  alt={selectedProduct.name}
+                  width={32}
+                  height={32}
+                  className={s.productImage}
+                />
+              ) : (
+                <div className={s.productImagePlaceholder} />
+              )}
+            </div>
             <span className={s.productName}>{selectedProduct.name}</span>
           </div>
         )}

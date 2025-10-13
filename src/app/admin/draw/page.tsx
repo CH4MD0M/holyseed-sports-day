@@ -17,6 +17,7 @@ import {
 } from '@/utils/api/lottery';
 
 import ProductSelectionModal from './_components/product-selection-modal';
+import RaffleResult from './_components/raffle-result';
 import s from './page.module.css';
 import MainLayout from '@/components/layout/main-layout';
 
@@ -122,6 +123,7 @@ export default function DrawPage() {
       setPrizes(prizesData);
       setTeamStats(teamStatsData);
     } catch (error) {
+      console.log(error);
       const errorMessage = error instanceof Error ? error.message : '추첨 실행에 실패했습니다.';
       toast.error(errorMessage);
       setRaffleStatus('준비');
@@ -299,55 +301,12 @@ export default function DrawPage() {
 
             {/* 추첨 결과 */}
             {raffleStatus === '완료' && raffleResult && selectedProduct && (
-              <div className={s.container}>
-                <div className={s.header}>
-                  <h2 className={s.title}>🎉 추첨 결과</h2>
-                </div>
-
-                {/* 당첨자 목록 */}
-                <div className={s.winnerCard}>
-                  {raffleResult.winners.map((winner, index) => (
-                    <div key={winner.user_id} className={s.winnerInfo}>
-                      <div className={s.winnerName}>
-                        {index + 1}. {winner.name}
-                      </div>
-                      <div className={s.winnerDetails}>
-                        <span>{winner.team || '미지정'}</span>
-                        <span>·</span>
-                        <span>{winner.department || '미지정'}</span>
-                      </div>
-                    </div>
-                  ))}
-
-                  {/* 당첨 상품 */}
-                  <div className={s.productInfo}>
-                    <div className={s.productImageContainer}>
-                      {selectedProduct.image_url ? (
-                        <Image
-                          src={selectedProduct.image_url}
-                          alt={selectedProduct.name}
-                          width={32}
-                          height={32}
-                          className={s.productImage}
-                        />
-                      ) : (
-                        <div className={s.productImagePlaceholder} />
-                      )}
-                    </div>
-                    <span className={s.productName}>{selectedProduct.name}</span>
-                  </div>
-                </div>
-
-                {/* 액션 버튼 */}
-                <div className={s.actionButtons}>
-                  <button onClick={handleRedraw} className={s.redrawButton}>
-                    다시뽑기
-                  </button>
-                  <button onClick={handleConfirm} className={s.confirmButton}>
-                    확정하기
-                  </button>
-                </div>
-              </div>
+              <RaffleResult
+                result={raffleResult}
+                selectedProduct={selectedProduct}
+                onRedraw={handleRedraw}
+                onConfirm={handleConfirm}
+              />
             )}
           </div>
         </div>
