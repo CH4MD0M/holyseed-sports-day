@@ -1,13 +1,14 @@
 'use client';
 
+import Image from 'next/image';
 import { X } from 'lucide-react';
 
-import { type RaffleItem } from '../../../../lib/mock/sample-raffle-items';
+import { type Prize } from '@/utils/api/prizes';
 import s from './product-selection-modal.module.css';
 
 interface ProductSelectionModalProps {
-  items: RaffleItem[];
-  onSelect: (item: RaffleItem) => void;
+  items: Prize[];
+  onSelect: (item: Prize) => void;
   onClose: () => void;
 }
 
@@ -17,15 +18,7 @@ export default function ProductSelectionModal({
   onClose,
 }: ProductSelectionModalProps) {
   // 사용 가능한 상품만 필터링 (남은 수량이 있는 것만)
-  const availableItems = items.filter((item) => item.totalQuantity - item.usedQuantity > 0);
-
-  const getProductEmoji = (productName: string) => {
-    if (productName.includes('에어팟') || productName.includes('AirPods')) return '🎧';
-    if (productName.includes('스타벅스') || productName.includes('커피')) return '☕';
-    if (productName.includes('치킨') || productName.includes('쿠폰')) return '🍗';
-    if (productName.includes('갤럭시') || productName.includes('탭')) return '📱';
-    return '🎁';
-  };
+  const availableItems = items.filter((item) => item.remaining_quantity > 0);
 
   return (
     <div className={s.overlay}>
@@ -46,23 +39,29 @@ export default function ProductSelectionModal({
             </div>
           ) : (
             <div className={s.itemList}>
-              {availableItems.map((item) => {
-                const remainingCount = item.totalQuantity - item.usedQuantity;
-
-                return (
-                  <button key={item.id} onClick={() => onSelect(item)} className={s.itemButton}>
-                    <div className={s.itemContent}>
-                      <div className={s.itemIcon}>
-                        <span className={s.emoji}>{getProductEmoji(item.name)}</span>
-                      </div>
-                      <div className={s.itemInfo}>
-                        <div className={s.itemName}>{item.name}</div>
-                        <div className={s.itemCount}>{remainingCount}개 남음</div>
-                      </div>
+              {availableItems.map((item) => (
+                <button key={item.id} onClick={() => onSelect(item)} className={s.itemButton}>
+                  <div className={s.itemContent}>
+                    <div className={s.itemImageContainer}>
+                      {item.image_url ? (
+                        <Image
+                          src={item.image_url}
+                          alt={item.name}
+                          width={48}
+                          height={48}
+                          className={s.itemImage}
+                        />
+                      ) : (
+                        <div className={s.itemImagePlaceholder} />
+                      )}
                     </div>
-                  </button>
-                );
-              })}
+                    <div className={s.itemInfo}>
+                      <div className={s.itemName}>{item.name}</div>
+                      <div className={s.itemCount}>{item.remaining_quantity}개 남음</div>
+                    </div>
+                  </div>
+                </button>
+              ))}
             </div>
           )}
         </div>

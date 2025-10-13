@@ -90,15 +90,30 @@
   width: 285px;
 }
 
-.itemIcon {
+.itemImageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
 }
 
-.emoji {
-  font-size: 20px;
-  line-height: 1.4;
+.itemImage {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.itemImagePlaceholder {
+  width: 48px;
+  height: 48px;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .itemInfo {

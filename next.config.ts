@@ -14,19 +14,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.samsung.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i.namu.wiki',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.biz-con.co.kr',
-      },
-      {
-        protocol: 'https',
-        hostname: 'mblogthumb-phinf.pstatic.net',
+        hostname: 'wecycpskwumzybcvgaka.supabase.co',
       },
     ],
   },

@@ -1,19 +1,25 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Camera, X } from 'lucide-react';
 import Image from 'next/image';
 import cn from 'classnames';
+import { toast } from 'react-toastify';
 
+import { createPrize, uploadPrizeImage } from '@/utils/api/prizes';
 import s from './page.module.css';
 import PageLayout from '@/components/layout/page-layout';
 
 export default function AddRafflePage() {
+  const router = useRouter();
+
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDeleteHovered, setIsDeleteHovered] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isFormValid = productName.trim() !== '' && quantity.trim() !== '' && Number(quantity) > 0;
 
@@ -53,10 +59,36 @@ export default function AddRafflePage() {
     if (input) input.value = '';
   };
 
-  const handleSubmit = () => {
-    // TODO: 상품 등록 API 호출
-    console.log('상품 등록:', { productName, quantity, selectedImage });
-    // TODO: 등록 완료 후 목록 페이지로 이동
+  const handleSubmit = async () => {
+    if (!isFormValid || isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+
+      const totalQuantity = Number(quantity);
+
+      // 이미지 업로드
+      let imageUrl: string | null = null;
+      if (selectedImage) {
+        imageUrl = await uploadPrizeImage(selectedImage);
+      }
+
+      await createPrize({
+        name: productName,
+        description: null,
+        image_url: imageUrl,
+        total_quantity: totalQuantity,
+        remaining_quantity: totalQuantity, // 초기에는 전체 수량이 남은 수량
+      });
+
+      toast.success('상품이 등록되었습니다.');
+      router.push('/admin/prizes');
+    } catch (error) {
+      console.error('상품 등록 실패:', error);
+      toast.error('상품 등록에 실패했습니다.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -113,6 +145,7 @@ export default function AddRafflePage() {
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
               className={s.input}
+              disabled={isSubmitting}
             />
           </div>
 
@@ -125,19 +158,20 @@ export default function AddRafflePage() {
               onChange={(e) => setQuantity(e.target.value)}
               className={s.input}
               min="1"
+              disabled={isSubmitting}
             />
           </div>
         </div>
 
         <button
           onClick={handleSubmit}
-          disabled={!isFormValid}
+          disabled={!isFormValid || isSubmitting}
           className={cn(s.submitButton, {
-            [s.active]: isFormValid,
-            [s.disabled]: !isFormValid,
+            [s.active]: isFormValid && !isSubmitting,
+            [s.disabled]: !isFormValid || isSubmitting,
           })}
         >
-          상품 등록
+          {isSubmitting ? '등록 중...' : '상품 등록'}
         </button>
       </main>
     </PageLayout>

@@ -67,7 +67,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="safe-area-top safe-area-bottom">
+      <body className="safe-area-top safe-area-bottom" suppressHydrationWarning>
         <QueryProvider>
           <ToastProvider>
             <div className="container">{children}</div>
