@@ -61,7 +61,7 @@ export async function conductLottery(
   prizeId: string,
   winnerCount: number,
   lotteryMode: LotteryMode,
-  targetTeam?: string | null,
+  targetTeam?: string | null
 ): Promise<ConductLotteryResult> {
   const supabase = await supabaseServer();
 
@@ -111,7 +111,7 @@ export async function getLotteryHistory(): Promise<LotteryHistoryItem[]> {
           image_url
         )
       )
-    `,
+    `
     )
     .order('won_at', { ascending: false });
 
@@ -148,8 +148,8 @@ export async function getTeamStats(): Promise<TeamStats> {
     throw new Error('팀 통계를 불러오는데 실패했습니다.');
   }
 
-  const teamA = (data || []).filter((p) => p.team === '팀A').length;
-  const teamB = (data || []).filter((p) => p.team === '팀B').length;
+  const teamA = (data || []).filter((p) => p.team === '청팀').length;
+  const teamB = (data || []).filter((p) => p.team === '백팀').length;
 
   return {
     teamA,
@@ -188,8 +188,8 @@ export async function getEligibleParticipantsCount(): Promise<EligibleCounts> {
 
   const all = profiles.length;
   const early_bird = profiles.filter((p) => p.is_early_bird === true).length;
-  const team_a = profiles.filter((p) => p.team === '팀A').length;
-  const team_b = profiles.filter((p) => p.team === '팀B').length;
+  const team_a = profiles.filter((p) => p.team === '청팀').length;
+  const team_b = profiles.filter((p) => p.team === '백팀').length;
 
   return {
     all,

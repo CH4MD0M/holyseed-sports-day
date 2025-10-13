@@ -1,40 +1,45 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 
 import { STEPS, type Step } from './_types/step';
 import { DEPARTMENTS } from '@/lib/constants/department';
-import { userProfileSchema, type UserProfileSchemaType } from '@/lib/schemas/user-profile';
+import {
+  userProfileSetupSchema,
+  type UserProfileSetupSchemaType,
+} from '@/lib/schemas/user-profile-setup';
 
-import { useUpdateProfile } from '@/hooks/api/use-user-profile';
+import { useSetupProfile } from '@/hooks/api/use-user-profile';
+import { useCellGroups } from './_hooks/use-cell-groups';
 import { useProfileStep } from './_hooks/use-profile-step';
 
 import PageLayout from '@/components/layout/page-layout';
 import styles from '../_style/profile-form.module.css';
 
 export default function ProfileSetupPage() {
-  const router = useRouter();
-
-  const { mutateAsync, isPending } = useUpdateProfile();
+  const { mutateAsync, isPending } = useSetupProfile();
 
   const {
     control,
     handleSubmit,
     trigger,
     formState: { errors, isValid },
-  } = useForm<UserProfileSchemaType>({
-    resolver: zodResolver(userProfileSchema),
+  } = useForm<UserProfileSetupSchemaType>({
+    resolver: zodResolver(userProfileSetupSchema),
     mode: 'onChange',
     defaultValues: {
       name: '',
       department: undefined,
       birth_year: undefined,
+      cell_group: undefined,
     },
   });
+
+  const selectedDepartment = useWatch({ control, name: 'department' });
+  const { data: cellGroups, isLoading: isLoadingGroups } = useCellGroups(selectedDepartment);
 
   const [currentStep] = useProfileStep({
     control,
@@ -45,12 +50,20 @@ export default function ProfileSetupPage() {
     return STEPS.indexOf(currentStep) >= STEPS.indexOf(requiredStep);
   };
 
-  const onSubmit = async (data: UserProfileSchemaType) => {
-    const result = await mutateAsync(data);
+  const onSubmit = async (data: UserProfileSetupSchemaType) => {
+    const selectedLeader = cellGroups?.find((group) => group.leader_name === data.cell_group);
+
+    const profileData = {
+      ...data,
+      team: selectedLeader?.team,
+    };
+
+    const result = await mutateAsync(profileData);
+
     if (result.success) {
       toast.success('프로필이 성공적으로 작성되었어요!');
 
-      router.replace('/profile');
+      window.location.href = '/profile';
     } else {
       toast.error(result.error || '프로필 작성에 실패했어요 :(');
     }
@@ -135,6 +148,42 @@ export default function ProfileSetupPage() {
                 />
                 {errors.department && (
                   <span className={styles.errorMessage}>{errors.department.message}</span>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* 리더 선택  */}
+          <AnimatePresence>
+            {isStepVisible('cell_group') && selectedDepartment && (
+              <motion.div
+                className={styles.fieldGroup}
+                variants={fieldVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <label className={styles.label}>가정 리더</label>
+                <span className={styles.alertMessage}>가정 리더를 선택해주세요</span>
+                <Controller
+                  name="cell_group"
+                  control={control}
+                  render={({ field }) => (
+                    <select
+                      {...field}
+                      className={`${styles.input} ${errors.cell_group ? styles.inputError : ''}`}
+                      disabled={isLoadingGroups}
+                    >
+                      <option value="">리더를 선택해주세요</option>
+                      {cellGroups?.map((group) => (
+                        <option key={group.id} value={group.leader_name}>
+                          {group.leader_name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                />
+                {errors.cell_group && (
+                  <span className={styles.errorMessage}>{errors.cell_group.message}</span>
                 )}
               </motion.div>
             )}

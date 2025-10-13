@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 
 import { DEPARTMENTS } from '@/lib/constants/department';
-import { userProfileSchema, type UserProfileSchemaType } from '@/lib/schemas/user-profile';
+import { userProfileSchema, type UserProfileSchemaType } from '@/lib/schemas/user-profile-edit';
 import { useGetUserProfile, useUpdateProfile } from '@/hooks/api/use-user-profile';
 
 import PageLayout from '@/components/layout/page-layout';

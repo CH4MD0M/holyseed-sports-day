@@ -2,9 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { queryKeys } from '@/lib/queries/queryKey';
-import type { UserProfileSchemaType } from '@/lib/schemas/user-profile';
+import { type UserProfileSchemaType } from '@/lib/schemas/user-profile-edit';
+import { type UserProfileSetupSchemaType } from '@/lib/schemas/user-profile-setup';
 
-import { getCurrentUserProfile, updateProfile } from '@/lib/api/user-api';
+import { getCurrentUserProfile, updateProfile, setUpProfile } from '@/lib/api/user-api';
 
 export function useGetUserProfile() {
   return useQuery({
@@ -19,6 +20,23 @@ export function useGetUserProfile() {
     refetchOnMount: false, // 마운트 시 재조회 방지
     refetchOnWindowFocus: false, // 포커스 시 재조회 방지
     refetchOnReconnect: false, // 재연결 시 재조회 방지
+  });
+}
+
+export function useSetupProfile() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (profileData: UserProfileSetupSchemaType & { team?: '청팀' | '백팀' }) =>
+      setUpProfile(profileData),
+    onSuccess: (result) => {
+      if (result.success) {
+        // 프로필 쿼리 무효화하여 최신 데이터 다시 가져오기
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.user.current(),
+        });
+      }
+    },
   });
 }
 

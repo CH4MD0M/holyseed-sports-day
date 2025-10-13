@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useWatch, type Control, type UseFormTrigger } from 'react-hook-form';
 
 import { Step } from '../_types/step';
-import type { UserProfileSchemaType } from '@/lib/schemas/user-profile';
+import { type UserProfileSetupSchemaType } from '@/lib/schemas/user-profile-setup';
 
 interface UseProfileStepProps {
-  control: Control<UserProfileSchemaType>;
-  trigger: UseFormTrigger<UserProfileSchemaType>;
+  control: Control<UserProfileSetupSchemaType>;
+  trigger: UseFormTrigger<UserProfileSetupSchemaType>;
 }
 
 export function useProfileStep({ control, trigger }: UseProfileStepProps) {
@@ -14,6 +14,7 @@ export function useProfileStep({ control, trigger }: UseProfileStepProps) {
 
   const watchedName = useWatch({ control, name: 'name' });
   const watchedDepartment = useWatch({ control, name: 'department' });
+  const watchedCellGroup = useWatch({ control, name: 'cell_group' });
   const watchedBirthYear = useWatch({ control, name: 'birth_year' });
 
   useEffect(() => {
@@ -31,7 +32,16 @@ export function useProfileStep({ control, trigger }: UseProfileStepProps) {
       if (currentStep === 'department' && watchedDepartment) {
         const isValid = await trigger('department');
         if (isValid) {
-          setCurrentStep('birth_year');
+          setCurrentStep('cell_group'); // 리더 선택으로 이동
+          return;
+        }
+      }
+
+      // 리더 스텝 체크 (새로 추가!)
+      if (currentStep === 'cell_group' && watchedCellGroup) {
+        const isValid = await trigger('cell_group');
+        if (isValid) {
+          setCurrentStep('birth_year'); // 출생연도로 이동
           return;
         }
       }
@@ -44,7 +54,7 @@ export function useProfileStep({ control, trigger }: UseProfileStepProps) {
     };
 
     progressStep();
-  }, [currentStep, watchedName, watchedDepartment, watchedBirthYear, trigger, setCurrentStep]);
+  }, [currentStep, watchedName, watchedDepartment, watchedCellGroup, watchedBirthYear, trigger]);
 
   return [currentStep];
 }

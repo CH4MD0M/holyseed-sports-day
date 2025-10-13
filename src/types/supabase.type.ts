@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      cell_groups: {
+        Row: {
+          created_at: string | null
+          department: Database["public"]["Enums"]["department_type"]
+          id: string
+          leader_name: string
+          team: Database["public"]["Enums"]["team_type"]
+        }
+        Insert: {
+          created_at?: string | null
+          department: Database["public"]["Enums"]["department_type"]
+          id?: string
+          leader_name: string
+          team: Database["public"]["Enums"]["team_type"]
+        }
+        Update: {
+          created_at?: string | null
+          department?: Database["public"]["Enums"]["department_type"]
+          id?: string
+          leader_name?: string
+          team?: Database["public"]["Enums"]["team_type"]
+        }
+        Relationships: []
+      }
       lottery_events: {
         Row: {
           created_at: string | null
@@ -150,6 +174,7 @@ export type Database = {
       profiles: {
         Row: {
           birth_year: number | null
+          cell_group: string | null
           checked_in: boolean | null
           checked_in_at: string | null
           created_at: string
@@ -160,11 +185,12 @@ export type Database = {
           lottery_number: number | null
           name: string | null
           role: Database["public"]["Enums"]["user_role"]
-          team: string | null
+          team: Database["public"]["Enums"]["team_type"] | null
           updated_at: string
         }
         Insert: {
           birth_year?: number | null
+          cell_group?: string | null
           checked_in?: boolean | null
           checked_in_at?: string | null
           created_at?: string
@@ -175,11 +201,12 @@ export type Database = {
           lottery_number?: number | null
           name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
-          team?: string | null
+          team?: Database["public"]["Enums"]["team_type"] | null
           updated_at?: string
         }
         Update: {
           birth_year?: number | null
+          cell_group?: string | null
           checked_in?: boolean | null
           checked_in_at?: string | null
           created_at?: string
@@ -190,7 +217,7 @@ export type Database = {
           lottery_number?: number | null
           name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
-          team?: string | null
+          team?: Database["public"]["Enums"]["team_type"] | null
           updated_at?: string
         }
         Relationships: []
@@ -212,6 +239,7 @@ export type Database = {
     }
     Enums: {
       department_type: "청년2부" | "청년3부"
+      team_type: "청팀" | "백팀"
       user_role: "user" | "admin" | "developer"
     }
     CompositeTypes: {
@@ -341,6 +369,7 @@ export const Constants = {
   public: {
     Enums: {
       department_type: ["청년2부", "청년3부"],
+      team_type: ["청팀", "백팀"],
       user_role: ["user", "admin", "developer"],
     },
   },

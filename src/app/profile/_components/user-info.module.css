@@ -46,15 +46,17 @@
 }
 
 .badge {
-  font-size: 12px;
   font-weight: 500;
-  padding: 4px 8px;
+  padding: 6px 12px;
   border-radius: 12px;
   white-space: nowrap;
   border: 1px solid;
 }
 
+/* 역할/권한 배지 - 이름 옆에 표시 */
 .adminBadge {
+  font-size: 14px;
+  padding: 4px 8px;
   background-color: #fce7f3;
   color: #be185d;
   border-color: #f9a8d4;
@@ -64,6 +66,18 @@
   background-color: #e0f2fe;
   color: #0369a1;
   border-color: #7dd3fc;
+}
+
+.blueTeamBadge {
+  padding: 0;
+  border: none;
+  color: #3b82f6;
+}
+
+.whiteTeamBadge {
+  padding: 0;
+  border: none;
+  color: #64748b;
 }
 
 .userInfo {
