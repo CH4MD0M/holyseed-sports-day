@@ -1,16 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import cn from 'classnames';
-import { toast } from 'react-toastify';
 
-import { getLotteryHistory, type LotteryHistoryItem } from '@/utils/api/lottery';
-import { DEPARTMENT_CONFIGS } from '@/lib/mock/sample-raffle-history';
+import { useLotteryHistory } from '@/hooks/use-lottery';
+import { DEFAULT_DEPARTMENT_COLORS, DEPARTMENT_COLORS, DEPARTMENTS } from '@/constants/departments';
 
 import s from './page.module.css';
 import MainLayout from '@/components/layout/main-layout';
@@ -19,33 +18,15 @@ import MainLayout from '@/components/layout/main-layout';
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
-type Department = '청년2부' | '청년3부';
-type FilterType = 'all' | Department;
+type FilterType = 'all' | string;
 
 export default function RaffleHistoryPage() {
-  const [historyData, setHistoryData] = useState<LotteryHistoryItem[]>([]);
-  const [filteredHistory, setFilteredHistory] = useState<LotteryHistoryItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
   const [currentTime, setCurrentTime] = useState(dayjs());
-  const [isLoading, setIsLoading] = useState(true);
 
-  // 데이터 로드
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await getLotteryHistory();
-        setHistoryData(data);
-        setFilteredHistory(data);
-      } catch (error) {
-        console.error('추첨 히스토리 조회 실패:', error);
-        toast.error('추첨 히스토리를 불러오는데 실패했습니다.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadData();
-  }, []);
+  // React Query로 데이터 가져오기
+  const { data: historyData = [] } = useLotteryHistory();
 
   // 실시간 시간 업데이트
   useEffect(() => {
@@ -56,56 +37,36 @@ export default function RaffleHistoryPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // 부서 필터 변경 시 즉시 적용 (검색어 유지하면서)
-  useEffect(() => {
-    applyFilters();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeFilter, historyData]);
-
-  const applyFilters = () => {
-    let result = historyData;
-
-    // 부서 필터링
-    if (activeFilter !== 'all') {
-      result = result.filter((history) => history.department === activeFilter);
-    }
-
-    // 검색어 필터링 (검색어가 있으면 항상 적용)
-    if (searchTerm.trim()) {
-      result = result.filter((history) => {
+  // 필터링된 히스토리 계산 (useMemo로 최적화)
+  const filteredHistory = useMemo(() => {
+    return historyData
+      .filter((history) => {
+        // 부서 필터링
+        if (activeFilter === 'all') return true;
+        return history.department === activeFilter;
+      })
+      .filter((history) => {
+        // 검색어 필터링
+        if (!searchTerm.trim()) return true;
+        const lowerSearchTerm = searchTerm.toLowerCase();
         return (
-          history.winner_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          history.prize_name.toLowerCase().includes(searchTerm.toLowerCase())
+          history.winner_name.toLowerCase().includes(lowerSearchTerm) ||
+          history.prize_name.toLowerCase().includes(lowerSearchTerm)
         );
       });
-    }
+  }, [historyData, activeFilter, searchTerm]);
 
-    setFilteredHistory(result);
-  };
-
-  const handleSearch = () => {
-    // 검색 실행 시 현재 부서 필터 + 검색어 모두 적용
-    applyFilters();
-    console.log('검색 실행:', { searchTerm, activeFilter, resultCount: filteredHistory.length });
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      // 검색은 useMemo에서 자동으로 처리되므로 별도 액션 불필요
+      // 엔터 시 입력창에서 포커스 제거
+      e.currentTarget.blur();
     }
   };
 
   const getRelativeTime = (wonAt: string) => {
     return dayjs(wonAt).from(currentTime);
   };
-
-  if (isLoading) {
-    return (
-      <MainLayout title="추첨 이력">
-        <div style={{ padding: '20px', textAlign: 'center' }}>로딩 중...</div>
-      </MainLayout>
-    );
-  }
 
   return (
     <MainLayout title="추첨 이력">
@@ -122,22 +83,17 @@ export default function RaffleHistoryPage() {
             >
               전체
             </button>
-            <button
-              onClick={() => setActiveFilter('청년2부')}
-              className={cn(s.filterButton, {
-                [s.active]: activeFilter === '청년2부',
-              })}
-            >
-              청년2부
-            </button>
-            <button
-              onClick={() => setActiveFilter('청년3부')}
-              className={cn(s.filterButton, {
-                [s.active]: activeFilter === '청년3부',
-              })}
-            >
-              청년3부
-            </button>
+            {DEPARTMENTS.map((department) => (
+              <button
+                key={department}
+                onClick={() => setActiveFilter(department)}
+                className={cn(s.filterButton, {
+                  [s.active]: activeFilter === department,
+                })}
+              >
+                {department}
+              </button>
+            ))}
           </div>
 
           {/* 검색 입력창 */}
@@ -147,10 +103,10 @@ export default function RaffleHistoryPage() {
               placeholder="이름, 상품명으로 검색"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
               className={s.searchInput}
             />
-            <button onClick={handleSearch} className={s.searchButton}>
+            <button className={s.searchButton}>
               <Search size={20} />
             </button>
           </div>
@@ -165,10 +121,10 @@ export default function RaffleHistoryPage() {
           {/* 추첨 이력 목록 */}
           <div className={s.historyList}>
             {filteredHistory.map((history) => {
-              const departmentConfig =
-                history.department && DEPARTMENT_CONFIGS[history.department as Department]
-                  ? DEPARTMENT_CONFIGS[history.department as Department]
-                  : { colors: { background: '#E5E7EB', text: '#374151' } };
+              const departmentColors =
+                history.department && DEPARTMENT_COLORS[history.department]
+                  ? DEPARTMENT_COLORS[history.department]
+                  : DEFAULT_DEPARTMENT_COLORS;
 
               return (
                 <div key={history.id} className={s.historyCard}>
@@ -180,8 +136,8 @@ export default function RaffleHistoryPage() {
                         <div
                           className={s.departmentTag}
                           style={{
-                            backgroundColor: departmentConfig.colors.background,
-                            color: departmentConfig.colors.text,
+                            backgroundColor: departmentColors.background,
+                            color: departmentColors.text,
                           }}
                         >
                           {history.department}
