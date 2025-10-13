@@ -1,7 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
 
-import { getPrizes } from '@/utils/api/prizes';
+import { usePrizes } from '@/hooks/use-prizes';
 
 import MainLayout from '@/components/layout/main-layout';
 import PrizeSummary from './_components/prize-summary';
@@ -9,8 +11,8 @@ import PrizeListItem from './_components/prize-list-item';
 
 import styles from './page.module.css';
 
-export default async function RafflePage() {
-  const prizes = await getPrizes();
+export default function RafflePage() {
+  const { data: prizes = [] } = usePrizes();
 
   return (
     <MainLayout title="추첨 상품 관리">

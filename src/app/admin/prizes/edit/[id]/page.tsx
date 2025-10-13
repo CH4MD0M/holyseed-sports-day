@@ -7,7 +7,8 @@ import Image from 'next/image';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 
-import { getPrizeById, updatePrize, uploadPrizeImage, type Prize } from '@/utils/api/prizes';
+import { usePrize, useUpdatePrize } from '@/hooks/use-prizes';
+import { uploadPrizeImage } from '@/utils/api/prizes';
 
 import PageLayout from '@/components/layout/page-layout';
 import s from './page.module.css';
@@ -17,44 +18,25 @@ export default function EditRafflePage() {
   const router = useRouter();
   const id = params.id as string;
 
-  const [prize, setPrize] = useState<Prize | null>(null);
+  const { data: prize } = usePrize(id);
+  const { mutateAsync: updatePrizeMutation } = useUpdatePrize();
+
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDeleteHovered, setIsDeleteHovered] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
+  // prize 데이터 로드 후 폼 초기화
   useEffect(() => {
-    const loadPrize = async () => {
-      try {
-        const foundPrize = await getPrizeById(id);
-        if (!foundPrize) {
-          alert('존재하지 않는 상품입니다.');
-          router.push('/admin/prizes');
-          return;
-        }
-
-        setPrize(foundPrize);
-        setProductName(foundPrize.name);
-        setQuantity(foundPrize.total_quantity.toString());
-
-        // 기존 이미지가 있으면 미리보기로 설정
-        if (foundPrize.image_url) {
-          setImagePreview(foundPrize.image_url);
-        }
-      } catch (error) {
-        console.error('상품 조회 실패:', error);
-        toast.error('상품 정보를 불러오는데 실패했습니다.');
-        router.push('/admin/prizes');
-      } finally {
-        setIsLoading(false);
+    if (prize) {
+      setProductName(prize.name);
+      setQuantity(prize.total_quantity.toString());
+      if (prize.image_url) {
+        setImagePreview(prize.image_url);
       }
-    };
-
-    loadPrize();
-  }, [id, router]);
+    }
+  }, [prize]);
 
   const isFormValid = productName.trim() !== '' && quantity.trim() !== '' && Number(quantity) > 0;
 
@@ -106,7 +88,7 @@ export default function EditRafflePage() {
   };
 
   const handleSubmit = async () => {
-    if (!prize || !isFormValid || isSubmitting) return;
+    if (!prize || !isFormValid) return;
 
     if (newTotalQuantity < usedQuantity) {
       toast.error(`수량은 사용된 수량(${usedQuantity}개)보다 작을 수 없습니다.`);
@@ -114,19 +96,20 @@ export default function EditRafflePage() {
     }
 
     try {
-      setIsSubmitting(true);
-
       // 새 이미지가 있으면 업로드
       let imageUrl: string | null = prize.image_url;
       if (selectedImage) {
         imageUrl = await uploadPrizeImage(selectedImage);
       }
 
-      await updatePrize(id, {
-        name: productName,
-        total_quantity: newTotalQuantity,
-        remaining_quantity: newRemainingQuantity,
-        image_url: imageUrl,
+      await updatePrizeMutation({
+        id,
+        prize: {
+          name: productName,
+          total_quantity: newTotalQuantity,
+          remaining_quantity: newRemainingQuantity,
+          image_url: imageUrl,
+        },
       });
 
       toast.success('상품이 수정되었습니다.');
@@ -134,18 +117,8 @@ export default function EditRafflePage() {
     } catch (error) {
       console.error('상품 수정 실패:', error);
       toast.error('상품 수정에 실패했습니다.');
-    } finally {
-      setIsSubmitting(false);
     }
   };
-
-  if (isLoading) {
-    return (
-      <PageLayout title="상품 수정">
-        <div style={{ padding: '20px', textAlign: 'center' }}>로딩 중...</div>
-      </PageLayout>
-    );
-  }
 
   if (!prize) {
     return null;
@@ -205,7 +178,6 @@ export default function EditRafflePage() {
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
               className={s.input}
-              disabled={isSubmitting}
             />
           </div>
 
@@ -238,20 +210,19 @@ export default function EditRafflePage() {
               onChange={handleQuantityChange}
               className={s.input}
               min={usedQuantity}
-              disabled={isSubmitting}
             />
           </div>
         </div>
 
         <button
           onClick={handleSubmit}
-          disabled={!isFormValid || isSubmitting}
+          disabled={!isFormValid}
           className={cn(s.submitButton, {
-            [s.active]: isFormValid && !isSubmitting,
-            [s.disabled]: !isFormValid || isSubmitting,
+            [s.active]: isFormValid,
+            [s.disabled]: !isFormValid,
           })}
         >
-          {isSubmitting ? '수정 중...' : '수정 완료'}
+          수정 완료
         </button>
       </div>
     </PageLayout>
