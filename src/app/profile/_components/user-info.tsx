@@ -42,13 +42,24 @@ const UserInfo = ({ user }: UserInfoProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
         >
-          <span className={`${styles.infoItem} ${!user.team ? styles.pending : ''}`}>
-            {user.team ? `${user.team} 팀` : '팀 분류중'}
-          </span>
-          <span className={styles.separator}>&#183;</span>
           <span className={`${styles.infoItem} ${!user.department ? styles.pending : ''}`}>
             {user.department || '부서 미입력'}
           </span>
+
+          <span className={styles.separator}>&#183;</span>
+          {user.team && (user.team === '청팀' || user.team === '백팀') ? (
+            <span
+              className={`${styles.badge} ${
+                user.team === '청팀' ? styles.blueTeamBadge : styles.whiteTeamBadge
+              }`}
+            >
+              {user.team}
+            </span>
+          ) : (
+            <span className={`${styles.infoItem} ${!user.team ? styles.pending : ''}`}>
+              {user.team ? `${user.team}` : '팀 분류중'}
+            </span>
+          )}
         </motion.div>
       </div>
 
