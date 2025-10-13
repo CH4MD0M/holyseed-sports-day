@@ -149,11 +149,15 @@ const ProfileEditPage = () => {
               render={({ field }) => (
                 <input
                   {...field}
+                  value={field.value ?? ''}
                   id="birth_year"
                   type="number"
                   className={`${styles.input} ${errors.birth_year ? styles.inputError : ''}`}
                   placeholder="출생연도를 입력해주세요"
-                  onChange={(e) => field.onChange(parseInt(e.target.value) || undefined)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value === '' ? undefined : parseInt(value));
+                  }}
                 />
               )}
             />

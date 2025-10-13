@@ -7,19 +7,20 @@ import Image from 'next/image';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 
-import { createPrize, uploadPrizeImage } from '@/utils/api/prizes';
+import { useCreatePrize } from '@/hooks/use-prizes';
+import { uploadPrizeImage } from '@/utils/api/prizes';
 import s from './page.module.css';
 import PageLayout from '@/components/layout/page-layout';
 
 export default function AddRafflePage() {
   const router = useRouter();
+  const { mutateAsync: createPrizeMutation } = useCreatePrize();
 
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDeleteHovered, setIsDeleteHovered] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isFormValid = productName.trim() !== '' && quantity.trim() !== '' && Number(quantity) > 0;
 
@@ -60,11 +61,9 @@ export default function AddRafflePage() {
   };
 
   const handleSubmit = async () => {
-    if (!isFormValid || isSubmitting) return;
+    if (!isFormValid) return;
 
     try {
-      setIsSubmitting(true);
-
       const totalQuantity = Number(quantity);
 
       // 이미지 업로드
@@ -73,7 +72,7 @@ export default function AddRafflePage() {
         imageUrl = await uploadPrizeImage(selectedImage);
       }
 
-      await createPrize({
+      await createPrizeMutation({
         name: productName,
         description: null,
         image_url: imageUrl,
@@ -86,8 +85,6 @@ export default function AddRafflePage() {
     } catch (error) {
       console.error('상품 등록 실패:', error);
       toast.error('상품 등록에 실패했습니다.');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -145,7 +142,6 @@ export default function AddRafflePage() {
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
               className={s.input}
-              disabled={isSubmitting}
             />
           </div>
 
@@ -158,20 +154,19 @@ export default function AddRafflePage() {
               onChange={(e) => setQuantity(e.target.value)}
               className={s.input}
               min="1"
-              disabled={isSubmitting}
             />
           </div>
         </div>
 
         <button
           onClick={handleSubmit}
-          disabled={!isFormValid || isSubmitting}
+          disabled={!isFormValid}
           className={cn(s.submitButton, {
-            [s.active]: isFormValid && !isSubmitting,
-            [s.disabled]: !isFormValid || isSubmitting,
+            [s.active]: isFormValid,
+            [s.disabled]: !isFormValid,
           })}
         >
-          {isSubmitting ? '등록 중...' : '상품 등록'}
+          상품 등록
         </button>
       </main>
     </PageLayout>

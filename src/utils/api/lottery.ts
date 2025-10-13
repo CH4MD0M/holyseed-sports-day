@@ -3,7 +3,6 @@
 import { revalidatePath } from 'next/cache';
 import { supabaseServer } from '@/utils/supabase/server';
 
-
 export type LotteryMode = 'all' | 'early_bird' | 'team_specific';
 
 /**
@@ -142,10 +141,7 @@ export async function getLotteryHistory(): Promise<LotteryHistoryItem[]> {
 export async function getTeamStats(): Promise<TeamStats> {
   const supabase = await supabaseServer();
 
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('team')
-    .eq('checked_in', true);
+  const { data, error } = await supabase.from('profiles').select('team').eq('checked_in', true);
 
   if (error) {
     console.error('팀 통계 조회 실패:', error);
