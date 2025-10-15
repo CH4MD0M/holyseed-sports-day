@@ -18,7 +18,6 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  flex: 1;
 }
 
 .fieldGroup {
@@ -73,14 +72,14 @@
 }
 
 .iconWrapper {
-  width: 80px;
-  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 110px;
+  height: 110px;
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   border-radius: 50%;
-  box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
 }
 
 .successIcon {
@@ -190,6 +189,54 @@
   cursor: not-allowed;
 }
 
+/* ===== 체크인 준비중 화면 ===== */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  gap: 24px;
+  margin: 0 auto;
+}
+
+.icon {
+  color: white;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.description {
+  font-size: 18px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.noticeText {
+  font-size: 14px;
+  color: #0c4a6e;
+  line-height: 1.5;
+}
+
 /* 반응형 */
 @media (max-width: 640px) {
   .container {
@@ -202,13 +249,18 @@
   }
 
   .iconWrapper {
-    width: 64px;
-    height: 64px;
+    width: 100px;
+    height: 100px;
   }
 
   .successIcon {
     width: 38px;
     height: 38px;
+  }
+
+  .icon {
+    width: 48px;
+    height: 48px;
   }
 
   .resultTitle {
@@ -230,6 +282,18 @@
   .earlyBirdBadge {
     padding: 10px 20px;
     font-size: 14px;
+  }
+
+  .content {
+    padding: 32px 16px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .description {
+    font-size: 16px;
   }
 }
 
