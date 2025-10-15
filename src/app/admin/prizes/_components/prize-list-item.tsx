@@ -4,12 +4,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import cn from 'classnames';
-import { EllipsisVertical, Edit2, Trash2 } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { toast } from 'react-toastify';
+import { EllipsisVertical, Edit2, Trash2 } from 'lucide-react';
 
+import { useModalStore } from '@/store/use-modal-store';
 import { deletePrize, type Prize } from '@/utils/api/prizes';
+
+import { ConfirmModal } from '@/components/modal/confirm-modal';
 import styles from './prize-list-item.module.css';
 
 interface PrizeListItemProps {
@@ -17,6 +20,8 @@ interface PrizeListItemProps {
 }
 
 const PrizeListItem = ({ prize }: PrizeListItemProps) => {
+  const { openModal, closeModal } = useModalStore(['openModal', 'closeModal']);
+
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -27,19 +32,28 @@ const PrizeListItem = ({ prize }: PrizeListItemProps) => {
     setActiveMenuId(activeMenuId === prizeId ? null : prizeId);
   };
 
+  const handleOpenDeleteModal = (prizeId: string) => {
+    openModal(
+      'confirm-modal',
+      <ConfirmModal
+        title="상품 삭제"
+        content="상품을 삭제하시겠습니까?"
+        closeBtnText="아니오"
+        confirmBtnText="예"
+        onClose={() => closeModal('confirm-modal')}
+        onConfirm={() => handleDelete(prizeId)}
+      />
+    );
+  };
+
   const handleDelete = async (prizeId: string) => {
     if (isDeleting) return;
-
-    const confirmDelete = window.confirm('정말 이 상품을 삭제하시겠습니까?');
-    if (!confirmDelete) {
-      setActiveMenuId(null);
-      return;
-    }
 
     try {
       setIsDeleting(true);
       await deletePrize(prizeId);
       toast.success('상품이 삭제되었습니다.');
+
       router.refresh();
     } catch (error) {
       console.error('상품 삭제 실패:', error);
@@ -47,6 +61,7 @@ const PrizeListItem = ({ prize }: PrizeListItemProps) => {
     } finally {
       setIsDeleting(false);
       setActiveMenuId(null);
+      closeModal('confirm-modal');
     }
   };
 
@@ -67,9 +82,7 @@ const PrizeListItem = ({ prize }: PrizeListItemProps) => {
     };
   }, [activeMenuId, prize.id]);
 
-  // 사용된 수량 = 총 수량 - 남은 수량
-  const usedQuantity = prize.total_quantity - prize.remaining_quantity;
-  const progressPercentage = (usedQuantity / prize.total_quantity) * 100;
+  const progressPercentage = (prize.remaining_quantity / prize.total_quantity) * 100;
 
   return (
     <div className={styles.itemRow}>
@@ -94,7 +107,7 @@ const PrizeListItem = ({ prize }: PrizeListItemProps) => {
             )}
           </div>
           <span className={styles.quantityText}>
-            {usedQuantity}/{prize.total_quantity}
+            {prize.remaining_quantity}/{prize.total_quantity}개
           </span>
         </div>
       </div>
@@ -127,7 +140,7 @@ const PrizeListItem = ({ prize }: PrizeListItemProps) => {
               </Link>
               <button
                 className={cn(styles.dropdownItem, styles.delete)}
-                onClick={() => handleDelete(prize.id)}
+                onClick={() => handleOpenDeleteModal(prize.id)}
                 disabled={isDeleting}
               >
                 <Trash2 size={16} />
