@@ -1,16 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import { EllipsisVertical, Edit2, Trash2 } from 'lucide-react';
+import { Edit2, EllipsisVertical, Trash2 } from 'lucide-react';
 
 import { useModalStore } from '@/store/use-modal-store';
-import { deletePrize, type Prize } from '@/utils/api/prizes';
+import { useDeletePrize } from '@/hooks/use-prizes';
+import type { Prize } from '@/utils/api/prizes';
 
 import { ConfirmModal } from '@/components/modal/confirm-modal';
 import styles from './prize-list-item.module.css';
@@ -21,12 +21,11 @@ interface PrizeListItemProps {
 
 const PrizeListItem = ({ prize }: PrizeListItemProps) => {
   const { openModal, closeModal } = useModalStore(['openModal', 'closeModal']);
+  const { mutate: deletePrizeMutate, isPending } = useDeletePrize();
 
-  const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleMenuToggle = (prizeId: string) => {
     setActiveMenuId(activeMenuId === prizeId ? null : prizeId);
@@ -42,27 +41,22 @@ const PrizeListItem = ({ prize }: PrizeListItemProps) => {
         confirmBtnText="예"
         onClose={() => closeModal('confirm-modal')}
         onConfirm={() => handleDelete(prizeId)}
-      />
+      />,
     );
   };
 
-  const handleDelete = async (prizeId: string) => {
-    if (isDeleting) return;
-
-    try {
-      setIsDeleting(true);
-      await deletePrize(prizeId);
-      toast.success('상품이 삭제되었습니다.');
-
-      router.refresh();
-    } catch (error) {
-      console.error('상품 삭제 실패:', error);
-      toast.error('상품 삭제에 실패했습니다.');
-    } finally {
-      setIsDeleting(false);
-      setActiveMenuId(null);
-      closeModal('confirm-modal');
-    }
+  const handleDelete = (prizeId: string) => {
+    deletePrizeMutate(prizeId, {
+      onSuccess: () => {
+        toast.success('상품이 삭제되었습니다.');
+        setActiveMenuId(null);
+        closeModal('confirm-modal');
+      },
+      onError: (error) => {
+        console.error('상품 삭제 실패:', error);
+        toast.error('상품 삭제에 실패했습니다.');
+      },
+    });
   };
 
   // 외부 클릭 감지
@@ -116,7 +110,7 @@ const PrizeListItem = ({ prize }: PrizeListItemProps) => {
         <button
           className={styles.menuButton}
           onClick={() => handleMenuToggle(prize.id)}
-          disabled={isDeleting}
+          disabled={isPending}
         >
           <EllipsisVertical size={20} />
         </button>
@@ -141,10 +135,10 @@ const PrizeListItem = ({ prize }: PrizeListItemProps) => {
               <button
                 className={cn(styles.dropdownItem, styles.delete)}
                 onClick={() => handleOpenDeleteModal(prize.id)}
-                disabled={isDeleting}
+                disabled={isPending}
               >
                 <Trash2 size={16} />
-                {isDeleting ? '삭제 중...' : '삭제'}
+                {isPending ? '삭제 중...' : '삭제'}
               </button>
             </motion.div>
           )}
