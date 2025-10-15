@@ -2,9 +2,10 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 import { HashLoader } from 'react-spinners';
-import { CheckCircle2, Sparkles, Trophy } from 'lucide-react';
+import { CheckCircle2, Sparkles, Trophy, Calendar } from 'lucide-react';
 
 import { checkinSchema, type CheckinSchemaType } from '@/lib/schemas/check-in';
 import { useCheckInStatus, useCheckIn } from './_hooks/use-check-in';
@@ -13,6 +14,10 @@ import MainLayout from '@/components/layout/main-layout';
 import styles from './check-in-page.module.css';
 
 const CheckInPage = () => {
+  const CHECK_IN_START = new Date('2025-10-19 12:00:00');
+  const now = new Date();
+  const isCheckInAvailable = now >= CHECK_IN_START;
+
   const { data: checkInStatus, isLoading } = useCheckInStatus();
   const checkInMutation = useCheckIn();
 
@@ -44,6 +49,36 @@ const CheckInPage = () => {
           <div className={styles.loadingContainer}>
             <HashLoader color="#059669" size={50} speedMultiplier={0.8} />
           </div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  // 체크인 시간 전
+  if (!isCheckInAvailable) {
+    return (
+      <MainLayout title="체크인">
+        <div className={styles.container}>
+          <motion.div
+            className={styles.content}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.div
+              className={styles.iconWrapper}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: 'spring', stiffness: 180, damping: 15 }}
+            >
+              <Calendar className={styles.icon} size={56} />
+            </motion.div>
+
+            <h1 className={styles.title}>체크인 준비중</h1>
+            <p className={styles.description}>
+              {dayjs(CHECK_IN_START).format('MM월 DD일 HH시')}부터 체크인하실 수 있습니다
+            </p>
+          </motion.div>
         </div>
       </MainLayout>
     );
