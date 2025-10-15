@@ -21,3 +21,13 @@ export const schoolSafetyWave = localFont({
   display: 'swap',
   variable: '--font-school-safety-wave',
 });
+
+export const eunpyeongSagaDokseo = localFont({
+  src: [
+    {
+      path: '../../public/fonts/EunpyeongSagaDogseoText-Regular.otf',
+      weight: 'normal',
+    },
+  ],
+  display: 'swap',
+});
