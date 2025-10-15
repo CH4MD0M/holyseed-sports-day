@@ -1,6 +1,7 @@
+import cn from 'classnames';
+
 import { BaseModal } from './base-modal';
 import styles from './confirm-modal.module.css';
-
 interface ConfirmModalProps {
   title: string;
   content: string;
@@ -26,7 +27,7 @@ export const ConfirmModal = ({
         <h2 className={styles.modalTitle}>{title}</h2>
         <div className={styles.modalContent}>{content}</div>
         <div className={styles.buttonGroup}>
-          <button className={styles.modalButton} onClick={onClose}>
+          <button className={cn(styles.modalButton, styles.secondary)} onClick={onClose}>
             {closeBtnText}
           </button>
 
