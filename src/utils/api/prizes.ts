@@ -17,7 +17,7 @@ export async function getPrizes(): Promise<Prize[]> {
   const { data, error } = await supabase
     .from('prizes')
     .select('*')
-    .order('created_at', { ascending: false });
+    .order('priority', { ascending: false });
 
   if (error) {
     console.error('상품 목록 조회 실패:', error);
