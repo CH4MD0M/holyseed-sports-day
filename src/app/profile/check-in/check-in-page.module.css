@@ -68,7 +68,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 32px;
 }
 
 .iconWrapper {
@@ -99,70 +99,58 @@
   margin: 0;
 }
 
-.resultName {
-  font-size: 22px;
-  color: #1f2937;
-  font-weight: 600;
-  margin: 0;
-}
-
-.lotteryCard {
+/* Info Card - 명찰 작성용 */
+.infoCard {
   width: 100%;
-  max-width: 240px;
+  max-width: 400px;
   background: white;
-  border-radius: 20px;
-  padding: 32px 24px;
-  box-shadow: 0 0px 30px rgba(16, 185, 129, 0.15);
-  border: 2px solid #10b981;
-}
-
-.lotteryLabel {
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.infoLabel {
+  font-size: 16px;
   font-weight: 600;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 16px;
+  color: #64748b;
 }
 
-.trophyIcon {
-  width: 20px;
-  height: 20px;
-  color: #10b981;
+.infoValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
 }
 
-.lotteryNumber {
-  font-size: 64px;
+.teamBlueText {
+  color: #3b82f6;
+}
+
+.teamWhiteText {
+  color: #64748b;
+}
+
+.lotteryValue {
+  font-size: 32px;
   font-weight: 900;
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  line-height: 1;
-  text-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
-}
-
-.earlyBirdBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-size: 15px;
-  font-weight: 600;
-  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.sparkleIcon {
-  width: 20px;
-  height: 20px;
 }
 
 .submitButton {
@@ -219,24 +207,6 @@
   line-height: 1.6;
 }
 
-.notice {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 16px 24px;
-  background-color: #f0f9ff;
-  border: 1px solid #bae6fd;
-  border-radius: 12px;
-  width: 100%;
-}
-
-.noticeText {
-  font-size: 14px;
-  color: #0c4a6e;
-  line-height: 1.5;
-}
-
 /* 반응형 */
 @media (max-width: 640px) {
   .container {
@@ -245,7 +215,7 @@
 
   .resultContainer {
     padding: 32px 16px;
-    gap: 32px;
+    gap: 24px;
   }
 
   .iconWrapper {
@@ -267,21 +237,22 @@
     font-size: 24px;
   }
 
-  .resultName {
-    font-size: 20px;
+  .infoCard {
+    margin-top: 48px;
+    padding: 24px;
+    gap: 20px;
   }
 
-  .lotteryLabel {
-    font-size: 13px;
+  .infoLabel {
+    font-size: 16px;
   }
 
-  .lotteryNumber {
-    font-size: 56px;
+  .infoValue {
+    font-size: 18px;
   }
 
-  .earlyBirdBadge {
-    padding: 10px 20px;
-    font-size: 14px;
+  .lotteryValue {
+    font-size: 22px;
   }
 
   .content {
@@ -294,17 +265,5 @@
 
   .description {
     font-size: 16px;
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
   }
 }

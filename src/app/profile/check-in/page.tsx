@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 import { HashLoader } from 'react-spinners';
-import { CheckCircle2, Sparkles, Trophy, Calendar } from 'lucide-react';
+import { CheckCircle2, Trophy, Calendar, Users } from 'lucide-react';
 
 import { checkinSchema, type CheckinSchemaType } from '@/lib/schemas/check-in';
 import { useCheckInStatus, useCheckIn } from './_hooks/use-check-in';
@@ -16,7 +16,8 @@ import styles from './check-in-page.module.css';
 const CheckInPage = () => {
   const CHECK_IN_START = new Date('2025-10-19 12:00:00');
   const now = new Date();
-  const isCheckInAvailable = now >= CHECK_IN_START;
+  // const isCheckInAvailable = now >= CHECK_IN_START;
+  const isCheckInAvailable = true;
 
   const { data: checkInStatus, isLoading } = useCheckInStatus();
   const checkInMutation = useCheckIn();
@@ -87,81 +88,76 @@ const CheckInPage = () => {
   if (checkInStatus?.isCheckedIn) {
     return (
       <MainLayout title="체크인">
-        <div className={styles.container}>
+        <motion.div
+          className={styles.resultContainer}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Success Icon with Animation */}
           <motion.div
-            className={styles.resultContainer}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{
+              type: 'spring',
+              stiffness: 260,
+              damping: 20,
+              delay: 0.1,
+            }}
+            className={styles.iconWrapper}
+          >
+            <CheckCircle2 className={styles.successIcon} />
+          </motion.div>
+
+          {/* Title */}
+          <motion.h2
+            className={styles.resultTitle}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            체크인 완료!
+          </motion.h2>
+
+          {/* Info Card */}
+          <motion.div
+            className={styles.infoCard}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{
+              type: 'spring',
+              stiffness: 200,
+              damping: 15,
+              delay: 0.4,
+            }}
           >
-            {/* Success Icon with Animation */}
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{
-                type: 'spring',
-                stiffness: 260,
-                damping: 20,
-                delay: 0.1,
-              }}
-              className={styles.iconWrapper}
-            >
-              <CheckCircle2 className={styles.successIcon} />
-            </motion.div>
+            {/* Name Section */}
+            <div className={styles.infoRow}>
+              <span className={styles.infoLabel}>이름</span>
+              <span className={styles.infoValue}>{checkInStatus.name}</span>
+            </div>
 
-            {/* Title */}
-            <motion.h2
-              className={styles.resultTitle}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              체크인 완료!
-            </motion.h2>
-
-            {/* Name */}
-            <motion.p
-              className={styles.resultName}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              {checkInStatus.name}
-            </motion.p>
-
-            {/* Lottery Number Card */}
-            <motion.div
-              className={styles.lotteryCard}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                type: 'spring',
-                stiffness: 200,
-                damping: 15,
-                delay: 0.5,
-              }}
-            >
-              <div className={styles.lotteryLabel}>
-                <Trophy className={styles.trophyIcon} />
-                <span>추첨 번호</span>
+            {/* Team Section */}
+            {checkInStatus.team && (
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>팀</span>
+                <span
+                  className={`${styles.infoValue} ${
+                    checkInStatus.team === '청팀' ? styles.teamBlueText : styles.teamWhiteText
+                  }`}
+                >
+                  {checkInStatus.team}
+                </span>
               </div>
-              <div className={styles.lotteryNumber}>{checkInStatus.lotteryNumber}</div>
-            </motion.div>
-
-            {/* Early Bird Badge */}
-            {checkInStatus.isEarlyBird && (
-              <motion.div
-                className={styles.earlyBirdBadge}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
-              >
-                <Sparkles className={styles.sparkleIcon} />
-                <span>얼리버드 달성!</span>
-              </motion.div>
             )}
+
+            {/* Lottery Number Section */}
+            <div className={styles.infoRow}>
+              <span className={styles.infoLabel}>추첨 번호</span>
+              <span className={styles.lotteryValue}>{checkInStatus.lotteryNumber}</span>
+            </div>
           </motion.div>
-        </div>
+        </motion.div>
       </MainLayout>
     );
   }

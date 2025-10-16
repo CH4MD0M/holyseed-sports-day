@@ -1,6 +1,7 @@
+import { type CheckInResult, type CheckInStatusResult } from '@/types/CheckIn';
+
 import { supabaseClient } from '@/utils/supabase/client';
 import { getCurrentUser } from './auth-check-api';
-import { type CheckInResult, type CheckInStatusResult } from '@/types/CheckIn';
 
 export const checkInUser = async (): Promise<CheckInResult> => {
   try {
@@ -20,7 +21,7 @@ export const checkInUser = async (): Promise<CheckInResult> => {
         checked_in_at: new Date().toISOString(),
       })
       .eq('id', user.id)
-      .select('name, lottery_number, is_early_bird')
+      .select('name, lottery_number, team')
       .single();
 
     if (error) {
@@ -32,7 +33,7 @@ export const checkInUser = async (): Promise<CheckInResult> => {
       data: {
         name: data.name,
         lotteryNumber: data.lottery_number,
-        isEarlyBird: data.is_early_bird,
+        team: data.team,
       },
     };
   } catch (error) {
@@ -57,7 +58,7 @@ export const getCheckInStatus = async (): Promise<CheckInStatusResult> => {
 
     const { data, error } = await supabaseClient
       .from('profiles')
-      .select('checked_in, name, lottery_number, is_early_bird')
+      .select('checked_in, name, lottery_number, team')
       .eq('id', user.id)
       .single();
 
@@ -71,7 +72,7 @@ export const getCheckInStatus = async (): Promise<CheckInStatusResult> => {
         isCheckedIn: data.checked_in || false,
         name: data.name,
         lotteryNumber: data.lottery_number,
-        isEarlyBird: data.is_early_bird,
+        team: data.team,
       },
     };
   } catch (error) {
