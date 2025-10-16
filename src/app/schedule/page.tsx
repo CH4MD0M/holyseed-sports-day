@@ -65,7 +65,7 @@ const SchedulePage = () => {
             <div className={styles.scheduleItem}>
               <span className={styles.time}>1:40~2:10</span>
               <span>
-                달려라 줄뺏기(전략)
+                달려와 줄뺏기
                 <br /> 꼬마야꼬마야
               </span>
             </div>
