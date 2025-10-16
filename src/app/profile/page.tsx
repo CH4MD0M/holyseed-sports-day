@@ -5,15 +5,7 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
 
-import {
-  type LucideIcon,
-  CheckCircle,
-  Trophy,
-  Gift,
-  PlayCircle,
-  History,
-  LogOut,
-} from 'lucide-react';
+import { type LucideIcon, CheckCircle, Trophy, Gift, PlayCircle, LogOut } from 'lucide-react';
 
 import { useGetUserProfile } from '@/hooks/api/use-user-profile';
 import { supabaseClient } from '@/utils/supabase/client';
@@ -36,7 +28,6 @@ const MENU_ITEMS: MenuItem[] = [
 const ADMIN_MENU_ITEMS: MenuItem[] = [
   { label: '추첨 상품 관리', href: '/admin/prizes', icon: Gift },
   { label: '추첨 진행', href: '/admin/draw', icon: PlayCircle },
-  { label: '추첨 이력', href: '/admin/draw-history', icon: History },
 ];
 
 const ProfilePage = () => {
