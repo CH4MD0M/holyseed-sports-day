@@ -1,7 +1,11 @@
 .container {
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  padding: 24px 16px;
+  padding-bottom: calc(64px + env(safe-area-inset-bottom) + 80px);
+  margin: 0 auto;
+  gap: 20px;
+  width: 100%;
 }
 
 .main {

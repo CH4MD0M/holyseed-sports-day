@@ -1,0 +1,225 @@
+.container {
+  padding: 16px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #f2f4f2;
+  border-radius: 8px;
+}
+
+/* Header */
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* Section */
+.section {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin: 0 0 12px 0;
+}
+
+/* 추첨 모드 */
+.modeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.modeButton {
+  padding: 16px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modeButton:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.modeButtonActive {
+  background: #10b981;
+  border-color: #10b981;
+  color: white;
+}
+
+.modeButtonActive:hover {
+  background: #059669;
+  border-color: #059669;
+}
+
+/* 팀 선택 */
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.teamButton {
+  padding: 16px;
+  border: 2px solid;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.blueTeam {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.blueTeam:hover {
+  background: #e0f2fe;
+}
+
+.blueTeam.teamButtonActive {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.whiteTeam {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.whiteTeam:hover {
+  background: #f1f5f9;
+}
+
+.whiteTeam.teamButtonActive {
+  background: #64748b;
+  border-color: #64748b;
+  color: white;
+}
+
+/* 상품 선택 */
+.prizeSelectButton {
+  width: 100%;
+  padding: 40px 20px;
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.prizeSelectButton:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.prizeIcon {
+  width: 32px;
+  height: 32px;
+  color: #94a3b8;
+}
+
+.prizeText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+/* 뽑을 인원 수 */
+.countHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.countInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.countInput {
+  padding: 6px 12px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  border: 2px solid #10b981;
+  border-radius: 12px;
+  color: #1e293b;
+}
+
+.countInput:focus {
+  outline: none;
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.maxCount {
+  font-size: 16px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+/* Remove number input arrows */
+.countInput::-webkit-inner-spin-button,
+.countInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.countInput[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* 반응형 */
+@media (max-width: 640px) {
+  .container {
+    padding: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 14px;
+  }
+
+  .modeButton,
+  .teamButton {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .prizeSelectButton {
+    padding: 32px 16px;
+  }
+
+  .prizeIcon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .prizeText {
+    font-size: 13px;
+  }
+}

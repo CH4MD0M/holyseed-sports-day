@@ -1,0 +1,168 @@
+.container {
+  padding: 16px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #f2f4f2;
+  border-radius: 8px;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.errorText {
+  text-align: center;
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 32px 16px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.headerIcon {
+  width: 24px;
+  height: 24px;
+  color: #10b981;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* Stat Card */
+.statCard {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.statHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.statIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.statLabel {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+/* Total Card */
+.totalCard {
+  border: 2px solid #10b981;
+}
+
+.totalCard .statIcon {
+  color: #10b981;
+}
+
+.totalCard .statLabel {
+  color: #10b981;
+}
+
+.totalCard .statValue {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Blue Team Card */
+.blueCard {
+  border: 2px solid #3b82f6;
+}
+
+.blueCard .statIcon {
+  color: #3b82f6;
+}
+
+.blueCard .statLabel {
+  color: #3b82f6;
+}
+
+.blueCard .statValue {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* White Team Card */
+.whiteCard {
+  border: 2px solid #94a3b8;
+}
+
+.whiteCard .statIcon {
+  color: #64748b;
+}
+
+.whiteCard .statLabel {
+  color: #64748b;
+}
+
+.whiteCard .statValue {
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 반응형 - 태블릿 이상 */
+@media (min-width: 640px) {
+  .container {
+    padding: 24px;
+  }
+
+  .statsGrid {
+    gap: 16px;
+  }
+
+  .statCard {
+    padding: 20px;
+  }
+
+  .statValue {
+    font-size: 20px;
+  }
+}

@@ -1,11 +1,19 @@
 'use client';
 
-import ComingSoonPage from '@/components/coming-soon/coming-soon';
+import MainLayout from '@/components/layout/main-layout';
+import TeamStatus from './_components/team-status';
+
+import styles from './page.module.css';
+import DrawSetting from './_components/draw-setting';
 
 export default function DrawPage() {
   return (
-    <ComingSoonPage />
-    // <MainLayout title="추첨 진행">
+    <MainLayout title="추첨 진행">
+      <div className={styles.container}>
+        <TeamStatus />
+        <DrawSetting />
+      </div>
+    </MainLayout>
     //   <main className={s.main}>
     //     <div className={s.contentWrapper}>
     //       <div className={s.content}>
