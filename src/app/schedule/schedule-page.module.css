@@ -25,7 +25,6 @@
 
 .sectionTitle {
   font-family: 'SchoolSafetyWave';
-
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 16px;
@@ -44,11 +43,26 @@
 
 .scheduleItem {
   display: flex;
+  align-items: flex-start;
+  gap: 12px;
   color: #5a4a3a;
 }
 
+.scheduleItem span:nth-child(2) {
+  flex: 1;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
 .time {
+  flex-shrink: 0;
   width: 128px;
   color: #8b7355;
   font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0;
+  }
 }

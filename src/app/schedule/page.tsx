@@ -48,7 +48,11 @@ const SchedulePage = () => {
             </div>
             <div className={styles.scheduleItem}>
               <span className={styles.time}>1:10~1:20</span>
-              <span>준비운동, 몸풀기 레크레이션</span>
+              <span>
+                준비운동
+                <br />
+                몸풀기 레크레이션
+              </span>
             </div>
             <div className={styles.scheduleItem}>
               <span className={styles.time}>1:20~1:30</span>
@@ -60,7 +64,10 @@ const SchedulePage = () => {
             </div>
             <div className={styles.scheduleItem}>
               <span className={styles.time}>1:40~2:10</span>
-              <span>달려라 줄뺏기(전략), 꼬마야꼬마야</span>
+              <span>
+                달려라 줄뺏기(전략)
+                <br /> 꼬마야꼬마야
+              </span>
             </div>
             <div className={styles.scheduleItem}>
               <span className={styles.time}>2:10~2:30</span>
