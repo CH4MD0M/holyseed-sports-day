@@ -1,47 +1,93 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Calendar, AlertCircle } from 'lucide-react';
-
+import { useEffect, useState } from 'react';
+import { supabaseClient } from '@/utils/supabase/client';
+import { Tables } from '@/types/supabase.type';
 import MainLayout from '@/components/layout/main-layout';
-import styles from './live-draw.module.css';
+
+import NotStartedScreen from './_components/not-started-screen';
+import AnnouncingScreen from './_components/announcing-screen';
+
+type LotteryStatus = Tables<'lottery_live_status'>['status'];
 
 const LiveDrawPage = () => {
-  return (
-    <MainLayout title="실시간 추첨">
-      <div className={styles.container}>
-        <motion.div
-          className={styles.content}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <motion.div
-            className={styles.iconWrapper}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: 'spring', stiffness: 180, damping: 15 }}
+  const [status, setStatus] = useState<LotteryStatus>('not_started');
+
+  useEffect(() => {
+    // 초기 상태 가져오기
+    const fetchInitialStatus = async () => {
+      const { data, error } = await supabaseClient
+        .from('lottery_live_status')
+        .select('status')
+        .single();
+
+      if (data && !error) {
+        console.log('Initial status:', data.status);
+        setStatus(data.status);
+      }
+    };
+
+    fetchInitialStatus();
+
+    // Realtime 구독 설정
+    const channel = supabaseClient
+      .channel('lottery-status-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'lottery_live_status',
+        },
+        (payload) => {
+          console.log('🔥 Status changed:', payload);
+          const newStatus = payload.new.status as LotteryStatus;
+          setStatus(newStatus);
+        }
+      )
+      .subscribe((status) => {
+        console.log('Subscription status:', status);
+      });
+
+    return () => {
+      console.log('Unsubscribing from channel');
+      supabaseClient.removeChannel(channel);
+    };
+  }, []);
+
+  // 상태별 화면 렌더링
+  const renderScreen = () => {
+    switch (status) {
+      case 'not_started':
+        return <NotStartedScreen />;
+
+      case 'announcing':
+        return <AnnouncingScreen />;
+
+      case 'drawing':
+      case 'revealing':
+      case 'completed':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '100vh',
+              fontSize: '24px',
+              color: '#666',
+            }}
           >
-            <Calendar className={styles.icon} size={56} />
-          </motion.div>
+            상태: {status} (준비 중)
+          </div>
+        );
 
-          <h1 className={styles.title}>잠깐!</h1>
+      default:
+        return <NotStartedScreen />;
+    }
+  };
 
-          <p className={styles.description}>체육대회 당일날 확인하실 수 있습니다</p>
-
-          <motion.div
-            className={styles.notice}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <AlertCircle size={18} className={styles.noticeIcon} />
-            <span className={styles.noticeText}>추첨이 진행되면 자동으로 화면이 표시됩니다</span>
-          </motion.div>
-        </motion.div>
-      </div>
-    </MainLayout>
-  );
+  return <MainLayout title="실시간 추첨">{renderScreen()}</MainLayout>;
 };
 
 export default LiveDrawPage;
