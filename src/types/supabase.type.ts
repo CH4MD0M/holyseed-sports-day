@@ -275,7 +275,12 @@ export type Database = {
     }
     Enums: {
       department_type: "청년2부" | "청년3부"
-      lottery_status_type: "not_started" | "drawing" | "revealing" | "completed"
+      lottery_status_type:
+        | "not_started"
+        | "announcing"
+        | "drawing"
+        | "revealing"
+        | "completed"
       team_type: "청팀" | "백팀"
       user_role: "user" | "admin" | "developer"
     }
@@ -406,7 +411,13 @@ export const Constants = {
   public: {
     Enums: {
       department_type: ["청년2부", "청년3부"],
-      lottery_status_type: ["not_started", "drawing", "revealing", "completed"],
+      lottery_status_type: [
+        "not_started",
+        "announcing",
+        "drawing",
+        "revealing",
+        "completed",
+      ],
       team_type: ["청팀", "백팀"],
       user_role: ["user", "admin", "developer"],
     },
