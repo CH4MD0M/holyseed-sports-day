@@ -77,19 +77,19 @@ export type Database = {
         Row: {
           current_event_id: string | null
           id: string
-          status: string
+          status: Database["public"]["Enums"]["lottery_status_type"]
           updated_at: string | null
         }
         Insert: {
           current_event_id?: string | null
           id?: string
-          status: string
+          status: Database["public"]["Enums"]["lottery_status_type"]
           updated_at?: string | null
         }
         Update: {
           current_event_id?: string | null
           id?: string
-          status?: string
+          status?: Database["public"]["Enums"]["lottery_status_type"]
           updated_at?: string | null
         }
         Relationships: [
@@ -138,6 +138,42 @@ export type Database = {
           },
         ]
       }
+      lottery_temp_results: {
+        Row: {
+          id: string
+          lottery_event_id: string | null
+          winner_id: string | null
+          won_at: string | null
+        }
+        Insert: {
+          id?: string
+          lottery_event_id?: string | null
+          winner_id?: string | null
+          won_at?: string | null
+        }
+        Update: {
+          id?: string
+          lottery_event_id?: string | null
+          winner_id?: string | null
+          won_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lottery_temp_results_lottery_event_id_fkey"
+            columns: ["lottery_event_id"]
+            isOneToOne: false
+            referencedRelation: "lottery_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lottery_temp_results_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       prizes: {
         Row: {
           created_at: string | null
@@ -145,6 +181,7 @@ export type Database = {
           id: string
           image_url: string | null
           name: string
+          priority: number | null
           remaining_quantity: number
           total_quantity: number
           updated_at: string | null
@@ -155,6 +192,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           name: string
+          priority?: number | null
           remaining_quantity: number
           total_quantity?: number
           updated_at?: string | null
@@ -165,6 +203,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           name?: string
+          priority?: number | null
           remaining_quantity?: number
           total_quantity?: number
           updated_at?: string | null
@@ -181,7 +220,6 @@ export type Database = {
           department: Database["public"]["Enums"]["department_type"] | null
           id: string
           is_admin: boolean
-          is_early_bird: boolean | null
           lottery_number: number | null
           name: string | null
           role: Database["public"]["Enums"]["user_role"]
@@ -197,7 +235,6 @@ export type Database = {
           department?: Database["public"]["Enums"]["department_type"] | null
           id: string
           is_admin?: boolean
-          is_early_bird?: boolean | null
           lottery_number?: number | null
           name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
@@ -213,7 +250,6 @@ export type Database = {
           department?: Database["public"]["Enums"]["department_type"] | null
           id?: string
           is_admin?: boolean
-          is_early_bird?: boolean | null
           lottery_number?: number | null
           name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
@@ -239,6 +275,7 @@ export type Database = {
     }
     Enums: {
       department_type: "청년2부" | "청년3부"
+      lottery_status_type: "not_started" | "drawing" | "revealing" | "completed"
       team_type: "청팀" | "백팀"
       user_role: "user" | "admin" | "developer"
     }
@@ -369,6 +406,7 @@ export const Constants = {
   public: {
     Enums: {
       department_type: ["청년2부", "청년3부"],
+      lottery_status_type: ["not_started", "drawing", "revealing", "completed"],
       team_type: ["청팀", "백팀"],
       user_role: ["user", "admin", "developer"],
     },
