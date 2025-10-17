@@ -112,7 +112,7 @@ const SchedulePage = () => {
               <span>단체게임3종</span>
             </div>
             <div className={styles.scheduleItem}>
-              <span className={styles.time}>4:00~4:15</span>
+              <span className={styles.time}>4:05~4:15</span>
               <span>미션 계주달리기</span>
             </div>
             <div className={styles.scheduleItem}>
