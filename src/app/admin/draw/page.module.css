@@ -10,17 +10,17 @@
 .announceButton {
   width: 100%;
   max-width: 300px;
-  padding: 16px 32px;
+  padding: 12px;
   margin: 0 auto 24px;
   display: block;
-
-  font-size: 18px;
+  word-break: keep-all;
+  font-size: 14px;
   font-weight: 600;
   color: white;
 
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #11b95f;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
 
   cursor: pointer;
   transition: all 0.3s ease;

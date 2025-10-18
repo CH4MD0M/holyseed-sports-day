@@ -238,19 +238,16 @@
   font-weight: 700;
   color: white;
 
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: #11b95f;
   border: none;
   border-radius: 16px;
 
   cursor: pointer;
   transition: all 0.3s ease;
-
-  box-shadow: 0 8px 24px rgba(245, 87, 108, 0.4);
 }
 
 .drawButton:hover:not(:disabled) {
   transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(245, 87, 108, 0.6);
 }
 
 .drawButton:active:not(:disabled) {
