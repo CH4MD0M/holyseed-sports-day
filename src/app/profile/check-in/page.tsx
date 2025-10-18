@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 import { HashLoader } from 'react-spinners';
-import { CheckCircle2, Trophy, Calendar, Users } from 'lucide-react';
+import { CheckCircle2, Calendar } from 'lucide-react';
 
 import { checkinSchema, type CheckinSchemaType } from '@/lib/schemas/check-in';
 import { useCheckInStatus, useCheckIn } from './_hooks/use-check-in';
