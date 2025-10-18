@@ -85,9 +85,9 @@ const RevealingScreen = ({ eventId }: RevealingScreenProps) => {
   useEffect(() => {
     if (!loading && winners.length > 0) {
       const timers = [
-        setTimeout(() => setShowTeam(true), 3000), // 3초 후 팀
-        setTimeout(() => setShowDepartment(true), 8000), // 5초 후 부서
-        setTimeout(() => setShowNumberAndName(true), 13000), // 10초 후 번호와 이름
+        setTimeout(() => setShowTeam(true), 1000), // 1초 후 팀
+        setTimeout(() => setShowDepartment(true), 4000), // 3초 후 부서
+        setTimeout(() => setShowNumberAndName(true), 8000), // 4초 후 번호와 이름
       ];
 
       return () => timers.forEach((timer) => clearTimeout(timer));
