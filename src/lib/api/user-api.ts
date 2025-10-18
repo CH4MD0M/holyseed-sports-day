@@ -12,9 +12,20 @@ export async function getCurrentUserProfile(): Promise<{
   error: string | null;
 }> {
   try {
+    // 1. 현재 로그인한 사용자 ID 가져오기
+    const {
+      data: { user },
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+      return { data: null, error: '로그인이 필요합니다.' };
+    }
+
+    // 2. 해당 사용자의 프로필 조회
     const { data: profile, error: profileError } = await supabaseClient
       .from('profiles')
       .select('*')
+      .eq('id', user.id) // ← 이 부분이 필요!
       .single();
 
     if (profileError) {
