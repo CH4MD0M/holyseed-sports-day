@@ -1,0 +1,171 @@
+.container {
+  padding: 60px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 100vh;
+  font-family: eunpyeongSagaDokseo;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.title {
+  font-size: 56px;
+  font-weight: 900;
+  color: #2d4a4b;
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+.winnersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.winnerCard {
+  background: #ffffff;
+  border: 6px solid #5a8a8b;
+  border-radius: 16px;
+  padding: 40px 32px;
+  text-align: center;
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 8px #d4a574, 6px 6px 0 8px #5a8a8b;
+  transition: transform 0.3s ease;
+}
+
+.winnerCard:hover {
+  transform: translateY(-4px);
+}
+
+.winnerCard::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px dashed #5a8a8b;
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.infoLabel {
+  font-size: 16px;
+  color: #5a8a8b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.infoValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2d4a4b;
+  padding: 12px 24px;
+  background: rgba(212, 165, 116, 0.2);
+  border-radius: 8px;
+}
+
+.numberBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: #5a8a8b;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(90, 138, 139, 0.3);
+  margin: 20px 0;
+}
+
+.number {
+  font-size: 32px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.winnerName {
+  font-size: 36px;
+  font-weight: 900;
+  color: #2d4a4b;
+  margin: 0;
+}
+
+.waitingMessage {
+  font-size: 20px;
+  color: #5a8a8b;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  font-size: 24px;
+  color: #5a8a8b;
+  font-weight: 600;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.emptyStateText {
+  font-size: 28px;
+  color: #5a8a8b;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 40px 20px;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+
+  .winnersGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .winnerCard {
+    padding: 32px 24px;
+    min-height: 350px;
+  }
+
+  .infoValue {
+    font-size: 24px;
+  }
+
+  .winnerName {
+    font-size: 32px;
+  }
+
+  .waitingMessage {
+    font-size: 18px;
+  }
+}

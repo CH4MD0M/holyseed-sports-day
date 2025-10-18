@@ -8,23 +8,27 @@ import MainLayout from '@/components/layout/main-layout';
 import NotStartedScreen from './_components/not-started-screen';
 import AnnouncingScreen from './_components/announcing-screen';
 import DrawingScreen from './_components/drawing-screen';
+import RevealingScreen from './_components/revealing-screen';
+import CompletedScreen from './_components/completed-screen';
 
 type LotteryStatus = Tables<'lottery_live_status'>['status'];
 
 const LiveDrawPage = () => {
   const [status, setStatus] = useState<LotteryStatus>('not_started');
+  const [currentEventId, setCurrentEventId] = useState<string | null>(null);
 
   useEffect(() => {
     // 초기 상태 가져오기
     const fetchInitialStatus = async () => {
       const { data, error } = await supabaseClient
         .from('lottery_live_status')
-        .select('status')
+        .select('status, current_event_id')
         .single();
 
       if (data && !error) {
-        console.log('Initial status:', data.status);
+        console.log('Initial status:', data);
         setStatus(data.status);
+        setCurrentEventId(data.current_event_id);
       }
     };
 
@@ -53,7 +57,10 @@ const LiveDrawPage = () => {
         (payload) => {
           console.log('🔥 Status changed:', payload);
           const newStatus = payload.new.status as LotteryStatus;
+          const newEventId = payload.new.current_event_id;
+
           setStatus(newStatus);
+          setCurrentEventId(newEventId);
         }
       )
       .subscribe((subscriptionStatus) => {
@@ -79,22 +86,10 @@ const LiveDrawPage = () => {
         return <DrawingScreen />;
 
       case 'revealing':
-      case 'completed':
-        return (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '100vh',
-              fontSize: '24px',
-              color: '#666',
-            }}
-          >
-            상태: {status} (준비 중)
-          </div>
-        );
+        return <RevealingScreen eventId={currentEventId} />;
 
+      case 'completed':
+        return <CompletedScreen />;
       default:
         return <NotStartedScreen />;
     }
