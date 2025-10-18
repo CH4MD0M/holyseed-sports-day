@@ -7,6 +7,7 @@ import MainLayout from '@/components/layout/main-layout';
 
 import NotStartedScreen from './_components/not-started-screen';
 import AnnouncingScreen from './_components/announcing-screen';
+import DrawingScreen from './_components/drawing-screen';
 
 type LotteryStatus = Tables<'lottery_live_status'>['status'];
 
@@ -28,6 +29,16 @@ const LiveDrawPage = () => {
     };
 
     fetchInitialStatus();
+  }, []);
+
+  // status가 not_started가 아닐 때만 구독
+  useEffect(() => {
+    if (status === 'not_started') {
+      console.log('Not subscribing - status is not_started');
+      return;
+    }
+
+    console.log('Setting up realtime subscription');
 
     // Realtime 구독 설정
     const channel = supabaseClient
@@ -45,15 +56,15 @@ const LiveDrawPage = () => {
           setStatus(newStatus);
         }
       )
-      .subscribe((status) => {
-        console.log('Subscription status:', status);
+      .subscribe((subscriptionStatus) => {
+        console.log('Subscription status:', subscriptionStatus);
       });
 
     return () => {
       console.log('Unsubscribing from channel');
       supabaseClient.removeChannel(channel);
     };
-  }, []);
+  }, [status]);
 
   // 상태별 화면 렌더링
   const renderScreen = () => {
@@ -65,6 +76,8 @@ const LiveDrawPage = () => {
         return <AnnouncingScreen />;
 
       case 'drawing':
+        return <DrawingScreen />;
+
       case 'revealing':
       case 'completed':
         return (
