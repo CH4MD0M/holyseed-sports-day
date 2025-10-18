@@ -5,361 +5,39 @@
   padding-bottom: calc(64px + env(safe-area-inset-bottom) + 80px);
   margin: 0 auto;
   gap: 20px;
+}
+
+.announceButton {
   width: 100%;
-}
+  max-width: 300px;
+  padding: 16px 32px;
+  margin: 0 auto 24px;
+  display: block;
 
-.main {
-  display: flex;
-  flex-direction: column;
-  background-color: #f3f3ed;
-  flex: 1;
-  justify-content: space-between;
-}
-
-.contentWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  overflow-y: auto;
-}
-
-/* 헤더 섹션 */
-.headerSection {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 16px;
-}
-
-.title {
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.75;
-  color: #1f2937;
-  margin: 0;
-}
-
-.description {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.67;
-  color: #4b5563;
-  margin: 0;
-}
-
-/* 컨텐츠 영역 */
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 0 16px;
-}
-
-/* 팀 현황 카드 */
-.teamStatusCard {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-  background-color: #ffffff;
-  border-radius: 8px;
-}
-
-.cardTitle {
+  font-size: 18px;
   font-weight: 600;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #1f2937;
-  margin: 0;
-}
+  color: white;
 
-.teamStats {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-}
-
-.teamStatItem {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  padding: 12px;
-  border-radius: 8px;
-  flex: 1;
-}
-
-.teamStatItem.teamA {
-  background-color: #dbeafe;
-}
-
-.teamStatItem.teamB {
-  background-color: #fee2e2;
-}
-
-.teamStatItem:not(.teamA):not(.teamB) {
-  background-color: #f3f4f6;
-}
-
-.statNumber {
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 1.33;
-  text-align: center;
-  color: #1f2937;
-}
-
-.statNumber.teamA {
-  color: #2563eb;
-}
-
-.statNumber.teamB {
-  color: #ef4444;
-}
-
-.statLabel {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.33;
-  color: #6b7280;
-}
-
-/* 추첨 설정 카드 */
-.settingsCard {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px;
-  background-color: #ffffff;
-  border-radius: 8px;
-}
-
-.settingsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.fieldGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.fieldLabel {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.43;
-  color: #374151;
-}
-
-.buttonGroup {
-  display: flex;
-  gap: 12px;
-}
-
-.modeButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 0;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.43;
+  border-radius: 12px;
+
   cursor: pointer;
-  transition: all 0.2s ease;
-  flex: 1;
-  background-color: #f3f4f6;
-  color: #374151;
+  transition: all 0.3s ease;
+
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
-.modeButton.active {
-  background-color: #63ad7d;
-  color: #ffffff;
-  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+.announceButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
 }
 
-.modeButton:hover:not(.active) {
-  background-color: #e5e7eb;
+.announceButton:active:not(:disabled) {
+  transform: translateY(0);
 }
 
-/* 상품 선택 버튼 */
-.productSelectButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 18px;
-  background-color: #f9f9f9;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%;
-}
-
-.productSelectButton:hover {
-  border-color: #9ca3af;
-}
-
-.productSelectButton.selected {
-  background-color: #f0fdf4;
-  border: 2px dashed #63ad7d;
-}
-
-.productSelectPlaceholder {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  color: #b2b2b2;
-}
-
-.productSelectPlaceholder span {
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.43;
-}
-
-.selectedProductInfo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
-
-.productImageContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-}
-
-.productImage {
-  width: 32px;
-  height: 32px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-.productImagePlaceholder {
-  width: 32px;
-  height: 32px;
-  background-color: #f3f4f6;
-  border-radius: 6px;
-}
-
-.productName {
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.43;
-  color: #000000;
-}
-
-.productCount {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.33;
-  color: #6b7280;
-}
-
-/* 뽑을 인원 수 */
-.drawCountContainer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.drawCountInput {
-  display: flex;
-  justify-content: center;
-  padding: 9px 13px;
-  background-color: #ffffff;
-  border: 1px solid #63ad7d;
-  border-radius: 8px;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.43;
-  color: #000000;
-  width: 64px;
-  text-align: center;
-}
-
-.drawCountInput:focus {
-  outline: none;
-  border-color: #52956b;
-  box-shadow: 0 0 0 1px #52956b;
-}
-
-.maxCount {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.43;
-  color: #6b7280;
-}
-
-/* 하단 버튼 */
-.bottomButtonContainer {
-  padding: 20px 16px;
-  background-color: #f3f3ed;
-  border-top: 1px solid #e5e7eb;
-  flex-shrink: 0;
-}
-
-.drawButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 0;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 1.5;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  width: 100%;
-}
-
-.drawButton.enabled {
-  background-color: #63ad7d;
-  color: #ffffff;
-}
-
-.drawButton.enabled:hover {
-  background-color: #52956b;
-}
-
-.drawButton.disabled {
-  background-color: #a0ceaa;
-  color: #d8eadc;
+.announceButton:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
-}
-
-/* 모바일 최적화 */
-@media (max-width: 375px) {
-  .headerSection {
-    padding: 12px;
-  }
-
-  .content {
-    padding: 0 12px;
-  }
-
-  .teamStats {
-    gap: 8px;
-  }
-
-  .buttonGroup {
-    gap: 8px;
-  }
-
-  .bottomButtonContainer {
-    padding: 16px 12px;
-  }
 }

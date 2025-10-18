@@ -1,27 +1,45 @@
+// DrawSetting.tsx
 'use client';
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Check } from 'lucide-react';
+import { Gift, Check, Sparkles } from 'lucide-react';
 
-import { useModalStore } from '@/store/use-modal-store';
-import { usePrizes } from '@/hooks/use-prizes';
-import SelectProductModal from './select-product-modal';
 import type { Prize } from './select-product-modal';
 
+import { conductLottery } from '@/lib/api/draw-lottery-api';
+import { useModalStore } from '@/store/use-modal-store';
+import { usePrizes } from '@/hooks/use-prizes';
+
+import SelectProductModal from './select-product-modal';
 import styles from './draw-setting.module.css';
+import LotteryResult from './lottery-result';
 
 type LotteryMode = 'all' | 'team_specific';
 type Team = '청팀' | '백팀' | null;
+interface Winner {
+  user_id: string;
+  name: string;
+  team: string;
+  department: string;
+  lottery_number: number | null;
+}
 
 const DrawSetting = () => {
   const { data: prizeList = [] } = usePrizes();
   const { openModal } = useModalStore(['openModal']);
 
+  const [lotteryResult, setLotteryResult] = useState<{
+    lotteryEventId: string;
+    winners: Winner[];
+    prizeName: string;
+  } | null>(null);
+
   const [lotteryMode, setLotteryMode] = useState<LotteryMode>('all');
   const [selectedTeam, setSelectedTeam] = useState<Team>(null);
   const [selectedPrize, setSelectedPrize] = useState<Prize | null>(null);
   const [winnerCount, setWinnerCount] = useState<number>(1);
+  const [isDrawing, setIsDrawing] = useState(false);
 
   const handleModeChange = (mode: LotteryMode) => {
     setLotteryMode(mode);
@@ -55,6 +73,64 @@ const DrawSetting = () => {
     const maxCount = selectedPrize.remaining_quantity;
     setWinnerCount(Math.max(1, Math.min(value, maxCount)));
   };
+
+  const handleStartDraw = async () => {
+    // 유효성 검사
+    if (!selectedPrize) {
+      alert('상품을 선택해주세요.');
+      return;
+    }
+
+    if (lotteryMode === 'team_specific' && !selectedTeam) {
+      alert('팀을 선택해주세요.');
+      return;
+    }
+
+    if (winnerCount < 1) {
+      alert('뽑을 인원 수를 입력해주세요.');
+      return;
+    }
+
+    setIsDrawing(true);
+    try {
+      const result = await conductLottery({
+        prizeId: selectedPrize.id,
+        winnerCount,
+        lotteryMode,
+        targetTeam: lotteryMode === 'team_specific' ? selectedTeam : null,
+      });
+
+      setLotteryResult({
+        lotteryEventId: result.lottery_event_id,
+        winners: result.winners,
+        prizeName: selectedPrize.name,
+      });
+    } catch (error) {
+      console.error('추첨 실패:', error);
+      alert(error instanceof Error ? error.message : '추첨에 실패했습니다.');
+    } finally {
+      setIsDrawing(false);
+    }
+  };
+
+  const handleConfirm = () => {
+    // 확정 후 초기화
+    setLotteryResult(null);
+    setSelectedPrize(null);
+    setWinnerCount(1);
+    // 상품 목록 리프레시 (react-query refetch)
+  };
+
+  const handleRedraw = () => {
+    // 다시 뽑기 - 결과만 초기화하고 설정 유지
+    setLotteryResult(null);
+    setIsDrawing(false);
+  };
+
+  const isReadyToDraw =
+    selectedPrize &&
+    winnerCount >= 1 &&
+    (lotteryMode === 'all' || (lotteryMode === 'team_specific' && selectedTeam));
 
   return (
     <div className={styles.container}>
@@ -178,6 +254,46 @@ const DrawSetting = () => {
           )}
         </div>
       </motion.div>
+
+      {/* 추첨 시작 버튼 */}
+      <motion.div
+        className={styles.section}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4 }}
+      >
+        <button
+          className={styles.drawButton}
+          onClick={handleStartDraw}
+          disabled={!isReadyToDraw || isDrawing}
+        >
+          {isDrawing ? (
+            <>
+              <motion.div
+                className={styles.spinner}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              />
+              추첨 진행 중...
+            </>
+          ) : (
+            <>
+              <Sparkles className={styles.sparkleIcon} />
+              추첨 시작
+            </>
+          )}
+        </button>
+      </motion.div>
+
+      {lotteryResult && (
+        <LotteryResult
+          lotteryEventId={lotteryResult.lotteryEventId}
+          winners={lotteryResult.winners}
+          prizeName={lotteryResult.prizeName}
+          onConfirm={handleConfirm}
+          onRedraw={handleRedraw}
+        />
+      )}
     </div>
   );
 };

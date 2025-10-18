@@ -223,3 +223,55 @@
     font-size: 13px;
   }
 }
+
+.drawButton {
+  width: 100%;
+  padding: 18px 32px;
+  margin-top: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border: none;
+  border-radius: 16px;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  box-shadow: 0 8px 24px rgba(245, 87, 108, 0.4);
+}
+
+.drawButton:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(245, 87, 108, 0.6);
+}
+
+.drawButton:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.drawButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.sparkleIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+}
