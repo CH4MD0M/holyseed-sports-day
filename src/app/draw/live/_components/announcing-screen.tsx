@@ -8,54 +8,73 @@ const AnnouncingScreen = () => {
     <div className={styles.container}>
       <motion.div
         className={styles.content}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
       >
-        <motion.h1
-          className={styles.title}
+        <motion.div
+          className={styles.iconWrapper}
           animate={{
-            scale: [1, 1.05, 1],
+            rotate: [0, 5, -5, 0],
           }}
           transition={{
             repeat: Infinity,
-            duration: 1.5,
+            duration: 2,
+            ease: 'easeInOut',
           }}
         >
-          추첨이 시작됩니다!
+          <span className={styles.icon}>🎯</span>
+        </motion.div>
+
+        <div className={styles.decorLine} />
+
+        <motion.h1
+          className={styles.title}
+          animate={{
+            scale: [1, 1.02, 1],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 2,
+            ease: 'easeInOut',
+          }}
+        >
+          추첨 시작됩니다!
         </motion.h1>
 
         <motion.p
           className={styles.description}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.4 }}
         >
-          잠시만 기다려주세요...
+          잠시만 기다려주세요
         </motion.p>
 
         <motion.div
           className={styles.loadingDots}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
+          transition={{ delay: 0.6 }}
         >
           {[0, 1, 2].map((i) => (
             <motion.div
               key={i}
               className={styles.dot}
               animate={{
-                scale: [1, 1.5, 1],
-                opacity: [1, 0.5, 1],
+                y: [0, -12, 0],
               }}
               transition={{
                 repeat: Infinity,
-                duration: 1.5,
-                delay: i * 0.2,
+                duration: 1.2,
+                delay: i * 0.15,
+                ease: 'easeInOut',
               }}
             />
           ))}
         </motion.div>
+
+        <div className={styles.decorLine} />
       </motion.div>
     </div>
   );

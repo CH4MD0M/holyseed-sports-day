@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #9333ea 0%, #ec4899 50%, #ef4444 100%);
+
   height: 100%;
   padding: 40px 20px;
 }
@@ -14,59 +14,83 @@
   max-width: 600px;
   width: 100%;
   text-align: center;
-  gap: 32px;
-  padding: 48px 32px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  gap: 40px;
+  padding: 60px 40px;
+  background: #ffffff;
+  border: 8px solid #c94641;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 10px #f4d35e, 8px 8px 0 10px #c94641;
+  position: relative;
+}
+
+.content::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px dashed #c94641;
+  pointer-events: none;
 }
 
 .iconWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100px;
+  height: 100px;
+  background: #f4d35e;
+  border-radius: 50%;
+  border: 4px solid #c94641;
 }
 
 .icon {
-  color: #fde047;
-  filter: drop-shadow(0 0 20px rgba(253, 224, 71, 0.5));
+  color: #c94641;
+  font-size: 48px;
 }
 
 .title {
-  font-size: 48px;
-  font-weight: 700;
-  color: white;
+  font-size: 52px;
+  font-weight: 900;
+  color: #c94641;
   margin: 0;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  letter-spacing: -1px;
+  text-transform: uppercase;
 }
 
 .description {
   font-size: 24px;
-  color: rgba(255, 255, 255, 0.9);
+  color: #5a5a5a;
   margin: 0;
   line-height: 1.6;
+  font-weight: 500;
 }
 
 .loadingDots {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
 .dot {
-  width: 16px;
-  height: 16px;
-  background-color: white;
+  width: 20px;
+  height: 20px;
+  background-color: #c94641;
   border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: 3px solid #f4d35e;
+}
+
+.decorLine {
+  width: 120px;
+  height: 4px;
+  background: #f4d35e;
+  margin: 0 auto;
 }
 
 @media (max-width: 640px) {
   .title {
-    font-size: 36px;
+    font-size: 40px;
   }
 
   .description {
@@ -74,11 +98,16 @@
   }
 
   .content {
-    padding: 36px 24px;
+    padding: 48px 32px;
+    gap: 32px;
+  }
+
+  .iconWrapper {
+    width: 80px;
+    height: 80px;
   }
 
   .icon {
-    width: 64px;
-    height: 64px;
+    font-size: 40px;
   }
 }
