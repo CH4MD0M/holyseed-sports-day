@@ -18,6 +18,7 @@ export function usePrizes() {
   return useQuery({
     queryKey: ['prizes'],
     queryFn: getPrizes,
+    refetchOnMount: true,
   });
 }
 
@@ -29,6 +30,7 @@ export function usePrize(id: string) {
     queryKey: ['prizes', id],
     queryFn: () => getPrizeById(id),
     enabled: !!id,
+    refetchOnMount: true,
   });
 }
 
