@@ -7,30 +7,46 @@
   gap: 20px;
 }
 
-.announceButton {
-  width: 100%;
-  max-width: 300px;
-  padding: 12px;
-  margin: 0 auto 24px;
-  display: block;
-  word-break: keep-all;
-  font-size: 14px;
+.statusCard {
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.statusCardLabel {
+  font-size: 12px;
   font-weight: 600;
-  color: white;
+  color: #9ca3af;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
 
-  background: #11b95f;
-  border: none;
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.announceButton {
+  flex: 1;
+  padding: 10px 8px;
+  word-break: keep-all;
+  font-size: 13px;
+  font-weight: 600;
+  background: transparent;
+  border-width: 1.5px;
+  border-style: solid;
   border-radius: 8px;
-
   cursor: pointer;
-  transition: all 0.3s ease;
-
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.2s ease;
 }
 
 .announceButton:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  filter: brightness(0.85);
+  transform: translateY(-1px);
 }
 
 .announceButton:active:not(:disabled) {
@@ -38,6 +54,21 @@
 }
 
 .announceButton:disabled {
-  opacity: 0.6;
+  opacity: 0.4;
   cursor: not-allowed;
+}
+
+.resetButton {
+  border-color: #64748b;
+  color: #64748b;
+}
+
+.startButton {
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.endButton {
+  border-color: #dc2626;
+  color: #dc2626;
 }

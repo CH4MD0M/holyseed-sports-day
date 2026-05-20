@@ -29,33 +29,31 @@ export default function DrawPage() {
   return (
     <MainLayout title="추첨 진행">
       <div className={styles.container}>
-        <div
-          style={{
-            display: 'flex',
-            gap: '8px',
-          }}
-        >
-          <button
-            className={styles.announceButton}
-            onClick={() => handleStatusChange('not_started')}
-            disabled={isLoading}
-          >
-            {isLoading ? '상태 변경 중...' : '초기 상태'}
-          </button>
-          <button
-            className={styles.announceButton}
-            onClick={() => handleStatusChange('announcing')}
-            disabled={isLoading}
-          >
-            {isLoading ? '상태 변경 중...' : '추첨 시작 알림'}
-          </button>
-          <button
-            className={styles.announceButton}
-            onClick={() => handleStatusChange('completed')}
-            disabled={isLoading}
-          >
-            {isLoading ? '상태 변경 중...' : '추첨 종료'}
-          </button>
+        <div className={styles.statusCard}>
+          <span className={styles.statusCardLabel}>상태 제어</span>
+          <div className={styles.buttonGroup}>
+            <button
+              className={`${styles.announceButton} ${styles.resetButton}`}
+              onClick={() => handleStatusChange('not_started')}
+              disabled={isLoading}
+            >
+              {isLoading ? '변경 중...' : '초기 상태'}
+            </button>
+            <button
+              className={`${styles.announceButton} ${styles.startButton}`}
+              onClick={() => handleStatusChange('announcing')}
+              disabled={isLoading}
+            >
+              {isLoading ? '변경 중...' : '추첨 시작 알림'}
+            </button>
+            <button
+              className={`${styles.announceButton} ${styles.endButton}`}
+              onClick={() => handleStatusChange('completed')}
+              disabled={isLoading}
+            >
+              {isLoading ? '변경 중...' : '추첨 종료'}
+            </button>
+          </div>
         </div>
 
         <DrawSetting />
